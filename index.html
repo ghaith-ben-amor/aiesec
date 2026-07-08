@@ -1,0 +1,354 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AIESEC Opportunity Matcher</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg: #0b0d12;
+            --bg-elevated: #12151d;
+            --fg: #f1f4f9;
+            --muted: #8b95a6;
+            --accent: #00d4aa;
+            --accent-dim: rgba(0, 212, 170, 0.15);
+            --card: #161a24;
+            --border: #242a3a;
+        }
+        
+        * { box-sizing: border-box; }
+        
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            background: var(--bg);
+            color: var(--fg);
+            min-height: 100vh;
+            margin: 0;
+        }
+        
+        .hero {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 2rem;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(ellipse at center, var(--accent-dim) 0%, transparent 70%);
+            pointer-events: none;
+        }
+        
+        .hero-content {
+            position: relative;
+            z-index: 1;
+            max-width: 720px;
+            text-align: center;
+        }
+        
+        .logo {
+            width: 80px;
+            height: 80px;
+            background: linear-gradient(135deg, var(--accent) 0%, #0099ff 100%);
+            border-radius: 20px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 1.5rem;
+            box-shadow: 0 20px 40px rgba(0, 212, 170, 0.3);
+        }
+        
+        .logo svg { width: 48px; height: 48px; }
+        
+        h1 {
+            font-size: clamp(2.5rem, 6vw, 4rem);
+            font-weight: 800;
+            line-height: 1.1;
+            margin-bottom: 1rem;
+            background: linear-gradient(135deg, var(--fg) 0%, var(--accent) 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        
+        .tagline {
+            font-size: clamp(1.1rem, 2vw, 1.25rem);
+            color: var(--muted);
+            margin-bottom: 2.5rem;
+            max-width: 540px;
+            margin-left: auto;
+            margin-right: auto;
+            line-height: 1.6;
+        }
+        
+        .btn-group {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+            flex-wrap: wrap;
+            margin-bottom: 3rem;
+        }
+        
+        .btn-primary {
+            background: linear-gradient(135deg, var(--accent) 0%, #0099ff 100%);
+            border: none;
+            color: var(--bg);
+            font-weight: 700;
+            padding: 1rem 2.5rem;
+            border-radius: 12px;
+            font-size: 1.1rem;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            transition: transform 0.2s, box-shadow 0.2s;
+            box-shadow: 0 10px 30px rgba(0, 212, 170, 0.3);
+        }
+        
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 15px 40px rgba(0, 212, 170, 0.4);
+            color: var(--bg);
+        }
+        
+        .btn-secondary {
+            background: var(--card);
+            border: 1px solid var(--border);
+            color: var(--fg);
+            font-weight: 600;
+            padding: 1rem 2.5rem;
+            border-radius: 12px;
+            font-size: 1.1rem;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            transition: border-color 0.2s, background 0.2s;
+        }
+        
+        .btn-secondary:hover {
+            border-color: var(--accent);
+            background: var(--bg-elevated);
+            color: var(--accent);
+        }
+        
+        .features {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 1.5rem;
+            margin-top: 3rem;
+        }
+        
+        .feature-card {
+            background: var(--card);
+            border: 1px solid var(--border);
+            border-radius: 16px;
+            padding: 2rem;
+            text-align: left;
+            transition: border-color 0.2s, transform 0.2s;
+        }
+        
+        .feature-card:hover {
+            border-color: var(--accent);
+            transform: translateY(-4px);
+        }
+        
+        .feature-icon {
+            width: 48px;
+            height: 48px;
+            background: var(--accent-dim);
+            border-radius: 12px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 1rem;
+        }
+        
+        .feature-icon svg { width: 24px; height: 24px; color: var(--accent); }
+        
+        .feature-title {
+            font-size: 1.1rem;
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+        }
+        
+        .feature-desc {
+            color: var(--muted);
+            font-size: 0.95rem;
+            line-height: 1.5;
+        }
+        
+        .footer {
+            text-align: center;
+            padding: 2rem;
+            color: var(--muted);
+            font-size: 0.9rem;
+        }
+        
+        .footer a { color: var(--accent); text-decoration: none; }
+        .footer a:hover { text-decoration: underline; }
+        
+        .redirect-notice {
+            background: var(--card);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: 1.5rem;
+            margin-top: 2rem;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.75rem;
+            color: var(--muted);
+            font-size: 0.9rem;
+        }
+        
+        .redirect-notice .spinner {
+            width: 20px;
+            height: 20px;
+            border: 2px solid var(--border);
+            border-top-color: var(--accent);
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+        }
+        
+        @keyframes spin { to { transform: rotate(360deg); } }
+        
+        @media (prefers-reduced-motion: reduce) {
+            .spinner { animation: none; }
+            .btn-primary:hover { transform: none; }
+            .feature-card:hover { transform: none; }
+        }
+    </style>
+</head>
+<body>
+    <main class="hero">
+        <div class="hero-content">
+            <div class="logo" aria-hidden="true">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M12 2L2 7l10 5 10-5-10-5z"/>
+                    <path d="M2 17l10 5 10-5"/>
+                    <path d="M2 12l10 5 10-5"/>
+                </svg>
+            </div>
+            
+            <h1>AIESEC Opportunity Matcher</h1>
+            
+            <p class="tagline">
+                AI-powered CV analysis to match you with the perfect AIESEC Global Talent and Global Volunteer opportunities worldwide.
+            </p>
+            
+            <div class="btn-group">
+                <a href="https://your-php-app.railway.app/login" class="btn-primary" id="launchApp">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M9 18l6-6-6-6"/>
+                    </svg>
+                    Launch Application
+                </a>
+                <a href="https://your-php-app.railway.app/signup" class="btn-secondary">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <circle cx="12" cy="12" r="10"/>
+                        <path d="M12 8v8M8 12h8"/>
+                    </svg>
+                    Create Account
+                </a>
+            </div>
+            
+            <div class="features">
+                <article class="feature-card">
+                    <div class="feature-icon">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>
+                            <polyline points="14 2 14 8 20 8"/>
+                            <line x1="16" y1="13" x2="8" y2="13"/>
+                            <line x1="16" y1="17" x2="8" y2="17"/>
+                        </svg>
+                    </div>
+                    <h3 class="feature-title">Smart CV Analysis</h3>
+                    <p class="feature-desc">Upload your PDF CV and our AI extracts skills, experience, and education automatically.</p>
+                </article>
+                
+                <article class="feature-card">
+                    <div class="feature-icon">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <circle cx="11" cy="11" r="8"/>
+                            <line x1="21" y1="21" x2="16.65" y2="16.65"/>
+                            <line x1="8" y1="11" x2="8" y2="11.01"/>
+                            <line x1="14" y1="11" x2="14" y2="11.01"/>
+                        </svg>
+                    </div>
+                    <h3 class="feature-title">Global Opportunities</h3>
+                    <p class="feature-desc">Access thousands of AIESEC Global Talent and Volunteer opportunities worldwide.</p>
+                </article>
+                
+                <article class="feature-card">
+                    <div class="feature-icon">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/>
+                            <polyline points="3.27 6.96 12 12.01 20.73 6.96"/>
+                            <line x1="12" y1="22.08" x2="12" y2="12"/>
+                        </svg>
+                    </div>
+                    <h3 class="feature-title">Intelligent Matching</h3>
+                    <p class="feature-desc">Get ranked matches based on your skills, location preferences, and program type.</p>
+                </article>
+            </div>
+            
+            <div class="redirect-notice" id="redirectNotice" style="display: none;">
+                <div class="spinner" aria-hidden="true"></div>
+                <span>Redirecting to application...</span>
+            </div>
+        </div>
+    </main>
+    
+    <footer class="footer">
+        <p>
+            Built for AIESEC members &copy; 2025
+            <a href="https://aiesec.org" target="_blank" rel="noopener">aiesec.org</a>
+        </p>
+        <p style="margin-top: 0.5rem;">
+            <a href="https://github.com/ghaith-ben-amor/aiesec" target="_blank" rel="noopener">View Source on GitHub</a>
+        </p>
+    </footer>
+    
+    <script>
+        // Configuration - UPDATE THESE URLs TO YOUR PHP APP DEPLOYMENT
+        const APP_BASE_URL = 'https://your-php-app.railway.app'; // Change this!
+        
+        const launchBtn = document.getElementById('launchApp');
+        const redirectNotice = document.getElementById('redirectNotice');
+        
+        function redirectToApp(path = '/login') {
+            redirectNotice.style.display = 'inline-flex';
+            launchBtn.style.display = 'none';
+            
+            // Small delay to show the redirect notice
+            setTimeout(() => {
+                window.location.href = APP_BASE_URL + path;
+            }, 800);
+        }
+        
+        launchBtn.addEventListener('click', (e) => {
+            e.preventDefault();
+            redirectToApp('/login');
+        });
+        
+        // Auto-redirect if coming from a specific referrer or if user is already authenticated
+        // (This would require a shared session or token between static and PHP app)
+        // For now, manual click is required
+        
+        console.log('AIESEC Opportunity Matcher - Static Landing Page');
+        console.log('Configure APP_BASE_URL in script to point to your PHP deployment');
+    </script>
+</body>
+</html>
