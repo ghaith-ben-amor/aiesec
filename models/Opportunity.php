@@ -3,31 +3,118 @@ declare(strict_types=1);
 
 final class Opportunity extends BaseModel
 {
+    /**
+     * Load opportunities from the local database and apply optional filters.
+     * The DB is populated by syncAllFromApi() which is called from the admin panel.
+     * If country filter gives 0 results, falls back to ALL opportunities so the
+     * user always sees ranked matches (with a notice about the country mismatch).
+     */
     public function syncFromScraper(array $filters = []): array
     {
-        $items = $this->loadFromCsv($filters);
+        $dbItems = $this->loadFromDatabase($filters);
 
-        if ($items === []) {
-            $items = $this->fallbackOpportunities();
+        // Only use fallback sample data if DB is completely empty AND no filters active
+        if (empty($dbItems) && empty($filters['country']) && empty($filters['programme'])) {
+            return $this->fallbackOpportunities();
         }
+
+        return $dbItems;
+    }
+
+    /**
+     * Load opportunities from the local database with optional filters.
+     */
+    private function loadFromDatabase(array $filters = []): array
+    {
+        try {
+            $where = [];
+            $params = [];
+
+            if (!empty($filters['duration'])) {
+                $where[] = 'duration = :duration';
+                $params['duration'] = $filters['duration'];
+            }
+
+            if (!empty($filters['country'])) {
+                // Exact country match (location stores normalized country name)
+                $where[] = 'LOWER(location) = LOWER(:country)';
+                $params['country'] = trim($filters['country']);
+            }
+
+            if (!empty($filters['programme'])) {
+                // DB stores short codes: GV, GTa, GTe — exact match
+                $where[] = 'category = :programme';
+                $params['programme'] = $filters['programme'];
+            }
+
+            $sql = 'SELECT * FROM opportunities';
+            if (!empty($where)) {
+                $sql .= ' WHERE ' . implode(' AND ', $where);
+            }
+            $sql .= ' ORDER BY id DESC';
+
+            $stmt = $this->pdo->prepare($sql);
+            $stmt->execute($params);
+            $rows = $stmt->fetchAll();
+
+            $items = [];
+            foreach ($rows as $row) {
+                $skills = json_decode((string) ($row['skills'] ?? '[]'), true);
+                if (!is_array($skills)) {
+                    $skills = [];
+                }
+                $items[] = [
+                    'id'          => $row['id'],
+                    'title'       => $row['title'] ?? '',
+                    'description' => $row['description'] ?? '',
+                    'skills'      => $skills,
+                    'location'    => $row['location'] ?? '',
+                    'source_url'  => $row['source_url'] ?? 'https://aiesec.org/search',
+                    'duration'    => $row['duration'] ?? null,
+                    'company'     => $row['company'] ?? null,
+                    'category'    => $row['category'] ?? null,
+                    'source_type' => $row['source_type'] ?? 'api',
+                    'external_id' => $row['external_id'] ?? null,
+                    'languages'   => [], // stored separately if needed
+                ];
+            }
+
+            return $items;
+        } catch (Throwable $e) {
+            return [];
+        }
+    }
+
+    /**
+     * Sync ALL opportunities from the AIESEC API into the local database.
+     * Called from the admin panel "Synchronize" button.
+     * Returns the count of opportunities saved.
+     */
+    public function syncAllFromApi(): int
+    {
+        $items = $this->fetchFromApi([]);
 
         $this->pdo->exec('DELETE FROM opportunities');
 
-        $saved = [];
+        $count = 0;
         foreach ($items as $item) {
-            $stmt = $this->pdo->prepare('INSERT INTO opportunities (title, description, skills, location, source_url) VALUES (:title, :description, :skills, :location, :source_url)');
+            $stmt = $this->pdo->prepare('INSERT INTO opportunities (title, description, skills, location, source_url, duration, company, category, external_id, source_type) VALUES (:title, :description, :skills, :location, :source_url, :duration, :company, :category, :external_id, :source_type)');
             $stmt->execute([
-                'title' => $item['title'] ?? 'Untitled opportunity',
+                'title'       => $item['title'] ?? 'Untitled opportunity',
                 'description' => $item['description'] ?? '',
-                'skills' => json_encode($item['skills'] ?? [], JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES),
-                'location' => $item['location'] ?? 'Remote',
-                'source_url' => $item['source_url'] ?? 'https://aiesec.org/search?programmes=8',
+                'skills'      => json_encode($item['skills'] ?? [], JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES),
+                'location'    => $item['location'] ?? 'Global',
+                'source_url'  => $item['source_url'] ?? 'https://aiesec.org/search',
+                'duration'    => $item['duration'] ?? null,
+                'company'     => $item['company'] ?? null,
+                'category'    => $item['category'] ?? null,
+                'external_id' => $item['external_id'] ?? null,
+                'source_type' => $item['source_type'] ?? 'api',
             ]);
-
-            $saved[] = array_merge($item, ['id' => (int) $this->pdo->lastInsertId()]);
+            $count++;
         }
 
-        return $saved;
+        return $count;
     }
 
     public function latest(int $limit = 8): array
@@ -39,320 +126,607 @@ final class Opportunity extends BaseModel
     }
 
     /**
-     * Return filter options discovered in the CSV: durations and countries
+     * Return filter options: durations and locations currently present in the database.
      *
      * @return array{durations: string[], countries: string[]}
      */
     public function getCsvFilterOptions(): array
     {
-        $csvPath = $this->resolveCsvPath();
-        $durations = [];
-        $countries = [];
+        try {
+            $stmt = $this->pdo->query('SELECT DISTINCT duration FROM opportunities WHERE duration IS NOT NULL AND duration != "" ORDER BY duration');
+            $durations = $stmt->fetchAll(PDO::FETCH_COLUMN) ?: [];
 
-        if ($csvPath === null || !is_file($csvPath)) {
-            return ['durations' => [], 'countries' => []];
-        }
+            $stmt = $this->pdo->query('SELECT DISTINCT location FROM opportunities WHERE location IS NOT NULL AND location != "" ORDER BY location');
+            $countries = $stmt->fetchAll(PDO::FETCH_COLUMN) ?: [];
 
-        $handle = fopen($csvPath, 'rb');
-        if ($handle === false) {
-            return ['durations' => [], 'countries' => []];
-        }
-
-        $header = null;
-        while (($row = fgetcsv($handle)) !== false) {
-            if ($header === null) {
-                $header = array_map([$this, 'normalizeHeader'], $row);
-                continue;
-            }
-            if ($this->isEmptyCsvRow($row)) {
-                continue;
-            }
-
-            $record = [];
-            foreach ($header as $index => $columnName) {
-                $record[$columnName] = $row[$index] ?? '';
-            }
-
-            $title = $record['opportunity_name'] ?? '';
-            if (preg_match('/\[(\d+\s*weeks?)\]/i', $title, $m)) {
-                $durations[] = trim($m[1]);
-            }
-
-            $mc = trim((string) ($record['mc_name'] ?? ''));
-            if ($mc !== '') {
-                $countries[] = $mc;
-            }
-        }
-
-        fclose($handle);
-
-        $durations = array_values(array_unique($durations));
-        sort($durations);
-        $countries = array_values(array_unique($countries));
-        sort($countries);
-
-        return ['durations' => $durations, 'countries' => $countries];
-    }
-
-    private function loadFromCsv(array $filters = []): array
-    {
-        $csvPath = $this->resolveCsvPath();
-        if ($csvPath === null || !is_file($csvPath)) {
-            return [];
-        }
-
-        $handle = fopen($csvPath, 'rb');
-        if ($handle === false) {
-            return [];
-        }
-
-        $header = null;
-        $items = [];
-
-        while (($row = fgetcsv($handle)) !== false) {
-            if ($header === null) {
-                $header = array_map([$this, 'normalizeHeader'], $row);
-                continue;
-            }
-
-            if ($this->isEmptyCsvRow($row)) {
-                continue;
-            }
-
-            $record = [];
-            foreach ($header as $index => $columnName) {
-                $record[$columnName] = $row[$index] ?? '';
-            }
-
-            $title = trim((string) ($record['opportunity_name'] ?? ''));
-            if ($title === '') {
-                continue;
-            }
-
-            $product = trim((string) ($record['product'] ?? ''));
-            $mcName = trim((string) ($record['mc_name'] ?? ''));
-            $lcName = trim((string) ($record['lc_name'] ?? ''));
-            $openings = trim((string) ($record['openings'] ?? ''));
-            $link = trim((string) ($record['link_on_yop'] ?? ''));
-
-            // extract duration token like '4 weeks' from title if present
-            $duration = null;
-            if (preg_match('/\[(\d+\s*weeks?)\]/i', $title, $m)) {
-                $duration = trim($m[1]);
-            }
-
-            // Apply filters if provided
-            if (!empty($filters['duration']) && $duration !== $filters['duration']) {
-                continue;
-            }
-
-            if (!empty($filters['country']) && strcasecmp($mcName, $filters['country']) !== 0) {
-                continue;
-            }
-
-            $descriptionParts = [];
-            if ($product !== '') {
-                $descriptionParts[] = 'Product: ' . $product;
-            }
-            if ($mcName !== '') {
-                $descriptionParts[] = 'MC: ' . $mcName;
-            }
-            if ($lcName !== '') {
-                $descriptionParts[] = 'LC: ' . $lcName;
-            }
-            if ($openings !== '') {
-                $descriptionParts[] = 'Openings: ' . $openings;
-            }
-
-            $items[] = [
-                'title' => $title,
-                'description' => implode('. ', $descriptionParts),
-                'skills' => $this->parseSkillsFromRecord($record) ?: $this->deriveSkills($title, $product),
-                'location' => $lcName !== '' ? $lcName : ($mcName !== '' ? $mcName : 'Global'),
-                'source_url' => $link !== '' ? $link : 'https://aiesec.org/search?programmes=8',
-                'category' => $product !== '' ? $product : 'AIESEC opportunity',
-                'company' => $mcName !== '' ? $mcName : null,
-                'source_type' => 'csv',
-                'source_id' => $record['opportunity_id'] ?? null,
-                'duration' => $duration,
+            return [
+                'durations' => $durations,
+                'countries' => $countries
             ];
+        } catch (Throwable $e) {
+            return ['durations' => [], 'countries' => []];
         }
-
-        fclose($handle);
-
-        return $items;
     }
 
-    private function parseSkillsFromRecord(array $record): array
+    /**
+     * Fetch ALL countries that have opportunities from the AIESEC API.
+     * Queries all programmes and collects unique countries.
+     */
+    public function fetchCountriesFromApi(): array
     {
-        $candidateColumns = [
-            'skills',
-            'skill',
-            'required_skills',
-            'required_skill',
-            'key_skills',
-            'competencies',
-            'requirements',
-        ];
+        $token = config()['aiesec_access_token'] ?? '';
+        if (empty($token)) {
+            return [];
+        }
 
-        $raw = '';
-        foreach ($candidateColumns as $column) {
-            if (!empty($record[$column])) {
-                $raw = trim((string) $record[$column]);
+        $query = <<<'GRAPHQL'
+query GetAllOpportunitiesQuery($page: Int, $per_page: Int, $q: String, $sort: String, $filters: OpportunityFilter) {
+  allOpportunity: allOpportunity(page: $page, per_page: $per_page, q: $q, sort: $sort, filters: $filters) {
+    data {
+      host_lc {
+        address_detail {
+          country
+          __typename
+        }
+        __typename
+      }
+      __typename
+    }
+    paging {
+      total_items
+      total_pages
+      current_page
+      __typename
+    }
+    __typename
+  }
+}
+GRAPHQL;
+
+        $countries = [];
+        // Programmes with opportunities: 7=GV, 8=GTa, 9=GTe
+        $programmes = [7, 8, 9];
+
+        foreach ($programmes as $progId) {
+            $page = 1;
+            $maxPages = 10;
+
+            do {
+                $payload = [
+                    'operationName' => 'GetAllOpportunitiesQuery',
+                    'query' => $query,
+                    'variables' => [
+                        'page' => $page,
+                        'per_page' => 100,
+                        'q' => '',
+                        'sort' => 'relevance',
+                        'filters' => [
+                            'programmes' => [$progId],
+                        ]
+                    ]
+                ];
+
+                $ch = curl_init('https://gis-api.aiesec.org/graphql');
+                curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+                curl_setopt($ch, CURLOPT_POST, true);
+                curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode($payload));
+                curl_setopt($ch, CURLOPT_TIMEOUT, 30);
+                curl_setopt($ch, CURLOPT_HTTPHEADER, [
+                    'Accept: application/json',
+                    'Content-Type: application/json',
+                    'Origin: https://aiesec.org',
+                    'Referer: https://aiesec.org/search',
+                    'User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36',
+                    'Authorization: ' . $token
+                ]);
+
+                $response = curl_exec($ch);
+                $httpCode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+                $error = curl_error($ch);
+                curl_close($ch);
+
+                if ($error || $httpCode !== 200) {
+                    break;
+                }
+
+                $data = json_decode((string) $response, true);
+                $rawData = $data['data']['allOpportunity']['data'] ?? [];
+                $paging = $data['data']['allOpportunity']['paging'] ?? [];
+                $totalPages = (int) ($paging['total_pages'] ?? 1);
+
+                foreach ($rawData as $item) {
+                    $country = $item['host_lc']['address_detail']['country'] ?? null;
+                    if ($country && !empty(trim($country))) {
+                        $countries[trim($country)] = true;
+                    }
+                }
+
+                $page++;
+            } while ($page <= $totalPages && $page <= $maxPages);
+        }
+
+        $result = array_keys($countries);
+        sort($result);
+        return $result;
+    }
+
+    /**
+     * Fetch ALL opportunities from the AIESEC GraphQL API.
+     * Paginates through ALL pages and fetches from all available programmes (GV, GTa, GTe).
+     */
+    public function fetchFromApi(array $filters = []): array
+    {
+        $token = config()['aiesec_access_token'] ?? '';
+        if (empty($token)) {
+            return $this->fallbackOpportunities();
+        }
+
+        $query = <<<'GRAPHQL'
+query GetAllOpportunitiesQuery($page: Int, $per_page: Int, $q: String, $sort: String, $filters: OpportunityFilter) {
+  allOpportunity: allOpportunity(page: $page, per_page: $per_page, q: $q, sort: $sort, filters: $filters) {
+    data {
+      applicants_count
+      applications_close_date
+      branch {
+        company {
+          id
+          name
+          __typename
+        }
+        __typename
+      }
+      description
+      host_lc {
+        address_detail {
+          country
+          __typename
+        }
+        __typename
+      }
+      id
+      duration
+      opportunity_duration_type {
+        duration_type
+        __typename
+      }
+      earliest_start_date
+      location
+      programme {
+        id
+        short_name
+        short_name_display
+        __typename
+      }
+      project_name
+      project_description
+      remote_opportunity
+      experience_type
+      role_info {
+        learning_points_list
+        __typename
+      }
+      title
+      __typename
+    }
+    paging {
+      total_items
+      total_pages
+      current_page
+      __typename
+    }
+    __typename
+  }
+}
+GRAPHQL;
+
+        $allItems = [];
+        $seenIds = [];
+        $perPage = 100;
+        $maxPages = (int) (getenv('AIESEC_MAX_PAGES') ?: 15); // 15 pages × 100 = up to 1500 opportunities
+        $page = 1;
+
+        do {
+            $payload = [
+                'operationName' => 'GetAllOpportunitiesQuery',
+                'query' => $query,
+                'variables' => [
+                    'page' => $page,
+                    'per_page' => $perPage,
+                    'q' => '',
+                    'sort' => 'relevance',
+                    'filters' => (object) [], // No filter → fetch ALL opportunities globally
+                ]
+            ];
+
+            $ch = curl_init('https://gis-api.aiesec.org/graphql');
+            curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+            curl_setopt($ch, CURLOPT_POST, true);
+            curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode($payload));
+            curl_setopt($ch, CURLOPT_TIMEOUT, 30);
+            curl_setopt($ch, CURLOPT_HTTPHEADER, [
+                'Accept: application/json',
+                'Content-Type: application/json',
+                'Origin: https://aiesec.org',
+                'Referer: https://aiesec.org/search',
+                'User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36',
+                'Authorization: ' . $token
+            ]);
+
+            $response = curl_exec($ch);
+            $httpCode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+            $error = curl_error($ch);
+            curl_close($ch);
+
+            if ($error || $httpCode !== 200) {
                 break;
             }
-        }
 
-        if ($raw === '') {
-            return [];
-        }
+            $data = json_decode((string) $response, true);
+            $rawData = $data['data']['allOpportunity']['data'] ?? [];
+            $paging = $data['data']['allOpportunity']['paging'] ?? [];
+            $totalPages = (int) ($paging['total_pages'] ?? 1);
 
-        $skills = [];
-
-        // JSON array support: ["C++", "Python"]
-        if (str_starts_with($raw, '[') && str_ends_with($raw, ']')) {
-            $decoded = json_decode($raw, true);
-            if (is_array($decoded)) {
-                foreach ($decoded as $item) {
-                    if (is_string($item) && trim($item) !== '') {
-                        $skills[] = trim($item);
-                    }
-                }
+            if (empty($rawData)) {
+                break;
             }
-        }
 
-        // Delimited text support: C++, Python; Mechanics | Problem Solving
-        if ($skills === []) {
-            $parts = preg_split('/\s*(?:,|;|\||\/|\\n|\\r)+\s*/', $raw) ?: [];
-            foreach ($parts as $part) {
-                $part = trim((string) $part);
-                if ($part !== '') {
-                    $skills[] = $part;
-                }
-            }
-        }
+            foreach ($rawData as $item) {
+                $oppId = $item['id'] ?? '';
 
-        // Normalize duplicates while keeping original casing display-friendly
-        $normalized = [];
-        $unique = [];
-        foreach ($skills as $skill) {
-            $key = strtolower(trim($skill));
-            if ($key === '' || isset($normalized[$key])) {
-                continue;
-            }
-            $normalized[$key] = true;
-            $unique[] = $skill;
-        }
-
-        return $unique;
-    }
-
-    private function resolveCsvPath(): ?string
-    {
-        $candidates = [
-            getenv('OPPORTUNITIES_CSV_PATH') ?: null,
-            defined('BASE_PATH') ? BASE_PATH . DIRECTORY_SEPARATOR . 'uploads' . DIRECTORY_SEPARATOR . 'opportunities.csv' : null,
-            'C:\\Users\\HP\\Downloads\\opportunities.csv',
-        ];
-
-        foreach ($candidates as $candidate) {
-            if (is_string($candidate) && $candidate !== '' && is_file($candidate)) {
-                return $candidate;
-            }
-        }
-
-        return null;
-    }
-
-    private function normalizeHeader(string $value): string
-    {
-        $value = strtolower(trim($value));
-        $value = preg_replace('/[^a-z0-9]+/', '_', $value) ?? $value;
-        return trim($value, '_');
-    }
-
-    private function isEmptyCsvRow(array $row): bool
-    {
-        foreach ($row as $value) {
-            if (trim((string) $value) !== '') {
-                return false;
-            }
-        }
-
-        return true;
-    }
-
-    private function deriveSkills(string ...$values): array
-    {
-        // Aliases to match Python normalisation in matcher.py
-        $aliases = [
-            'js' => 'javascript',
-            'nodejs' => 'javascript',
-            'node.js' => 'javascript',
-            'mysql' => 'sql',
-            'postgresql' => 'sql',
-            'postgres' => 'sql',
-            'database' => 'sql',
-            'ui' => 'design',
-            'ux' => 'design',
-            'figma' => 'design',
-            'content' => 'content creation',
-            'writing' => 'content creation',
-            'communicat' => 'communication',
-            'collaboration' => 'teamwork',
-            'team work' => 'teamwork',
-        ];
-
-        $stopWords = [
-            'and', 'the', 'for', 'with', 'from', 'into', 'your', 'you', 'our', 'their', 'this', 'that',
-            'global', 'opportunity', 'opportunities', 'program', 'programme', 'product', 'openings',
-            'mc', 'lc', 'name', 'location', 'remote', 'intern', 'internship', 'volunteer', 'teacher',
-            'weeks', 'week', 'support', 'project', 'role', 'new', 'join', 'on', 'at', 'of', 'a', 'an',
-        ];
-
-        $tokens = [];
-        foreach ($values as $value) {
-            $value = strtolower((string) $value);
-
-            // Extract words and tokens keeping + and # and . inside tokens (e.g., c++, c#)
-            preg_match_all('/[a-z0-9+#\.]{1,}/i', $value, $matches);
-            $words = array_filter(array_map('trim', $matches[0] ?? []));
-
-            // add unigrams and bigrams to increase chance of matches (e.g., 'data analyst')
-            $count = count($words);
-            for ($i = 0; $i < $count; $i++) {
-                $w = $words[$i];
-                if ($w === '' || in_array($w, $stopWords, true)) {
+                // Skip duplicates
+                if (isset($seenIds[$oppId])) {
                     continue;
                 }
+                $seenIds[$oppId] = true;
 
-                // apply alias mapping
-                $norm = $aliases[$w] ?? $w;
-                $tokens[] = $norm;
-
-                // bigram
-                if ($i + 1 < $count) {
-                    $bigram = $w . ' ' . $words[$i + 1];
-                    if (!in_array($bigram, $stopWords, true)) {
-                        $tokens[] = $aliases[$bigram] ?? $bigram;
-                    }
+                $parsed = $this->parseOpportunityItem($item, $filters);
+                if ($parsed !== null) {
+                    $allItems[] = $parsed;
                 }
             }
+
+            $page++;
+        } while ($page <= $totalPages && $page <= $maxPages);
+
+        return $allItems;
+    }
+
+    /**
+     * Parse a single API opportunity item into a normalized array.
+     * Returns null if the item should be filtered out.
+     */
+    private function parseOpportunityItem(array $item, array $filters): ?array
+    {
+        $oppId = $item['id'] ?? '';
+        $title = $item['title'] ?? $item['project_name'] ?? 'AIESEC Opportunity';
+        $description = $item['description'] ?? $item['project_description'] ?? 'Open AIESEC opportunity.';
+
+        // --- Extract skills from learning points and description ---
+        $learningPoints = $item['role_info']['learning_points_list'] ?? [];
+        $learningText = '';
+        if (is_array($learningPoints)) {
+            $learningText = implode(' ', array_map(fn($p) => strip_tags((string)$p), $learningPoints));
+        }
+        
+        $combinedText = implode(' ', [$title, $description, $item['project_description'] ?? '', $learningText]);
+        $skills = $this->extractSkillsFromText($combinedText);
+
+        // --- Location & Country: always store the clean country name ---
+        $hostLc    = $item['host_lc'] ?? [];
+        $address   = $hostLc['address_detail'] ?? [];
+        $apiCountry = $address['country'] ?? '';
+        // Normalize country name (API sometimes returns French/local names)
+        $country = $this->normalizeCountryName($apiCountry);
+
+        // For display in cards: show city if available, else country
+        $cityLocation = $item['location'] ?? '';
+        if (!empty($item['remote_opportunity']) && $item['remote_opportunity'] === 'true') {
+            $displayLocation = 'Remote';
+        } else {
+            $displayLocation = $country ?: 'Global';
         }
 
-        // Normalize tokens: remove punctuation except +,#,., normalize spacing
-        $clean = [];
-        foreach ($tokens as $t) {
-            $t = trim(preg_replace('/[^a-z0-9+#\. ]+/', '', (string) $t));
-            $t = preg_replace('/\s+/', ' ', $t);
-            if ($t === '' || in_array($t, $stopWords, true)) {
-                continue;
+        // --- Duration ---
+        $durationType = $item['opportunity_duration_type'] ?? [];
+        $durationRaw = $item['duration'] ?? $durationType['duration_type'] ?? 'See AIESEC details';
+        if (is_numeric($durationRaw)) {
+            $duration = $durationRaw . ' weeks';
+        } else {
+            $duration = (string) $durationRaw;
+        }
+
+        // --- Programme: always store the short code for consistent filtering ---
+        $programme = $item['programme'] ?? [];
+        $progShort = $programme['short_name'] ?? '';
+        // Map to canonical short codes GV / GTa / GTe
+        $progCodeMap = [
+            'gv'  => 'GV',  'global volunteer'  => 'GV',
+            'gta' => 'GTa', 'global talent'     => 'GTa',
+            'gte' => 'GTe', 'global teacher'    => 'GTe',
+            'ge'  => 'GTe', 'global exchange'   => 'GTe',
+        ];
+        $programmeName = $progCodeMap[strtolower(trim($progShort))] ?? ($progShort ?: 'GV');
+        // Also try short_name_display if short_name didn't map
+        if (!isset($progCodeMap[strtolower(trim($progShort))])) {
+            $display = strtolower(trim($programme['short_name_display'] ?? ''));
+            $programmeName = $progCodeMap[$display] ?? strtoupper($progShort) ?: 'GV';
+        }
+
+        // --- Company ---
+        $company = $item['branch']['company']['name'] ?? '';
+
+        // --- Source URL ---
+        $progSlugMap = ['GV' => 'global-volunteer', 'GTa' => 'global-talent', 'GTe' => 'global-teacher'];
+        $slug = $progSlugMap[$programmeName] ?? 'global-volunteer';
+        $sourceUrl = $oppId ? "https://aiesec.org/opportunity/{$slug}/{$oppId}" : 'https://aiesec.org/search';
+
+        // --- Apply duration filter ---
+        if (!empty($filters['duration']) && $duration !== $filters['duration']) {
+            return null;
+        }
+
+        // --- Languages from text ---
+        $languages = $this->extractLanguagesFromText($combinedText);
+
+        return [
+            'title'       => $title,
+            'description' => substr($description, 0, 500),
+            'skills'      => $skills,
+            'languages'   => $languages,
+            'location'    => $country ?: 'Global',   // Always the country name — used for DB filtering
+            'display_location' => $displayLocation,   // City or country for display
+            'source_url'  => $sourceUrl,
+            'category'    => $programmeName,           // Always GV / GTa / GTe
+            'duration'    => $duration,
+            'company'     => $company,
+            'source_type' => 'api',
+            'external_id' => $oppId,
+        ];
+    }
+
+    /**
+     * Normalize country name from API (handles French names, variations).
+     * Converts "Tunisie" → "Tunisia", "Maroc" → "Morocco", etc.
+     */
+    private function normalizeCountryName(string $name): string
+    {
+        $name = trim($name);
+        if ($name === '') {
+            return '';
+        }
+
+        // Map of French/variant names → English standard names
+        $countryAliases = [
+            'tunisie' => 'Tunisia',
+            'maroc' => 'Morocco',
+            'algérie' => 'Algeria',
+            'algerie' => 'Algeria',
+            'égypte' => 'Egypt',
+            'egypte' => 'Egypt',
+            'côte d\'ivoire' => 'Côte d\'Ivoire',
+            'sénégal' => 'Senegal',
+            'senegal' => 'Senegal',
+            'cameroun' => 'Cameroon',
+            'allemagne' => 'Germany',
+            'espagne' => 'Spain',
+            'italie' => 'Italy',
+            'brésil' => 'Brazil',
+            'bresil' => 'Brazil',
+            'turquie' => 'Turkey',
+            'roumanie' => 'Romania',
+            'pologne' => 'Poland',
+            'hongrie' => 'Hungary',
+            'grèce' => 'Greece',
+            'grece' => 'Greece',
+            'suède' => 'Sweden',
+            'suede' => 'Sweden',
+            'suisse' => 'Switzerland',
+            'norvège' => 'Norway',
+            'norvege' => 'Norway',
+            'danemark' => 'Denmark',
+            'finlande' => 'Finland',
+            'pays-bas' => 'Netherlands',
+            'belgique' => 'Belgium',
+            'autriche' => 'Austria',
+            'portugal' => 'Portugal',
+            'mexique' => 'Mexico',
+            'colombie' => 'Colombia',
+            'pérou' => 'Peru',
+            'perou' => 'Peru',
+            'chili' => 'Chile',
+            'argentine' => 'Argentina',
+            'inde' => 'India',
+            'chine' => 'China',
+            'japon' => 'Japan',
+            'corée du sud' => 'South Korea',
+            'coree du sud' => 'South Korea',
+            'thaïlande' => 'Thailand',
+            'thailande' => 'Thailand',
+            'malaisie' => 'Malaysia',
+            'indonésie' => 'Indonesia',
+            'indonesie' => 'Indonesia',
+            'philippines' => 'Philippines',
+            'liban' => 'Lebanon',
+            'jordanie' => 'Jordan',
+            'émirats arabes unis' => 'United Arab Emirates',
+            'emirats arabes unis' => 'United Arab Emirates',
+            'arabie saoudite' => 'Saudi Arabia',
+            'royaume-uni' => 'United Kingdom',
+            'états-unis' => 'United States',
+            'etats-unis' => 'United States',
+            'afrique du sud' => 'South Africa',
+            'république tchèque' => 'Czech Republic',
+            'republique tcheque' => 'Czech Republic',
+            'bosnie-herzégovine' => 'Bosnia and Herzegovina',
+        ];
+
+        $nameLower = strtolower($name);
+        return $countryAliases[$nameLower] ?? $name;
+    }
+
+    /**
+     * Extract skills from text using strict keyword matching.
+     * Only matches specific, concrete skill/technology keywords.
+     * Does NOT match generic words like "content", "work", etc.
+     * Returns empty array if no skills found (no fallback generic skills).
+     */
+    private function extractSkillsFromText(string $text): array
+    {
+        $textLower = strtolower($text);
+        
+        // Strict skill keywords — only concrete technologies, tools, and professional skills
+        // Sorted by length descending so longer matches take priority
+        $skillKeywords = [
+            // Multi-word (check first)
+            'machine learning' => 'machine learning',
+            'deep learning' => 'deep learning',
+            'web development' => 'web development',
+            'mobile development' => 'mobile development',
+            'software development' => 'software development',
+            'project management' => 'project management',
+            'data analysis' => 'data analysis',
+            'social media' => 'social media',
+            'customer service' => 'customer service',
+            'graphic design' => 'graphic design',
+            'content creation' => 'content creation',
+            'problem solving' => 'problem solving',
+            'microsoft office' => 'microsoft office',
+            'spring boot' => 'spring boot',
+            'react native' => 'react native',
+            'power bi' => 'power bi',
+            'rest api' => 'rest api',
+            'embedded systems' => 'embedded systems',
+            'raspberry pi' => 'raspberry pi',
+            'windows server' => 'windows server',
+            // Single word / short — programming languages
+            'python' => 'python',
+            'php' => 'php',
+            'javascript' => 'javascript',
+            'typescript' => 'typescript',
+            'java' => 'java',
+            'c++' => 'c++',
+            'c#' => 'c#',
+            'ruby' => 'ruby',
+            'golang' => 'golang',
+            'rust' => 'rust',
+            'swift' => 'swift',
+            'kotlin' => 'kotlin',
+            'scala' => 'scala',
+            'perl' => 'perl',
+            'dart' => 'dart',
+            // Web technologies
+            'html' => 'html',
+            'css' => 'css',
+            'react' => 'react',
+            'angular' => 'angular',
+            'vue' => 'vue',
+            'svelte' => 'svelte',
+            'next.js' => 'next.js',
+            'node.js' => 'node.js',
+            'django' => 'django',
+            'flask' => 'flask',
+            'laravel' => 'laravel',
+            'symfony' => 'symfony',
+            'bootstrap' => 'bootstrap',
+            'graphql' => 'graphql',
+            // Databases
+            'sql' => 'sql',
+            'mysql' => 'mysql',
+            'postgresql' => 'postgresql',
+            'mongodb' => 'mongodb',
+            'redis' => 'redis',
+            // DevOps & cloud
+            'docker' => 'docker',
+            'kubernetes' => 'kubernetes',
+            'aws' => 'aws',
+            'azure' => 'azure',
+            'git' => 'git',
+            'github' => 'github',
+            'jenkins' => 'jenkins',
+            'linux' => 'linux',
+            // Design tools
+            'photoshop' => 'photoshop',
+            'illustrator' => 'illustrator',
+            'figma' => 'figma',
+            'canva' => 'canva',
+            'autocad' => 'autocad',
+            'sketchup' => 'sketchup',
+            'revit' => 'revit',
+            '3ds max' => '3ds max',
+            // Data & analysis tools
+            'excel' => 'excel',
+            'tableau' => 'tableau',
+            'matlab' => 'matlab',
+            // Hardware & embedded
+            'arduino' => 'arduino',
+            'stm32' => 'stm32',
+            // Professional skills (only specific ones)
+            'marketing' => 'marketing',
+            'seo' => 'seo',
+            'copywriting' => 'copywriting',
+            'photography' => 'photography',
+            'video editing' => 'video editing',
+            'flutter' => 'flutter',
+            'flutterflow' => 'flutterflow',
+            // Business tools
+            'salesforce' => 'salesforce',
+            'sap' => 'sap',
+            'jira' => 'jira',
+        ];
+
+        $found = [];
+        foreach ($skillKeywords as $keyword => $normalized) {
+            $escaped = preg_quote($keyword, '/');
+            // Word-boundary match to avoid false positives like "java" matching "javascript"
+            if (preg_match('/(?<![a-z0-9])' . $escaped . '(?![a-z0-9])/i', $textLower)) {
+                $found[$normalized] = true;
             }
-            $clean[] = $t;
         }
 
-        $clean = array_values(array_unique($clean));
-        return $clean;
+        // DO NOT add fallback generic skills — empty is OK
+        // The matcher.py uses text_tokens for keyword matching anyway
+        $result = array_keys($found);
+        sort($result);
+        return $result;
+    }
+
+    /**
+     * Extract language requirements from text.
+     */
+    private function extractLanguagesFromText(string $text): array
+    {
+        $knownLanguages = ['english', 'french', 'spanish', 'german', 'arabic', 'portuguese', 'italian', 'hindi', 'chinese', 'japanese', 'korean', 'russian', 'turkish', 'dutch'];
+        $textLower = strtolower($text);
+
+        $found = [];
+        foreach ($knownLanguages as $lang) {
+            if (str_contains($textLower, $lang)) {
+                $found[] = $lang;
+            }
+        }
+
+        return $found;
+    }
+
+    public function getSyncInfo(): array
+    {
+        try {
+            $stmt = $this->pdo->query('SELECT COUNT(*) FROM opportunities');
+            $count = (int) $stmt->fetchColumn();
+
+            $stmt = $this->pdo->query('SELECT MAX(created_at) FROM opportunities');
+            $lastSync = $stmt->fetchColumn();
+
+            return [
+                'count' => $count,
+                'last_sync' => $lastSync ? date('Y-m-d H:i:s', strtotime($lastSync)) : 'Never',
+            ];
+        } catch (Throwable $e) {
+            return [
+                'count' => 0,
+                'last_sync' => 'Never',
+            ];
+        }
     }
 
     private function fallbackOpportunities(): array
@@ -361,18 +735,20 @@ final class Opportunity extends BaseModel
             [
                 'title' => 'Global Talent - Marketing Intern',
                 'description' => 'Support campaign execution, content creation, and market research.',
-                'skills' => ['marketing', 'content creation', 'research', 'communication'],
+                'skills' => ['marketing', 'content creation'],
+                'languages' => ['english'],
                 'location' => 'Remote',
-                'source_url' => 'https://aiesec.org/search?programmes=8',
+                'source_url' => 'https://aiesec.org/search',
                 'category' => 'Global Talent',
                 'source_type' => 'sample',
             ],
             [
                 'title' => 'Global Volunteer - Community Outreach',
                 'description' => 'Work with NGOs on community engagement and event support.',
-                'skills' => ['communication', 'teamwork', 'leadership'],
+                'skills' => [],
+                'languages' => ['english'],
                 'location' => 'Brazil',
-                'source_url' => 'https://aiesec.org/search?programmes=8',
+                'source_url' => 'https://aiesec.org/search',
                 'category' => 'Global Volunteer',
                 'source_type' => 'sample',
             ],

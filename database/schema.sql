@@ -5,6 +5,16 @@ CREATE TABLE IF NOT EXISTS users (
     id INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
     name VARCHAR(120) NOT NULL,
     email VARCHAR(191) NOT NULL UNIQUE,
+    password_hash VARCHAR(255) NOT NULL,
+    role ENUM('member', 'admin') NOT NULL DEFAULT 'member',
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+
+CREATE TABLE IF NOT EXISTS admins (
+    id INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+    name VARCHAR(120) NOT NULL,
+    email VARCHAR(191) NOT NULL UNIQUE,
+    password_hash VARCHAR(255) NOT NULL,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 
@@ -36,4 +46,58 @@ CREATE TABLE IF NOT EXISTS matches (
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     CONSTRAINT fk_matches_cv FOREIGN KEY (cv_id) REFERENCES cvs(id) ON DELETE CASCADE,
     CONSTRAINT fk_matches_opportunity FOREIGN KEY (opportunity_id) REFERENCES opportunities(id) ON DELETE SET NULL
+);
+
+CREATE TABLE IF NOT EXISTS ep_applications (
+    id INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+    first_name VARCHAR(120) NOT NULL,
+    last_name VARCHAR(120) NOT NULL,
+    email VARCHAR(191) NOT NULL UNIQUE,
+    phone VARCHAR(40) NOT NULL,
+    nationality VARCHAR(120) NOT NULL,
+    university VARCHAR(191) NOT NULL,
+    field_of_study VARCHAR(191) NOT NULL,
+    opportunity_title VARCHAR(255) NOT NULL,
+    country VARCHAR(120) NOT NULL,
+    organization VARCHAR(191) NOT NULL,
+    application_date DATE NOT NULL,
+    opportunity_link VARCHAR(255) NOT NULL,
+    status VARCHAR(50) NOT NULL DEFAULT 'applied',
+    stage_index TINYINT UNSIGNED NOT NULL DEFAULT 0,
+    folder_name VARCHAR(191) NOT NULL,
+    status_updated_at TIMESTAMP NULL DEFAULT NULL,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+);
+
+CREATE TABLE IF NOT EXISTS ep_documents (
+    id INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+    ep_id INT UNSIGNED NOT NULL,
+    document_type VARCHAR(120) NOT NULL,
+    original_name VARCHAR(255) NOT NULL,
+    file_name VARCHAR(255) NOT NULL,
+    file_path VARCHAR(255) NOT NULL,
+    mime_type VARCHAR(120) DEFAULT NULL,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    CONSTRAINT fk_ep_documents_ep FOREIGN KEY (ep_id) REFERENCES ep_applications(id) ON DELETE CASCADE
+);
+
+CREATE TABLE IF NOT EXISTS ep_status_history (
+    id INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+    ep_id INT UNSIGNED NOT NULL,
+    status VARCHAR(50) NOT NULL,
+    stage_index TINYINT UNSIGNED NOT NULL DEFAULT 0,
+    changed_by_label VARCHAR(191) DEFAULT NULL,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    CONSTRAINT fk_ep_status_history_ep FOREIGN KEY (ep_id) REFERENCES ep_applications(id) ON DELETE CASCADE
+);
+
+CREATE TABLE IF NOT EXISTS ep_notifications (
+    id INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+    ep_id INT UNSIGNED NOT NULL,
+    notification_type VARCHAR(80) NOT NULL,
+    message VARCHAR(255) NOT NULL,
+    is_read TINYINT(1) NOT NULL DEFAULT 0,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    CONSTRAINT fk_ep_notifications_ep FOREIGN KEY (ep_id) REFERENCES ep_applications(id) ON DELETE CASCADE
 );

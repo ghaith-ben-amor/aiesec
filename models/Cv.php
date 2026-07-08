@@ -36,7 +36,7 @@ final class Cv extends BaseModel
     public function createFromUploadedFile(string $path): array
     {
         $parsed = $this->parseCvWithPython($path);
-        $userId = $this->ensureDemoUser();
+        $userId = auth_user_id() ?? $this->ensureDemoUser();
         $stmt = $this->pdo->prepare('INSERT INTO cvs (user_id, file_path, parsed_data) VALUES (:user_id, :file_path, :parsed_data)');
         $stmt->execute([
             'user_id' => $userId,

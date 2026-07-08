@@ -32,7 +32,13 @@ SKILL_KEYWORDS = [
     "marketing", "sales", "leadership", "communication", "teamwork", "project management",
     "python", "php", "javascript", "html", "css", "sql", "data analysis", "research",
     "content creation", "design", "public speaking", "problem solving", "excel", "ai", "nlp",
-    "java", "c", "c++", "flutter", "flutterflow", "mvc", "qt", "arduino", "stm32", "photoshop", "illustrator"
+    "java", "c", "c++", "flutter", "flutterflow", "mvc", "qt", "arduino", "stm32", "photoshop", "illustrator",
+    "machine learning", "deep learning", "web development", "mobile development", "software development",
+    "ui/ux", "ui ux", "user interface", "user experience", "figma", "canva", "bootstrap", "tailwind",
+    "react", "vue", "angular", "node", "node.js", "django", "flask", "laravel", "symfony",
+    "git", "github", "linux", "word", "powerpoint", "microsoft office", "power bi", "tableau",
+    "autocad", "matlab", "kotlin", "swift", "typescript", "typescript", "seo", "social media",
+    "presentation", "copywriting", "translation", "customer service", "problem-solving", "critical thinking"
 ]
 
 LANGUAGE_KEYWORDS = ["english", "french", "spanish", "german", "arabic", "portuguese", "italian", "hindi"]
@@ -46,9 +52,23 @@ SECTION_STOP_WORDS = [
     "projects", "academic", "community", "certifications", "languages", "summary", "profile"
 ]
 
+SKILL_SECTION_MARKERS = [
+    "skills",
+    "technical skills",
+    "key skills",
+    "core skills",
+    "core competencies",
+    "competencies",
+    "technologies",
+    "tools",
+    "abilities",
+    "expertise",
+]
+
 
 def debug_log(msg):
-    print(f"[DEBUG] {msg}", file=sys.stderr)
+    if os.getenv("APP_DEBUG") or os.getenv("PY_DEBUG"):
+        print(f"[DEBUG] {msg}", file=sys.stderr)
 
 
 def extract_text(pdf_path: str) -> str:
@@ -92,7 +112,80 @@ def extract_text(pdf_path: str) -> str:
 
 def keyword_hits(text: str, keywords):
     lowered = text.lower()
-    return [keyword for keyword in keywords if keyword in lowered]
+    hits = []
+    for keyword in sorted(keywords, key=len, reverse=True):
+        pattern = re.escape(keyword.lower())
+        if re.search(rf"(?<![a-z0-9]){pattern}(?![a-z0-9])", lowered):
+            hits.append(keyword)
+    return hits
+
+
+def normalize_skill_text(value: str) -> str:
+    clean = " ".join(str(value).replace("•", " ").replace("·", " ").split())
+    clean = clean.strip(" -–—:;,.|/\\")
+    lowered = clean.lower()
+
+    alias = {
+        "js": "javascript",
+        "nodejs": "javascript",
+        "node.js": "javascript",
+        "mysql": "sql",
+        "postgresql": "sql",
+        "postgres": "sql",
+        "database": "sql",
+        "ui": "design",
+        "ux": "design",
+        "figma": "design",
+        "content": "content creation",
+        "writing": "content creation",
+        "communicat": "communication",
+        "collaboration": "teamwork",
+        "team work": "teamwork",
+        "ui/ux": "ui ux",
+        "ui/ux design": "ui ux",
+        "ux design": "design",
+        "ui design": "design",
+        "user interface": "ui ux",
+        "user experience": "ui ux",
+        "problem-solving": "problem solving",
+        "microsoft office": "microsoft office",
+    }
+
+    return alias.get(lowered, lowered)
+
+
+def is_skill_candidate(value: str) -> bool:
+    clean = " ".join(str(value).split()).strip(" -–—:;,.|/\\")
+    lowered = clean.lower()
+
+    if not clean or not any(ch.isalpha() for ch in clean):
+        return False
+    if len(clean) > 60:
+        return False
+    if any(stop in lowered for stop in [
+        "experience", "education", "project", "summary", "profile", "certification", "achievement",
+        "responsible", "responsibility", "internship", "volunteer work",
+    ]):
+        return False
+    if len(clean.split()) > 6:
+        return False
+    return True
+
+
+def extract_skill_candidates(blob: str):
+    candidates = []
+    for token in re.split(r"(?:\n+|[,;|]+|[•·▪●]+)", blob):
+        clean = token.strip()
+        if " and " in clean.lower() and len(clean.split()) <= 6:
+            for part in re.split(r"\s+and\s+", clean, flags=re.IGNORECASE):
+                part = part.strip()
+                if is_skill_candidate(part):
+                    candidates.append(normalize_skill_text(part))
+            continue
+        if not is_skill_candidate(clean):
+            continue
+        candidates.append(normalize_skill_text(clean))
+    return candidates
 
 
 def dedupe_keep_order(items):
@@ -121,11 +214,11 @@ def extract_section_lines(text: str, section_markers):
 
     for line in lines:
         lowered = line.lower()
-        if any(marker in lowered for marker in section_markers):
+        if any(re.fullmatch(rf"{re.escape(marker)}[:\- ]*", lowered) for marker in section_markers):
             in_section = True
             continue
 
-        if in_section and any(stop == lowered or stop in lowered for stop in SECTION_STOP_WORDS):
+        if in_section and any(stop == lowered or lowered.startswith(stop + ":") or lowered.startswith(stop + "-") for stop in SECTION_STOP_WORDS):
             break
 
         if in_section:
@@ -136,26 +229,38 @@ def extract_section_lines(text: str, section_markers):
 
 def extract_skills(text: str):
     hits = keyword_hits(text, SKILL_KEYWORDS)
-    section_lines = extract_section_lines(text, ["skills", "technical skills", "technologies"])
-    section_blob = " ".join(section_lines)
-    section_tokens = re.split(r"[,;/|]", section_blob)
+    section_lines = extract_section_lines(text, SKILL_SECTION_MARKERS)
+    section_blob = "\n".join(section_lines)
 
     candidates = []
-    for token in section_tokens:
-        clean = token.strip().lower()
-        if 1 < len(clean) < 40:
-            candidates.append(clean)
+    candidates.extend(extract_skill_candidates(section_blob))
+
+    if not candidates:
+        lines = normalize_lines(text)
+        for line in lines:
+            lowered = line.lower()
+            if any(stop in lowered for stop in SECTION_STOP_WORDS):
+                continue
+            if re.match(r"^\s*(?:[-*•·]|\d+[.)])\s*", line) or len(line.split()) <= 6:
+                candidates.extend(extract_skill_candidates(line))
 
     merged = hits + candidates
-    # Keep concise and relevant skill entries.
-    filtered = [
-        s for s in merged
-        if any(ch.isalpha() for ch in s)
-        and not s.startswith("software development")
-        and not s.startswith("adobe & creative tools")
-        and not s.startswith("embedded systems")
-    ]
-    return dedupe_keep_order(filtered)[:20]
+    filtered = []
+    for skill in merged:
+        skill = normalize_skill_text(skill)
+        if not skill:
+            continue
+        if skill.startswith("software development"):
+            continue
+        if skill.startswith("adobe & creative tools"):
+            continue
+        if skill.startswith("embedded systems"):
+            continue
+        if skill in {"skills", "technical skills", "technologies", "tools"}:
+            continue
+        filtered.append(skill)
+
+    return dedupe_keep_order(filtered)[:30]
 
 
 def extract_languages(text: str):

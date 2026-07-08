@@ -21,4 +21,9 @@ abstract class BaseController
     {
         return $_POST[$key] ?? $_GET[$key] ?? $default;
     }
+
+        protected function requireAuth(): void
+        {
+		require_auth();
+        }
 }
