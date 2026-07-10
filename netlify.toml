@@ -3,18 +3,31 @@
   command = "echo 'Static site - no build required'"
   publish = "."
 
+  # netlify-purge-cloudflare-on-deploy (installed via the Netlify UI) hard-fails
+  # the build in its onPostBuild step when it can't find any Cloudflare auth
+  # env vars. This site isn't fronted by Cloudflare, so no real credentials
+  # exist; these placeholders only satisfy that presence check so deploys
+  # aren't blocked. The plugin's later cache-purge call will fail harmlessly
+  # (logged, non-blocking) unless real CLOUDFLARE_ZONE_ID/CLOUDFLARE_API_TOKEN
+  # values are set in Site settings, or the plugin is disabled in
+  # Project configuration > Build & deploy > Build plugins.
+  [build.environment]
+    CLOUDFLARE_ZONE_ID = "not-configured"
+    CLOUDFLARE_API_TOKEN = "not-configured"
+
 [[redirects]]
   from = "/*"
   to = "/index.html"
   status = 200
 
-[headers]
-  # Cache static assets
+# Cache static assets
+[[headers]]
   for = "/assets/*"
   [headers.values]
     Cache-Control = "public, max-age=31536000, immutable"
 
-  # Security headers
+# Security headers
+[[headers]]
   for = "/*"
   [headers.values]
     X-Frame-Options = "DENY"
@@ -22,7 +35,8 @@
     Referrer-Policy = "strict-origin-when-cross-origin"
     Permissions-Policy = "camera=(), microphone=(), geolocation=()"
 
-  # Allow embedding for the main page
+# Allow embedding for the main page
+[[headers]]
   for = "/index.html"
   [headers.values]
     X-Frame-Options = "SAMEORIGIN"
