@@ -52,5 +52,5 @@ $_SESSION['last_matches'] = $matches;
 $_SESSION['flash_success'] = 'CV and results loaded successfully.';
 
 // Redirect to results page
-header('Location: /Aiesec/results');
+header('Location: ' . url_path('/results'));
 exit;
