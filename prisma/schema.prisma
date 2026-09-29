@@ -1,0 +1,125 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id           Int      @id @default(autoincrement())
+  name         String
+  email        String   @unique
+  passwordHash String
+  role         String   @default("member")
+  createdAt    DateTime @default(now())
+
+  cvs Cv[]
+
+  @@map("users")
+}
+
+model Opportunity {
+  id          Int      @id @default(autoincrement())
+  title       String
+  description String
+  skills      String   @default("[]") // Stored as JSON string
+  location    String
+  sourceUrl   String
+  createdAt   DateTime @default(now())
+
+  matches Match[]
+
+  @@map("opportunities")
+}
+
+model Cv {
+  id         Int      @id @default(autoincrement())
+  userId     Int
+  user       User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  filePath   String
+  parsedData String   // Stored as JSON string
+  createdAt  DateTime @default(now())
+
+  matches Match[]
+
+  @@map("cvs")
+}
+
+model Match {
+  id            Int          @id @default(autoincrement())
+  cvId          Int
+  cv            Cv           @relation(fields: [cvId], references: [id], onDelete: Cascade)
+  opportunityId Int?
+  opportunity   Opportunity? @relation(fields: [opportunityId], references: [id], onDelete: SetNull)
+  score         Float        @default(0)
+  isFavorite    Boolean      @default(false)
+  createdAt     DateTime     @default(now())
+
+  @@map("matches")
+}
+
+model EpApplication {
+  id               Int                @id @default(autoincrement())
+  firstName        String
+  lastName         String
+  email            String             @unique
+  phone            String
+  nationality      String
+  university       String
+  fieldOfStudy     String
+  opportunityTitle String
+  country          String
+  organization     String
+  applicationDate  DateTime           @default(now())
+  opportunityLink  String
+  status           String             @default("Applied")
+  stageIndex       Int                @default(0)
+  folderName       String
+  createdAt        DateTime           @default(now())
+  updatedAt        DateTime           @updatedAt
+  documents        EpDocument[]
+  statusHistory    EpStatusHistory[]
+  notifications    EpNotification[]
+
+  @@map("ep_applications")
+}
+
+model EpDocument {
+  id           Int           @id @default(autoincrement())
+  epId         Int
+  ep           EpApplication @relation(fields: [epId], references: [id], onDelete: Cascade)
+  documentType String
+  originalName String
+  fileName     String
+  filePath     String
+  mimeType     String?
+  createdAt    DateTime      @default(now())
+
+  @@map("ep_documents")
+}
+
+model EpStatusHistory {
+  id             Int           @id @default(autoincrement())
+  epId           Int
+  ep             EpApplication @relation(fields: [epId], references: [id], onDelete: Cascade)
+  status         String
+  stageIndex     Int           @default(0)
+  changedByLabel String?
+  createdAt      DateTime      @default(now())
+
+  @@map("ep_status_history")
+}
+
+model EpNotification {
+  id               Int           @id @default(autoincrement())
+  epId             Int
+  ep               EpApplication @relation(fields: [epId], references: [id], onDelete: Cascade)
+  notificationType String
+  message          String
+  isRead           Boolean       @default(false)
+  createdAt        DateTime      @default(now())
+
+  @@map("ep_notifications")
+}
