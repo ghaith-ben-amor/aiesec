@@ -249,13 +249,13 @@
             </p>
             
             <div class="btn-group">
-                <a href="https://your-php-app.railway.app/login" class="btn-primary" id="launchApp">
+                <a href="/login" class="btn-primary" id="launchApp">
                     <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                         <path d="M9 18l6-6-6-6"/>
                     </svg>
                     Launch Application
                 </a>
-                <a href="https://your-php-app.railway.app/signup" class="btn-secondary">
+                <a href="/signup" class="btn-secondary">
                     <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                         <circle cx="12" cy="12" r="10"/>
                         <path d="M12 8v8M8 12h8"/>
@@ -322,9 +322,6 @@
     </footer>
     
     <script>
-        // Configuration - UPDATE THESE URLs TO YOUR PHP APP DEPLOYMENT
-        const APP_BASE_URL = 'https://your-php-app.railway.app'; // Change this!
-        
         const launchBtn = document.getElementById('launchApp');
         const redirectNotice = document.getElementById('redirectNotice');
         
@@ -332,23 +329,15 @@
             redirectNotice.style.display = 'inline-flex';
             launchBtn.style.display = 'none';
             
-            // Small delay to show the redirect notice
             setTimeout(() => {
-                window.location.href = APP_BASE_URL + path;
-            }, 800);
+                window.location.href = path;
+            }, 400);
         }
         
         launchBtn.addEventListener('click', (e) => {
             e.preventDefault();
             redirectToApp('/login');
         });
-        
-        // Auto-redirect if coming from a specific referrer or if user is already authenticated
-        // (This would require a shared session or token between static and PHP app)
-        // For now, manual click is required
-        
-        console.log('AIESEC Opportunity Matcher - Static Landing Page');
-        console.log('Configure APP_BASE_URL in script to point to your PHP deployment');
     </script>
 </body>
 </html>
