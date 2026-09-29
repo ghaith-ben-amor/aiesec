@@ -138,6 +138,7 @@ export default function SignupPage() {
                 <input
                   type="email"
                   required
+                  autoComplete="username"
                   value={email}
                   onChange={e => setEmail(e.target.value)}
                   placeholder="you@example.com"
@@ -151,6 +152,7 @@ export default function SignupPage() {
                   type="password"
                   required
                   minLength={8}
+                  autoComplete="new-password"
                   value={password}
                   onChange={e => setPassword(e.target.value)}
                   placeholder="At least 8 characters"
@@ -164,6 +166,7 @@ export default function SignupPage() {
                   type="password"
                   required
                   minLength={8}
+                  autoComplete="new-password"
                   value={passwordConfirmation}
                   onChange={e => setPasswordConfirmation(e.target.value)}
                   placeholder="Repeat your password"
