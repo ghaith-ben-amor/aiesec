@@ -2,6 +2,7 @@
 
 import Link from "next/link";
 import { useEffect, useState } from "react";
+import { usePathname } from "next/navigation";
 import { Briefcase, User, LogOut, Shield, FileText, Layers, LogIn } from "lucide-react";
 
 interface UserSession {
@@ -12,6 +13,7 @@ interface UserSession {
 }
 
 export default function Navbar() {
+  const pathname = usePathname();
   const [user, setUser] = useState<UserSession | null>(null);
 
   useEffect(() => {
@@ -28,6 +30,11 @@ export default function Navbar() {
     setUser(null);
     window.location.href = "/";
   };
+
+  // Hide global navbar on welcome landing page to match original standalone design
+  if (pathname === "/") {
+    return null;
+  }
 
   return (
     <header className="border-b border-[#242a3a] bg-[#0b0d12]/90 backdrop-blur sticky top-0 z-50">

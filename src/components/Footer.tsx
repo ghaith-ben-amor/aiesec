@@ -1,4 +1,15 @@
+"use client";
+
+import { usePathname } from "next/navigation";
+
 export default function Footer() {
+  const pathname = usePathname();
+
+  // Landing page renders its own dedicated footer
+  if (pathname === "/") {
+    return null;
+  }
+
   return (
     <footer className="border-t border-[#242a3a] bg-[#0b0d12] py-8 mt-auto">
       <div className="max-w-7xl mx-auto px-4 text-center text-sm text-[#8b95a6]">

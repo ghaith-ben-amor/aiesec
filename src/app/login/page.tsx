@@ -3,7 +3,6 @@
 import { useState } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { LogIn, Mail, Lock, AlertCircle, ArrowRight } from "lucide-react";
 
 export default function LoginPage() {
   const router = useRouter();
@@ -41,74 +40,107 @@ export default function LoginPage() {
   };
 
   return (
-    <div className="min-h-[80vh] flex items-center justify-center px-4 py-12">
-      <div className="w-full max-w-md bg-[#161a24] border border-[#242a3a] rounded-2xl p-8 shadow-xl">
-        <div className="flex flex-col items-center text-center mb-8">
-          <div className="w-12 h-12 rounded-xl bg-[#00d4aa]/15 flex items-center justify-center text-[#00d4aa] mb-3">
-            <LogIn className="w-6 h-6" />
+    <div 
+      className="min-h-screen relative flex items-center justify-center px-4 py-12"
+      style={{
+        background: `
+          radial-gradient(circle at top left, rgba(124, 140, 255, 0.22), transparent 28%),
+          radial-gradient(circle at 85% 12%, rgba(110, 231, 255, 0.18), transparent 22%),
+          radial-gradient(circle at bottom right, rgba(155, 123, 255, 0.18), transparent 26%),
+          linear-gradient(160deg, #050816 0%, #0a1024 52%, #111a38 100%)
+        `,
+      }}
+    >
+      {/* Grid Pattern Overlay */}
+      <div 
+        className="fixed inset-0 pointer-events-none opacity-30"
+        style={{
+          backgroundImage: `
+            linear-gradient(rgba(255, 255, 255, 0.035) 1px, transparent 1px),
+            linear-gradient(90deg, rgba(255, 255, 255, 0.035) 1px, transparent 1px)
+          `,
+          backgroundSize: "28px 28px",
+          maskImage: "radial-gradient(circle at center, black 58%, transparent 100%)",
+        }}
+      />
+
+      <div className="relative z-10 max-w-5xl w-full grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
+        {/* Left Column */}
+        <div className="lg:col-span-5 pr-lg-4 text-left">
+          <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full text-xs font-semibold mb-6 border border-[rgba(124,140,255,0.18)] bg-[rgba(124,140,255,0.1)] text-[#dfe5ff]">
+            <span className="w-2 h-2 rounded-full bg-[#60f0b0] shadow-[0_0_12px_#60f0b0]" />
+            Thunder mode active
           </div>
-          <h2 className="text-2xl font-bold text-white">Sign In to AIESEC</h2>
-          <p className="text-sm text-[#8b95a6] mt-1">Access opportunity matching and EP pipeline dashboard</p>
+          <h1 className="text-3xl sm:text-4xl lg:text-5xl font-extrabold text-[#f5f7ff] tracking-tight leading-[1.08] mb-4">
+            Fast login for your upgraded matcher.
+          </h1>
+          <p className="text-base sm:text-lg text-[#aeb8d8] leading-relaxed">
+            A sleek, dark interface with electric accents for a sharper sign-in experience.
+          </p>
         </div>
 
-        {error && (
-          <div className="mb-6 p-4 rounded-xl bg-red-500/10 border border-red-500/30 flex items-center gap-3 text-red-400 text-sm">
-            <AlertCircle className="w-5 h-5 shrink-0" />
-            <span>{error}</span>
-          </div>
-        )}
-
-        <form onSubmit={handleSubmit} className="space-y-5">
-          <div>
-            <label className="block text-xs font-semibold text-[#8b95a6] uppercase tracking-wider mb-2">
-              Email Address
-            </label>
-            <div className="relative">
-              <Mail className="w-5 h-5 text-gray-500 absolute left-3.5 top-1/2 -translate-y-1/2" />
-              <input
-                type="email"
-                required
-                value={email}
-                onChange={e => setEmail(e.target.value)}
-                placeholder="name@aiesec.net"
-                className="w-full pl-11 pr-4 py-3 rounded-xl bg-[#0b0d12] border border-[#242a3a] text-white placeholder-gray-500 focus:outline-none focus:border-[#00d4aa] transition-colors text-sm"
-              />
-            </div>
-          </div>
-
-          <div>
-            <label className="block text-xs font-semibold text-[#8b95a6] uppercase tracking-wider mb-2">
-              Password
-            </label>
-            <div className="relative">
-              <Lock className="w-5 h-5 text-gray-500 absolute left-3.5 top-1/2 -translate-y-1/2" />
-              <input
-                type="password"
-                required
-                value={password}
-                onChange={e => setPassword(e.target.value)}
-                placeholder="••••••••"
-                className="w-full pl-11 pr-4 py-3 rounded-xl bg-[#0b0d12] border border-[#242a3a] text-white placeholder-gray-500 focus:outline-none focus:border-[#00d4aa] transition-colors text-sm"
-              />
-            </div>
-          </div>
-
-          <button
-            type="submit"
-            disabled={loading}
-            className="w-full py-3.5 rounded-xl font-bold bg-[#00d4aa] text-black hover:bg-[#00c099] transition-all flex items-center justify-center gap-2 shadow-lg shadow-[#00d4aa]/20 disabled:opacity-50 mt-6"
+        {/* Right Column: Auth Panel Card */}
+        <div className="lg:col-span-7 lg:col-start-6">
+          <div 
+            className="rounded-[1.6rem] p-6 sm:p-10 border border-[rgba(145,160,255,0.16)] bg-[rgba(12,18,40,0.85)] backdrop-blur-xl shadow-[0_30px_90px_rgba(0,0,0,0.45)]"
           >
-            {loading ? "Signing in..." : "Sign In"}
-            <ArrowRight className="w-4 h-4" />
-          </button>
-        </form>
+            <div className="mb-6">
+              <span className="inline-flex items-center gap-2 px-3 py-1 rounded-full text-[11px] font-bold uppercase tracking-wider text-[#6ee7ff] border border-[rgba(110,231,255,0.22)] bg-[rgba(110,231,255,0.08)] mb-3">
+                <span className="w-2 h-2 rounded-full bg-[#6ee7ff] shadow-[0_0_12px_#6ee7ff]" />
+                Sign in
+              </span>
+              <h2 className="text-2xl sm:text-3xl font-bold text-[#f5f7ff] mb-1">Welcome back</h2>
+              <p className="text-sm text-[#aeb8d8]">Log in to upload your CV and view your matches.</p>
+            </div>
 
-        <p className="mt-8 text-center text-sm text-[#8b95a6]">
-          Don't have an account?{" "}
-          <Link href="/signup" className="text-[#00d4aa] font-medium hover:underline">
-            Sign Up
-          </Link>
-        </p>
+            {error && (
+              <div className="mb-5 p-3.5 rounded-xl bg-red-500/10 border border-red-500/30 text-red-400 text-sm">
+                {error}
+              </div>
+            )}
+
+            <form onSubmit={handleSubmit} className="space-y-4">
+              <div>
+                <label className="block text-sm font-semibold text-[#d8deff] mb-2">Email</label>
+                <input
+                  type="email"
+                  required
+                  value={email}
+                  onChange={e => setEmail(e.target.value)}
+                  placeholder="you@example.com"
+                  className="w-full px-4 py-3 rounded-2xl bg-[rgba(7,12,30,0.82)] border border-[rgba(145,160,255,0.18)] text-white placeholder-[rgba(174,184,216,0.6)] focus:outline-none focus:border-[#6ee7ff] focus:ring-2 focus:ring-[#6ee7ff]/20 text-sm transition-all"
+                />
+              </div>
+
+              <div>
+                <label className="block text-sm font-semibold text-[#d8deff] mb-2">Password</label>
+                <input
+                  type="password"
+                  required
+                  value={password}
+                  onChange={e => setPassword(e.target.value)}
+                  placeholder="Enter your password"
+                  className="w-full px-4 py-3 rounded-2xl bg-[rgba(7,12,30,0.82)] border border-[rgba(145,160,255,0.18)] text-white placeholder-[rgba(174,184,216,0.6)] focus:outline-none focus:border-[#6ee7ff] focus:ring-2 focus:ring-[#6ee7ff]/20 text-sm transition-all"
+                />
+              </div>
+
+              <button
+                type="submit"
+                disabled={loading}
+                className="w-full py-3.5 mt-2 rounded-2xl font-bold text-white bg-[#050816] border border-[rgba(145,160,255,0.3)] hover:border-[#6ee7ff] hover:bg-[#0a1024] hover:shadow-[0_0_20px_rgba(110,231,255,0.2)] transition-all disabled:opacity-50 text-base"
+              >
+                {loading ? "Logging in..." : "Login"}
+              </button>
+            </form>
+
+            <p className="text-center text-sm text-[rgba(255,255,255,0.6)] mt-6">
+              No account yet?{" "}
+              <Link href="/signup" className="font-semibold text-[#6ee7ff] hover:underline">
+                Create one
+              </Link>
+            </p>
+          </div>
+        </div>
       </div>
     </div>
   );

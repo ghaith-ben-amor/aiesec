@@ -1,85 +1,137 @@
 import Link from "next/link";
-import { Upload, Sparkles, Layers, ArrowRight, CheckCircle2, ShieldCheck, Search } from "lucide-react";
 
-export default function Home() {
+export default function WelcomePage() {
   return (
-    <div className="relative overflow-hidden">
-      {/* Background glow effects */}
-      <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[800px] h-[500px] bg-[#00d4aa]/10 blur-[140px] pointer-events-none rounded-full" />
-      <div className="absolute top-1/3 right-10 w-[400px] h-[400px] bg-[#037ef3]/10 blur-[120px] pointer-events-none rounded-full" />
+    <div className="relative min-h-screen bg-[#0b0d12] text-[#f1f4f9] flex flex-col items-center justify-center px-4 py-12 overflow-hidden">
+      {/* Background Radial Glow */}
+      <div 
+        className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[160vw] h-[160vh] max-w-[1200px] max-h-[1200px] pointer-events-none rounded-full"
+        style={{
+          background: "radial-gradient(ellipse at center, rgba(0, 212, 170, 0.15) 0%, transparent 70%)"
+        }}
+      />
 
-      <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20 lg:py-32 flex flex-col items-center text-center relative z-10">
-        <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-[#161a24] border border-[#242a3a] text-xs font-semibold text-[#00d4aa] mb-8">
-          <Sparkles className="w-3.5 h-3.5" />
-          <span>Next.js + TypeScript + Groq AI Engine</span>
+      <main className="relative z-10 max-w-[760px] w-full text-center flex flex-col items-center">
+        {/* Layer Icon Logo */}
+        <div 
+          className="w-20 h-20 rounded-[20px] flex items-center justify-center mb-6"
+          style={{
+            background: "linear-gradient(135deg, #00d4aa 0%, #0099ff 100%)",
+            boxShadow: "0 20px 40px rgba(0, 212, 170, 0.3)"
+          }}
+        >
+          <svg 
+            className="w-12 h-12 text-[#0b0d12]" 
+            viewBox="0 0 24 24" 
+            fill="none" 
+            stroke="currentColor" 
+            strokeWidth="2" 
+            strokeLinecap="round" 
+            strokeLinejoin="round"
+          >
+            <path d="M12 2L2 7l10 5 10-5-10-5z" />
+            <path d="M2 17l10 5 10-5" />
+            <path d="M2 12l10 5 10-5" />
+          </svg>
         </div>
 
-        <h1 className="text-4xl sm:text-6xl font-extrabold tracking-tight text-white max-w-4xl leading-tight">
-          Find Your Ideal <span className="gradient-text">AIESEC Global Opportunity</span> in Seconds
+        {/* Title */}
+        <h1 
+          className="text-4xl sm:text-5xl md:text-6xl font-extrabold tracking-tight mb-4 leading-[1.1]"
+          style={{
+            background: "linear-gradient(135deg, #f1f4f9 0%, #00d4aa 100%)",
+            WebkitBackgroundClip: "text",
+            WebkitTextFillColor: "transparent"
+          }}
+        >
+          AIESEC Opportunity Matcher
         </h1>
 
-        <p className="mt-6 text-lg sm:text-xl text-[#8b95a6] max-w-2xl leading-relaxed">
-          Upload your CV to extract your skills & profile data automatically. Our AI engine ranks the best international exchange opportunities tailored specifically for you.
+        {/* Tagline */}
+        <p className="text-base sm:text-lg md:text-xl text-[#8b95a6] mb-10 max-w-[560px] leading-relaxed">
+          AI-powered CV analysis to match you with the perfect AIESEC Global Talent and Global Volunteer opportunities worldwide.
         </p>
 
-        <div className="mt-10 flex flex-wrap gap-4 justify-center">
+        {/* Button Group */}
+        <div className="flex flex-wrap gap-4 justify-center mb-14">
           <Link
-            href="/upload"
-            className="flex items-center gap-2 px-6 py-3.5 rounded-xl font-bold bg-[#00d4aa] text-black hover:bg-[#00c099] transition-all shadow-lg shadow-[#00d4aa]/25 hover:scale-105"
+            href="/login"
+            className="inline-flex items-center gap-2 px-8 py-3.5 rounded-xl font-bold text-[#0b0d12] transition-all hover:-translate-y-0.5"
+            style={{
+              background: "linear-gradient(135deg, #00d4aa 0%, #0099ff 100%)",
+              boxShadow: "0 10px 30px rgba(0, 212, 170, 0.3)"
+            }}
           >
-            <Upload className="w-5 h-5" />
-            Upload Your CV
-            <ArrowRight className="w-4 h-4 ml-1" />
+            <svg className="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+              <path d="M9 18l6-6-6-6" />
+            </svg>
+            Launch Application
           </Link>
 
           <Link
-            href="/ep-management"
-            className="flex items-center gap-2 px-6 py-3.5 rounded-xl font-bold bg-[#161a24] border border-[#242a3a] text-white hover:bg-[#242a3a] transition-all"
+            href="/signup"
+            className="inline-flex items-center gap-2 px-8 py-3.5 rounded-xl font-semibold text-[#f1f4f9] bg-[#161a24] border border-[#242a3a] hover:border-[#00d4aa] hover:bg-[#12151d] hover:text-[#00d4aa] transition-all"
           >
-            <Layers className="w-5 h-5 text-[#037ef3]" />
-            EP Pipeline Dashboard
+            <svg className="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+              <circle cx="12" cy="12" r="10" />
+              <path d="M12 8v8M8 12h8" />
+            </svg>
+            Create Account
           </Link>
         </div>
 
-        {/* Feature Highlights Grid */}
-        <div className="mt-24 grid grid-cols-1 md:grid-cols-3 gap-8 w-full max-w-5xl">
-          <div className="bg-[#161a24] border border-[#242a3a] p-6 rounded-2xl text-left hover:border-[#00d4aa]/40 transition-colors">
-            <div className="w-12 h-12 rounded-xl bg-[#00d4aa]/15 flex items-center justify-center text-[#00d4aa] mb-4">
-              <Search className="w-6 h-6" />
+        {/* Feature Cards Grid */}
+        <div className="grid grid-cols-1 sm:grid-cols-3 gap-6 w-full text-left">
+          <article className="bg-[#161a24] border border-[#242a3a] rounded-2xl p-6 transition-all hover:border-[#00d4aa] hover:-translate-y-1">
+            <div className="w-12 h-12 rounded-xl bg-[rgba(0,212,170,0.15)] flex items-center justify-center text-[#00d4aa] mb-4">
+              <svg className="w-6 h-6" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z" />
+                <polyline points="14 2 14 8 20 8" />
+                <line x1="16" y1="13" x2="8" y2="13" />
+                <line x1="16" y1="17" x2="8" y2="17" />
+              </svg>
             </div>
-            <h3 className="text-lg font-bold text-white mb-2">Smart AI Matcher</h3>
+            <h3 className="text-lg font-bold text-white mb-2">Smart CV Analysis</h3>
             <p className="text-sm text-[#8b95a6] leading-relaxed">
-              Extracts education, skills, and background from PDF CVs to calculate candidate match scores.
+              Upload your PDF CV and our AI extracts skills, experience, and education automatically.
             </p>
-          </div>
+          </article>
 
-          <div className="bg-[#161a24] border border-[#242a3a] p-6 rounded-2xl text-left hover:border-[#037ef3]/40 transition-colors">
-            <div className="w-12 h-12 rounded-xl bg-[#037ef3]/15 flex items-center justify-center text-[#037ef3] mb-4">
-              <Layers className="w-6 h-6" />
+          <article className="bg-[#161a24] border border-[#242a3a] rounded-2xl p-6 transition-all hover:border-[#00d4aa] hover:-translate-y-1">
+            <div className="w-12 h-12 rounded-xl bg-[rgba(0,212,170,0.15)] flex items-center justify-center text-[#00d4aa] mb-4">
+              <svg className="w-6 h-6" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                <circle cx="11" cy="11" r="8" />
+                <line x1="21" y1="21" x2="16.65" y2="16.65" />
+                <line x1="8" y1="11" x2="8" y2="11.01" />
+                <line x1="14" y1="11" x2="14" y2="11.01" />
+              </svg>
             </div>
-            <h3 className="text-lg font-bold text-white mb-2">EP Lifecycle Management</h3>
+            <h3 className="text-lg font-bold text-white mb-2">Global Opportunities</h3>
             <p className="text-sm text-[#8b95a6] leading-relaxed">
-              Track participants through Applied, Accepted, Confirmed, Surveys, and Experience completion stages.
+              Access thousands of AIESEC Global Talent and Volunteer opportunities worldwide.
             </p>
-          </div>
+          </article>
 
-          <div className="bg-[#161a24] border border-[#242a3a] p-6 rounded-2xl text-left hover:border-[#00d4aa]/40 transition-colors">
-            <div className="w-12 h-12 rounded-xl bg-purple-500/15 flex items-center justify-center text-purple-400 mb-4">
-              <ShieldCheck className="w-6 h-6" />
+          <article className="bg-[#161a24] border border-[#242a3a] rounded-2xl p-6 transition-all hover:border-[#00d4aa] hover:-translate-y-1">
+            <div className="w-12 h-12 rounded-xl bg-[rgba(0,212,170,0.15)] flex items-center justify-center text-[#00d4aa] mb-4">
+              <svg className="w-6 h-6" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                <path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z" />
+                <polyline points="3.27 6.96 12 12.01 20.73 6.96" />
+                <line x1="12" y1="22.08" x2="12" y2="12" />
+              </svg>
             </div>
-            <h3 className="text-lg font-bold text-white mb-2">Admin Backoffice</h3>
+            <h3 className="text-lg font-bold text-white mb-2">Intelligent Matching</h3>
             <p className="text-sm text-[#8b95a6] leading-relaxed">
-              Upload opportunity CSVs, monitor user signups, manage EP document vaults, and review stats.
+              Get ranked matches based on your skills, location preferences, and program type.
             </p>
-          </div>
+          </article>
         </div>
+      </main>
 
-        {/* Deployment Badge */}
-        <div className="mt-16 flex items-center gap-2 text-xs text-[#8b95a6] bg-[#161a24]/60 px-4 py-2 rounded-lg border border-[#242a3a]">
-          <CheckCircle2 className="w-4 h-4 text-[#00d4aa]" />
-          <span>Vercel Ready: Serverless API Route Handlers + Prisma ORM SQLite/PostgreSQL support.</span>
-        </div>
-      </section>
+      <footer className="mt-16 text-center text-xs text-[#8b95a6] space-y-1">
+        <p>Built for AIESEC members &copy; 2025 · <a href="https://aiesec.org" target="_blank" rel="noopener" className="text-[#00d4aa] hover:underline">aiesec.org</a></p>
+        <p><a href="https://github.com/ghaith-ben-amor/aiesec" target="_blank" rel="noopener" className="text-[#00d4aa] hover:underline">View Source on GitHub</a></p>
+      </footer>
     </div>
   );
 }
