@@ -20,6 +20,7 @@ $router->post('/ep-management/status', [EpController::class, 'updateStatus']);
 $router->post('/ep-management/document', [EpController::class, 'uploadDocument']);
 $router->get('/ep-management/download', [EpController::class, 'downloadFolder']);
 $router->get('/ep-management/status-data', [EpController::class, 'statusData']);
+$router->post('/ep-management/sync-ogt', [EpController::class, 'syncOgt']);
 $router->get('/home', [OpportunityController::class, 'home']);
 $router->get('/cv-builder', [OpportunityController::class, 'cvBuilder']);
 $router->get('/upload', [OpportunityController::class, 'create']);

@@ -9,3 +9,12 @@ node_modules
 uploads/*
 !uploads/.gitkeep
 .vercel
+*.tsbuildinfo
+test_*.php
+explore_*.php
+check_currentperson.php
+check_progress_tables.php
+check_sync_result.php
+try_*.php
+quick_*.php
+get_ogt_eps.php

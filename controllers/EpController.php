@@ -259,6 +259,26 @@ final class EpController extends BaseController
         exit;
     }
 
+    public function syncOgt(): void
+    {
+        $this->requireAdmin();
+
+        header('Content-Type: application/json; charset=utf-8');
+
+        try {
+            $sync = new EpSync(pdo());
+            $result = $sync->sync();
+            echo json_encode($result, JSON_UNESCAPED_UNICODE | JSON_PRETTY_PRINT);
+        } catch (Throwable $e) {
+            http_response_code(500);
+            echo json_encode([
+                'success' => false,
+                'message' => 'Sync failed: ' . $e->getMessage(),
+            ], JSON_UNESCAPED_UNICODE);
+        }
+        exit;
+    }
+
     public function statusData(): void
     {
         $this->requireAdmin();

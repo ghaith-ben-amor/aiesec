@@ -66,6 +66,7 @@ $epClientData = array_values(array_map(static function (array $ep): array {
                 <div class="d-flex flex-wrap gap-2">
                     <a class="btn btn-dark" href="#register-ep">Register EP</a>
                     <a class="btn btn-outline-light" href="#ep-table">View EP list</a>
+                    <button class="btn btn-outline-light" type="button" id="ep-sync-ogt-btn">Sync OGT EPs (AIESEC API)</button>
                     <?php if (!empty($selectedEpId)): ?>
                         <a class="btn btn-outline-light" href="<?= htmlspecialchars(url_path('/ep-management/download?ep_id=' . $selectedEpId)) ?>">Download EP Folder</a>
                     <?php endif; ?>
@@ -791,6 +792,36 @@ $epClientData = array_values(array_map(static function (array $ep): array {
                     }
                 } else {
                     alert(payload.message || 'Unable to upload document.');
+                }
+            });
+        }
+
+        const syncBtn = document.getElementById('ep-sync-ogt-btn');
+        if (syncBtn) {
+            syncBtn.addEventListener('click', async () => {
+                if (!confirm('Synchronize OGT (Global Talent) EPs from the AIESEC GraphQL API? This may take a few minutes.')) {
+                    return;
+                }
+                const original = syncBtn.textContent;
+                syncBtn.disabled = true;
+                syncBtn.textContent = 'Syncing... (this may take a moment)';
+                try {
+                    const response = await fetch(<?= json_encode(url_path('/ep-management/sync-ogt')) ?>, {
+                        method: 'POST',
+                        headers: { 'X-Requested-With': 'XMLHttpRequest' }
+                    });
+                    const payload = await response.json();
+                    if (payload.success) {
+                        alert('Sync completed.\nFetched: ' + (payload.total_fetched || 0) + '\nInserted: ' + (payload.inserted || 0) + '\nUpdated: ' + (payload.updated || 0) + '\nSkipped: ' + (payload.skipped || 0));
+                        window.location.reload();
+                    } else {
+                        alert('Sync failed: ' + (payload.message || 'Unknown error'));
+                    }
+                } catch (err) {
+                    alert('Sync failed: ' + err.message);
+                } finally {
+                    syncBtn.disabled = false;
+                    syncBtn.textContent = original;
                 }
             });
         }

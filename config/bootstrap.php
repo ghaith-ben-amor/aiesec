@@ -47,6 +47,7 @@ require_once __DIR__ . '/../controllers/OpportunityController.php';
 require_once __DIR__ . '/../models/BaseModel.php';
 require_once __DIR__ . '/../models/Admin.php';
 require_once __DIR__ . '/../models/EpApplication.php';
+require_once __DIR__ . '/../models/EpSync.php';
 require_once __DIR__ . '/../models/User.php';
 require_once __DIR__ . '/../models/Cv.php';
 require_once __DIR__ . '/../models/Opportunity.php';
