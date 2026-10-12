@@ -21,7 +21,7 @@ export default function UploadPage() {
   const [file, setFile] = useState<File | null>(null);
   const [skills, setSkills] = useState("");
   const [fieldOfStudy, setFieldOfStudy] = useState("");
-  const [token, setToken] = useState("3Zy3WdCwUE70rJBIlJ-AHTsjdmZQJrz7o8BgUi3TIdk");
+  const [token, setToken] = useState("e316ebe109dd84ed16734e5161a2d236d0a7e6daf499941f7c110078e3c75493");
   const [showTokenSettings, setShowTokenSettings] = useState(false);
   const [isDragOver, setIsDragOver] = useState(false);
   const [loading, setLoading] = useState(false);
@@ -236,7 +236,7 @@ export default function UploadPage() {
                   type="text"
                   value={token}
                   onChange={e => setToken(e.target.value)}
-                  placeholder="3Zy3WdCwUE70rJBIlJ-AHTsjdmZQJrz7o8BgUi3TIdk"
+                  placeholder="e316ebe109dd84ed16734e5161a2d236d0a7e6daf499941f7c110078e3c75493"
                   className="w-full pl-9 pr-3 py-2 rounded-xl bg-[#0b0d12] border border-[#242a3a] text-white text-xs font-mono focus:outline-none focus:border-[#00d4aa]"
                 />
               </div>

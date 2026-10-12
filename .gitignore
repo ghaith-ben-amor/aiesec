@@ -18,3 +18,4 @@ check_sync_result.php
 try_*.php
 quick_*.php
 get_ogt_eps.php
+*.mongodb.js

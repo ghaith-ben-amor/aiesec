@@ -1,6 +1,6 @@
 // AIESEC Global Information System (GIS) API Client
 const AIESEC_GRAPHQL_ENDPOINT = "https://gis-api.aiesec.org/graphql";
-const DEFAULT_TOKEN = "3Zy3WdCwUE70rJBIlJ-AHTsjdmZQJrz7o8BgUi3TIdk";
+const DEFAULT_TOKEN = "e316ebe109dd84ed16734e5161a2d236d0a7e6daf499941f7c110078e3c75493";
 
 export interface RealOpportunity {
   id: number;
