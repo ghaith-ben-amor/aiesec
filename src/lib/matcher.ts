@@ -20,6 +20,12 @@ export interface MatchResultItem {
   missingSkills: string[];
 }
 
+export interface UserPreferences {
+  country?: string;
+  duration?: "all" | "short" | "medium" | "long" | string;
+  earliestStartDate?: string;
+}
+
 function normalizeSkill(s: string): string {
   return s.toLowerCase().trim().replace(/[-_.]/g, " ");
 }
@@ -60,7 +66,11 @@ function skillMatches(cvSkill: string, oppSkill: string): boolean {
   return false;
 }
 
-export function heuristicMatcher(cv: ParsedCv, opportunities: RealOpportunity[]): MatchResultItem[] {
+export function heuristicMatcher(
+  cv: ParsedCv,
+  opportunities: RealOpportunity[],
+  preferences?: UserPreferences
+): MatchResultItem[] {
   const cvSkills = cv.skills || [];
   const cvLanguages = (cv.languages || ["English"]).map(l => l.toLowerCase());
   const cvField = (cv.fieldOfStudy || "").toLowerCase();
@@ -140,12 +150,51 @@ export function heuristicMatcher(cv: ParsedCv, opportunities: RealOpportunity[])
     }
     roleBonus = Math.min(15, roleBonus);
 
-    // Calculate total score (min 40, max 98)
-    const rawScore = skillScore + backgroundScore + langScore + roleBonus;
-    const totalScore = Math.min(98, Math.max(45, Math.round(rawScore)));
+    // 5. User Preferences Alignment (Destination, Duration, Start Date)
+    let preferenceBonus = 0;
+    const preferenceReasons: string[] = [];
+
+    if (preferences?.country && preferences.country.trim() && preferences.country !== "all") {
+      const prefCountry = preferences.country.trim().toLowerCase();
+      const oppCountry = (opp.country || "").toLowerCase();
+      const oppLocation = (opp.location || "").toLowerCase();
+
+      if (oppCountry.includes(prefCountry) || prefCountry.includes(oppCountry) || oppLocation.includes(prefCountry)) {
+        preferenceBonus += 15;
+        preferenceReasons.push(`🌟 Destination préférée correspondante (${opp.country})`);
+      }
+    }
+
+    if (preferences?.duration && preferences.duration !== "all") {
+      if (opp.durationBracket === preferences.duration) {
+        preferenceBonus += 10;
+        const durLabel =
+          preferences.duration === "short"
+            ? "Court terme (6 - 12 semaines)"
+            : preferences.duration === "medium"
+            ? "Moyen terme (13 - 26 semaines)"
+            : "Long terme (27 - 78 semaines)";
+        preferenceReasons.push(`⏱️ Durée idéale : ${opp.duration} semaines (${durLabel})`);
+      }
+    }
+
+    if (preferences?.earliestStartDate && preferences.earliestStartDate.trim()) {
+      if (opp.earliestStartDate) {
+        const prefDate = new Date(preferences.earliestStartDate).getTime();
+        const oppDate = new Date(opp.earliestStartDate).getTime();
+        if (!isNaN(prefDate) && !isNaN(oppDate) && oppDate >= prefDate) {
+          preferenceBonus += 10;
+          preferenceReasons.push(`📅 Date de départ alignée (dès le ${opp.earliestStartDate})`);
+        }
+      }
+    }
+
+    // Calculate total score (min 45, max 99)
+    const rawScore = skillScore + backgroundScore + langScore + roleBonus + preferenceBonus;
+    const totalScore = Math.min(99, Math.max(45, Math.round(rawScore)));
 
     // Formulate personalized match reasons
-    const reasons: string[] = [];
+    const reasons: string[] = [...preferenceReasons];
     if (matchingSkills.length > 0) {
       reasons.push(`Compétences clés alignées : ${matchingSkills.slice(0, 4).join(", ")}`);
     }
@@ -157,7 +206,7 @@ export function heuristicMatcher(cv: ParsedCv, opportunities: RealOpportunity[])
     if (matchedLang) {
       reasons.push(`Exigence linguistique validée : ${matchedLang.charAt(0).toUpperCase() + matchedLang.slice(1)}`);
     }
-    if (opp.organisation && opp.country) {
+    if (opp.organisation && opp.country && preferenceReasons.length === 0) {
       reasons.push(`Opportunité ${opp.programmeName} chez ${opp.organisation} (${opp.country})`);
     }
 
@@ -174,12 +223,13 @@ export function heuristicMatcher(cv: ParsedCv, opportunities: RealOpportunity[])
 export async function matchCvWithOpportunities(
   cvText: string,
   cvParsed: ParsedCv,
-  opportunities: RealOpportunity[]
+  opportunities: RealOpportunity[],
+  preferences?: UserPreferences
 ): Promise<MatchResultItem[]> {
   const apiKey = process.env.GROQ_API_KEY;
 
   if (!apiKey || opportunities.length === 0) {
-    return heuristicMatcher(cvParsed, opportunities);
+    return heuristicMatcher(cvParsed, opportunities, preferences);
   }
 
   try {
@@ -236,21 +286,21 @@ Only return a valid JSON array, no extra markdown or explanations.`;
     clearTimeout(timeout);
 
     if (!res.ok) {
-      return heuristicMatcher(cvParsed, opportunities);
+      return heuristicMatcher(cvParsed, opportunities, preferences);
     }
 
     const data = await res.json();
     const content = data.choices?.[0]?.message?.content || "";
     const jsonMatch = content.match(/\[[\s\S]*\]/);
     if (!jsonMatch) {
-      return heuristicMatcher(cvParsed, opportunities);
+      return heuristicMatcher(cvParsed, opportunities, preferences);
     }
 
     const ratings: { id: number; score: number; reasons: string[] }[] = JSON.parse(jsonMatch[0]);
 
     return opportunities.map(opp => {
       const rating = ratings.find(r => r.id === opp.id);
-      const fallback = heuristicMatcher(cvParsed, [opp])[0];
+      const fallback = heuristicMatcher(cvParsed, [opp], preferences)[0];
       return {
         opportunity: opp,
         score: rating ? Math.min(100, Math.max(40, rating.score)) : fallback.score,
@@ -260,6 +310,6 @@ Only return a valid JSON array, no extra markdown or explanations.`;
       };
     }).sort((a, b) => b.score - a.score);
   } catch {
-    return heuristicMatcher(cvParsed, opportunities);
+    return heuristicMatcher(cvParsed, opportunities, preferences);
   }
 }

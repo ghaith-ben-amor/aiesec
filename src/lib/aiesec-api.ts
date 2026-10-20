@@ -2,6 +2,15 @@
 const AIESEC_GRAPHQL_ENDPOINT = "https://gis-api.aiesec.org/graphql";
 const DEFAULT_TOKEN = "e316ebe109dd84ed16734e5161a2d236d0a7e6daf499941f7c110078e3c75493";
 
+export type DurationBracket = "short" | "medium" | "long";
+
+export interface OpportunitySlot {
+  id?: string;
+  startDate?: string;
+  endDate?: string;
+  status?: string;
+}
+
 export interface RealOpportunity {
   id: number;
   gisId: string;
@@ -23,12 +32,23 @@ export interface RealOpportunity {
   sourceUrl: string;
   coverPhoto?: string | null;
   status: string;
+  duration: number; // Duration in weeks (e.g. 6, 8, 12, 26)
+  durationBracket: DurationBracket; // "short" (6-12w) | "medium" (13-26w) | "long" (27-78w)
+  earliestStartDate?: string | null;
+  latestEndDate?: string | null;
+  slots: OpportunitySlot[];
 }
 
 // In-memory cache for fast lookups and resilience
 let cachedOpportunities: RealOpportunity[] = [];
 let lastFetchTime = 0;
 const CACHE_TTL_MS = 10 * 60 * 1000; // 10 minutes cache
+
+export function getDurationBracket(weeks?: number | null): DurationBracket {
+  if (!weeks || weeks <= 12) return "short"; // 6 - 12 weeks (AIESEC short term)
+  if (weeks <= 26) return "medium"; // 13 - 26 weeks (AIESEC medium term)
+  return "long"; // 27 - 78 weeks (AIESEC long term)
+}
 
 function getProgrammeInfo(shortName?: string): { name: string; slug: string } {
   const code = (shortName || "").toUpperCase();
@@ -88,8 +108,21 @@ function transformRawOpportunity(raw: any): RealOpportunity | null {
   if (isNaN(numericId)) return null;
 
   const progInfo = getProgrammeInfo(raw.programme?.short_name);
-  const country = raw.host_lc?.country || raw.location?.split(",")?.pop()?.trim() || "Global";
-  const city = raw.host_lc?.name || raw.location?.split(",")?.[0]?.trim() || "";
+
+  // Country & City normalization
+  let country = raw.host_lc?.country?.trim() || "";
+  if (!country && raw.location) {
+    const parts = raw.location.split(",");
+    country = parts[parts.length - 1].trim();
+  }
+  if (!country) country = "International";
+  country = country.replace(/\s+/g, " ").trim();
+
+  let city = raw.host_lc?.name?.trim() || "";
+  if (!city && raw.location) {
+    const parts = raw.location.split(",");
+    city = parts[0].trim();
+  }
 
   const skills = (raw.skills || [])
     .map((s: any) => s?.constant_name || s?.name)
@@ -105,6 +138,73 @@ function transformRawOpportunity(raw: any): RealOpportunity | null {
 
   const sourceUrl = `https://aiesec.org/opportunity/${progInfo.slug}/${raw.id}`;
   const coverPhoto = raw.cover_photo?.url || null;
+
+  // Process Slots & Dates
+  const rawSlots = raw.available_slots || [];
+  const slots: OpportunitySlot[] = rawSlots.map((s: any) => ({
+    id: s?.id ? String(s.id) : undefined,
+    startDate: s?.start_date || undefined,
+    endDate: s?.end_date || undefined,
+    status: s?.status || undefined,
+  }));
+
+  let earliestStartDate: string | null = raw.earliest_start_date || null;
+  let latestEndDate: string | null = raw.latest_end_date || null;
+
+  if (!earliestStartDate && slots.length > 0) {
+    const validStartDates = slots
+      .map(s => s.startDate)
+      .filter(Boolean)
+      .sort() as string[];
+    if (validStartDates.length > 0) {
+      earliestStartDate = validStartDates[0];
+    }
+  }
+
+  if (!latestEndDate && slots.length > 0) {
+    const validEndDates = slots
+      .map(s => s.endDate)
+      .filter(Boolean)
+      .sort()
+      .reverse() as string[];
+    if (validEndDates.length > 0) {
+      latestEndDate = validEndDates[0];
+    }
+  }
+
+  // Calculate Duration in Weeks
+  let durationWeeks: number | null = typeof raw.duration === "number" ? raw.duration : null;
+
+  // If duration is null, calculate from first valid slot
+  if (!durationWeeks && slots.length > 0) {
+    for (const slot of slots) {
+      if (slot.startDate && slot.endDate) {
+        const start = new Date(slot.startDate).getTime();
+        const end = new Date(slot.endDate).getTime();
+        if (!isNaN(start) && !isNaN(end) && end > start) {
+          durationWeeks = Math.round((end - start) / (7 * 24 * 3600 * 1000));
+          break;
+        }
+      }
+    }
+  }
+
+  // If still null, try extracting from title (e.g. "[6 weeks]")
+  if (!durationWeeks && raw.title) {
+    const match = raw.title.match(/\[?\b(\d+)\s*weeks?\b\]?/i);
+    if (match) {
+      durationWeeks = parseInt(match[1], 10);
+    }
+  }
+
+  // Default duration fallback according to programme standards
+  if (!durationWeeks || durationWeeks <= 0) {
+    if (progInfo.slug === "global-volunteer") durationWeeks = 6;
+    else if (progInfo.slug === "global-teacher") durationWeeks = 12;
+    else durationWeeks = 12; // default standard Global Talent
+  }
+
+  const durationBracket = getDurationBracket(durationWeeks);
 
   return {
     id: numericId,
@@ -127,6 +227,11 @@ function transformRawOpportunity(raw: any): RealOpportunity | null {
     sourceUrl,
     coverPhoto,
     status: raw.status || "open",
+    duration: durationWeeks,
+    durationBracket,
+    earliestStartDate,
+    latestEndDate,
+    slots,
   };
 }
 
@@ -135,6 +240,9 @@ export async function fetchRealAiesecOpportunities(options?: {
   fieldOfStudy?: string;
   limit?: number;
   customToken?: string;
+  preferredCountry?: string;
+  preferredDuration?: "all" | "short" | "medium" | "long";
+  earliestStartDate?: string;
 }): Promise<RealOpportunity[]> {
   const token =
     options?.customToken ||
@@ -142,29 +250,34 @@ export async function fetchRealAiesecOpportunities(options?: {
     DEFAULT_TOKEN;
 
   const now = Date.now();
-  // Return cached if fresh and no specific keywords requested
+  // Return cached if fresh and no specific keywords or country requested
   if (
     cachedOpportunities.length > 0 &&
     now - lastFetchTime < CACHE_TTL_MS &&
-    (!options?.keywords || options.keywords.length === 0)
+    (!options?.keywords || options.keywords.length === 0) &&
+    !options?.preferredCountry
   ) {
-    return cachedOpportunities.slice(0, options?.limit || 50);
+    return cachedOpportunities.slice(0, options?.limit || 60);
   }
 
   const collectedMap = new Map<number, RealOpportunity>();
 
-  // Determine targeted search terms from CV skills or default tech terms
+  // Targeted search terms from CV skills or default tech terms
   const searchTerms = (options?.keywords || [])
     .map(k => k.trim())
     .filter(k => k.length > 2)
     .slice(0, 3);
 
-  // If no terms provided, use broad standard search terms
+  // If preferred country provided, include it in search queries
+  if (options?.preferredCountry && options.preferredCountry.trim().length > 1) {
+    searchTerms.unshift(options.preferredCountry.trim());
+  }
+
   if (searchTerms.length === 0) {
     searchTerms.push("developer", "software");
   }
 
-  // Construct parallel GraphQL queries
+  // Construct parallel GraphQL queries requesting full slots, dates and durations
   const queryPromises: Promise<any>[] = [];
 
   // 1. Keyword search queries
@@ -172,12 +285,15 @@ export async function fetchRealAiesecOpportunities(options?: {
     const qEscaped = term.replace(/"/g, '\\"');
     const qStr = `
       query {
-        opportunities(q: "${qEscaped}", page: 1, per_page: 20, filters: { status: "open" }) {
+        opportunities(q: "${qEscaped}", page: 1, per_page: 25, filters: { status: "open" }) {
           data {
             id
             title
             description
             location
+            duration
+            earliest_start_date
+            latest_end_date
             status
             programme { id short_name }
             organisation { name }
@@ -186,6 +302,12 @@ export async function fetchRealAiesecOpportunities(options?: {
             languages { constant_name option }
             host_lc { name country }
             cover_photo(size: "thumb")
+            available_slots {
+              id
+              start_date
+              end_date
+              status
+            }
           }
         }
       }
@@ -196,12 +318,15 @@ export async function fetchRealAiesecOpportunities(options?: {
   // 2. Broad open opportunities query
   const broadQuery = `
     query {
-      allOpportunity(page: 1, per_page: 35, filters: { status: "open" }) {
+      allOpportunity(page: 1, per_page: 40, filters: { status: "open" }) {
         data {
           id
           title
           description
           location
+          duration
+          earliest_start_date
+          latest_end_date
           status
           programme { id short_name }
           organisation { name }
@@ -210,6 +335,12 @@ export async function fetchRealAiesecOpportunities(options?: {
           languages { constant_name option }
           host_lc { name country }
           cover_photo(size: "thumb")
+          available_slots {
+            id
+            start_date
+            end_date
+            status
+          }
         }
       }
     }
@@ -241,9 +372,9 @@ export async function fetchRealAiesecOpportunities(options?: {
     cachedOpportunities = finalOpportunities;
     lastFetchTime = now;
   } else if (cachedOpportunities.length > 0) {
-    // If request failed but we have cache, reuse cache
-    return cachedOpportunities.slice(0, options?.limit || 50);
+    return cachedOpportunities.slice(0, options?.limit || 60);
   }
 
-  return finalOpportunities.slice(0, options?.limit || 60);
+  return finalOpportunities.slice(0, options?.limit || 80);
 }
+

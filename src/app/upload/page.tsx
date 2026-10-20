@@ -13,7 +13,11 @@ import {
   Key,
   ShieldCheck,
   CheckCircle2,
-  Cpu
+  Cpu,
+  Globe,
+  Clock,
+  Calendar,
+  MapPin
 } from "lucide-react";
 
 export default function UploadPage() {
@@ -21,6 +25,10 @@ export default function UploadPage() {
   const [file, setFile] = useState<File | null>(null);
   const [skills, setSkills] = useState("");
   const [fieldOfStudy, setFieldOfStudy] = useState("");
+  const [preferredCountry, setPreferredCountry] = useState("all");
+  const [customCountry, setCustomCountry] = useState("");
+  const [preferredDuration, setPreferredDuration] = useState<"all" | "short" | "medium" | "long">("all");
+  const [earliestStartDate, setEarliestStartDate] = useState("");
   const [token, setToken] = useState("e316ebe109dd84ed16734e5161a2d236d0a7e6daf499941f7c110078e3c75493");
   const [showTokenSettings, setShowTokenSettings] = useState(false);
   const [isDragOver, setIsDragOver] = useState(false);
@@ -70,6 +78,17 @@ export default function UploadPage() {
       if (skills) formData.append("skills", skills);
       if (fieldOfStudy) formData.append("fieldOfStudy", fieldOfStudy);
       if (token) formData.append("token", token);
+
+      const targetCountry = preferredCountry === "custom" ? customCountry.trim() : preferredCountry;
+      if (targetCountry && targetCountry !== "all") {
+        formData.append("country", targetCountry);
+      }
+      if (preferredDuration && preferredDuration !== "all") {
+        formData.append("duration", preferredDuration);
+      }
+      if (earliestStartDate) {
+        formData.append("earliestStartDate", earliestStartDate);
+      }
 
       const res = await fetch("/api/upload-cv", {
         method: "POST",
@@ -203,6 +222,153 @@ export default function UploadPage() {
               placeholder="Java, React, Anglais, UI/UX, Sales, Gestion de projet..."
               className="w-full px-4 py-2.5 rounded-xl bg-[#0b0d12] border border-[#242a3a] text-white placeholder-gray-500 text-sm focus:outline-none focus:border-[#00d4aa]"
             />
+          </div>
+        </div>
+
+        {/* Mobility Preferences (Filters like AIESEC.org) */}
+        <div className="bg-[#161a24] border border-[#242a3a] p-6 rounded-2xl space-y-6">
+          <div className="flex items-center justify-between border-b border-[#242a3a] pb-3">
+            <div className="flex items-center gap-2 text-white font-semibold text-sm">
+              <Globe className="w-4 h-4 text-[#00d4aa]" />
+              <span>Filtres de Mobilité (Standard AIESEC.org)</span>
+            </div>
+            <span className="text-[11px] text-[#00d4aa] font-medium bg-[#00d4aa]/10 px-2.5 py-0.5 rounded-full border border-[#00d4aa]/25">
+              Optionnel
+            </span>
+          </div>
+
+          {/* Duration Filter (like AIESEC.org) */}
+          <div>
+            <div className="flex items-center justify-between mb-2">
+              <label className="text-xs font-semibold text-[#8b95a6] uppercase tracking-wider flex items-center gap-1.5">
+                <Clock className="w-3.5 h-3.5 text-[#00d4aa]" />
+                Durée de l&apos;expérience (comme AIESEC.org)
+              </label>
+              <span className="text-[11px] text-gray-400">
+                {preferredDuration === "all"
+                  ? "Toutes durées acceptées"
+                  : preferredDuration === "short"
+                  ? "Court : 6 à 12 semaines"
+                  : preferredDuration === "medium"
+                  ? "Moyen : 13 à 26 semaines"
+                  : "Long : 27 à 78 semaines"}
+              </span>
+            </div>
+
+            <div className="grid grid-cols-2 sm:grid-cols-4 gap-2.5">
+              {[
+                { id: "all", label: "Toutes", sub: "Flexible", icon: "🌐" },
+                { id: "short", label: "6 - 12 sem.", sub: "Court terme", icon: "⚡" },
+                { id: "medium", label: "13 - 26 sem.", sub: "Moyen terme", icon: "🚀" },
+                { id: "long", label: "27 - 78 sem.", sub: "Long terme", icon: "🌍" },
+              ].map(d => {
+                const isSelected = preferredDuration === d.id;
+                return (
+                  <button
+                    key={d.id}
+                    type="button"
+                    onClick={() => setPreferredDuration(d.id as any)}
+                    className={`p-3 rounded-xl border text-left transition-all ${
+                      isSelected
+                        ? "bg-[#00d4aa]/15 border-[#00d4aa] text-white shadow-md shadow-[#00d4aa]/10"
+                        : "bg-[#0b0d12] border-[#242a3a] text-gray-300 hover:border-[#8b95a6]/60"
+                    }`}
+                  >
+                    <div className="flex items-center justify-between mb-1">
+                      <span className="text-sm">{d.icon}</span>
+                      {isSelected && <span className="w-2 h-2 rounded-full bg-[#00d4aa]" />}
+                    </div>
+                    <div className="text-xs font-bold leading-tight">{d.label}</div>
+                    <div className="text-[10px] text-[#8b95a6] mt-0.5">{d.sub}</div>
+                  </button>
+                );
+              })}
+            </div>
+          </div>
+
+          {/* Country / Destination Filter */}
+          <div>
+            <label className="text-xs font-semibold text-[#8b95a6] uppercase tracking-wider block mb-2 flex items-center gap-1.5">
+              <MapPin className="w-3.5 h-3.5 text-[#00d4aa]" />
+              Destination / Pays souhaité
+            </label>
+
+            <div className="flex flex-wrap gap-2 mb-2.5">
+              {[
+                { id: "all", label: "🌍 Tous les pays" },
+                { id: "Egypt", label: "🇪🇬 Égypte" },
+                { id: "Romania", label: "🇷🇴 Roumanie" },
+                { id: "Germany", label: "🇩🇪 Allemagne" },
+                { id: "Tunisia", label: "🇹🇳 Tunisie" },
+                { id: "Turkey", label: "🇹🇷 Turquie" },
+                { id: "Vietnam", label: "🇻🇳 Vietnam" },
+                { id: "India", label: "🇮🇳 Inde" },
+                { id: "custom", label: "✏️ Autre pays..." },
+              ].map(dest => {
+                const isSelected = preferredCountry === dest.id;
+                return (
+                  <button
+                    key={dest.id}
+                    type="button"
+                    onClick={() => setPreferredCountry(dest.id)}
+                    className={`px-3 py-1.5 rounded-xl text-xs font-medium border transition-all ${
+                      isSelected
+                        ? "bg-[#00d4aa] text-black font-bold border-[#00d4aa] shadow-sm"
+                        : "bg-[#0b0d12] border-[#242a3a] text-gray-300 hover:text-white hover:border-[#8b95a6]/60"
+                    }`}
+                  >
+                    {dest.label}
+                  </button>
+                );
+              })}
+            </div>
+
+            {preferredCountry === "custom" && (
+              <div className="relative mt-2">
+                <MapPin className="w-4 h-4 text-gray-500 absolute left-3.5 top-1/2 -translate-y-1/2" />
+                <input
+                  type="text"
+                  value={customCountry}
+                  onChange={e => setCustomCountry(e.target.value)}
+                  placeholder="Saisissez un pays (ex: Italie, Espagne, Japon, Colombie...)"
+                  className="w-full pl-10 pr-4 py-2.5 rounded-xl bg-[#0b0d12] border border-[#00d4aa] text-white placeholder-gray-500 text-xs focus:outline-none"
+                  autoFocus
+                />
+              </div>
+            )}
+          </div>
+
+          {/* Earliest Start Date Filter */}
+          <div>
+            <label className="text-xs font-semibold text-[#8b95a6] uppercase tracking-wider block mb-2 flex items-center gap-1.5">
+              <Calendar className="w-3.5 h-3.5 text-[#00d4aa]" />
+              Date de début souhaitée (Quand souhaitez-vous commencer ?)
+            </label>
+
+            <div className="flex items-center gap-3">
+              <div className="relative flex-1">
+                <input
+                  type="date"
+                  value={earliestStartDate}
+                  onChange={e => setEarliestStartDate(e.target.value)}
+                  className="w-full px-4 py-2.5 rounded-xl bg-[#0b0d12] border border-[#242a3a] text-white text-xs focus:outline-none focus:border-[#00d4aa] [color-scheme:dark]"
+                />
+              </div>
+
+              {earliestStartDate ? (
+                <button
+                  type="button"
+                  onClick={() => setEarliestStartDate("")}
+                  className="text-xs text-red-400 hover:text-red-300 px-3 py-2 rounded-xl border border-[#242a3a] hover:bg-[#242a3a]"
+                >
+                  Effacer la date
+                </button>
+              ) : (
+                <span className="text-[11px] text-[#8b95a6] italic">
+                  Dès que possible (flexible)
+                </span>
+              )}
+            </div>
           </div>
         </div>
 

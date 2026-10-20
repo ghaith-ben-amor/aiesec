@@ -14,6 +14,9 @@ export async function POST(req: Request) {
     const manualSkillsStr = formData.get("skills") as string | null;
     const manualField = formData.get("fieldOfStudy") as string | null;
     const customToken = formData.get("token") as string | null;
+    const preferredCountry = formData.get("country") as string | null;
+    const preferredDuration = formData.get("duration") as string | null;
+    const earliestStartDate = formData.get("earliestStartDate") as string | null;
 
     let cvText = "";
 
@@ -35,11 +38,18 @@ export async function POST(req: Request) {
       manualField,
     });
 
+    const preferences = {
+      country: preferredCountry && preferredCountry !== "all" ? preferredCountry : undefined,
+      duration: preferredDuration && preferredDuration !== "all" ? preferredDuration : undefined,
+      earliestStartDate: earliestStartDate || undefined,
+    };
+
     // 3. Fetch REAL opportunities from AIESEC GIS API using the live token
     const realOpportunities = await fetchRealAiesecOpportunities({
       keywords: parsedCv.searchKeywords,
       fieldOfStudy: parsedCv.fieldOfStudy,
-      limit: 60,
+      preferredCountry: preferences.country,
+      limit: 75,
       customToken: customToken || undefined,
     });
 
@@ -47,7 +57,8 @@ export async function POST(req: Request) {
     const matchResults = await matchCvWithOpportunities(
       cvText,
       parsedCv,
-      realOpportunities
+      realOpportunities,
+      preferences
     );
 
     // 5. Safe Database Persistence (non-blocking if local DB is offline)
@@ -83,6 +94,7 @@ export async function POST(req: Request) {
       parsedCv,
       matches: matchResults,
       totalOpportunitiesCount: realOpportunities.length,
+      preferences,
       cvId,
     });
   } catch (error: any) {
