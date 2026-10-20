@@ -434,18 +434,20 @@ def match(cv_data: dict, opportunities: list) -> list:
             and len(normalize(str(s))) > 2
         ]
 
-        # ── Dimension A: Skills Match (0–35 pts) ──────────────────────────────
+        # ── Dimension A: Skills Match (80% of the score) ──────────────────────
         matched_skills = skill_overlap(cv_skills, clean_opp_skills)
 
         if clean_opp_skills:
-            # How many of the opp's required skills does the CV cover?
+            # Skills are the primary signal and account for 80 points.
             coverage = len(matched_skills) / len(clean_opp_skills)
-            skill_score = coverage * 35
+            skill_score = coverage * 80
         else:
-            # No structured skills: fall back to token overlap with title+desc
-            # Exclude generic tokens from this fallback to prevent false positives
+            # Do not give opportunities without skill metadata a neutral score.
             skill_hits = (cv_skills - GENERIC_TOKENS) & (opp_tokens - GENERIC_TOKENS)
-            skill_score = min(30, len(skill_hits) * 7)
+            skill_score = (
+                min(80.0, len(skill_hits) / max(1, len(cv_skills)) * 80.0)
+                if cv_skills else 0.0
+            )
 
         # ── Dimension B: Work Experience Match (0–25 pts) ─────────────────────
         matched_experience_items = []
@@ -466,7 +468,8 @@ def match(cv_data: dict, opportunities: list) -> list:
             else:
                 exp_score = min(18.0, len(exp_keyword_hits) * 3.0)
 
-        # ── Dimension C: Job Title Fit (0–20 pts) ─────────────────────────────
+        # Job titles are used only as experience evidence, not as a separate
+        # scoring dimension.
         matched_job_roles = []
         job_score = 0.0
         for title in cv_job_titles:
@@ -478,13 +481,7 @@ def match(cv_data: dict, opportunities: list) -> list:
             elif title_toks & opp_tokens_clean:
                 matched_job_roles.append(title)
 
-        if matched_job_roles:
-            # Strong match = job title NON-GENERIC tokens appear in opp title
-            strong = any((tokenize(t) - GENERIC_TOKENS) & (opp_title_tokens - GENERIC_TOKENS)
-                         for t in matched_job_roles)
-            job_score = 20.0 if strong else 10.0
-
-        # ── Dimension D: Project Portfolio (0–12 pts) ──────────────────────────
+        # Projects are displayed as supporting information but do not score.
         matched_projects = []
         proj_score = 0.0
         if cv_projects:
@@ -493,54 +490,40 @@ def match(cv_data: dict, opportunities: list) -> list:
                 if p_toks and p_toks & opp_tokens_clean:
                     matched_projects.append(p)
             proj_hits = (cv_proj_tokens - GENERIC_TOKENS) & opp_tokens_clean
-            if matched_projects:
-                proj_score = min(12.0, 6.0 + len(proj_hits) * 2.0)
-            else:
-                proj_score = min(8.0, len(proj_hits) * 2.0)
+            proj_score = 0.0
 
-        # ── Dimension E: Languages (0–8 pts) ──────────────────────────────────
+        # Languages are displayed as supporting information but do not score.
         matched_languages = []
         lang_score = 0.0
         if opp_lang_raw:
             matched_languages = skill_overlap(cv_languages, opp_lang_raw)
-            lang_score = (len(matched_languages) / max(1, len(opp_lang_raw))) * 8.0
+            lang_score = 0.0
         else:
             # No language requirement listed — give partial credit if has english
             matched_languages = list(cv_languages)[:2]
-            lang_score = 6.0 if "english" in cv_languages else 3.0
+            lang_score = 0.0
 
-        # ── Dimension F: Education / Background Bonus (0–5 pts) ───────────────
+        # Education/background are displayed elsewhere but do not score.
         edu_score = 0.0
         if opp_bg_raw:
             opp_bg_tokens = tokenize(" ".join(str(b) for b in opp_bg_raw))
             if opp_bg_tokens & (cv_edu_tokens | cv_exp_tokens | cv_skills):
-                edu_score = 5.0
+                edu_score = 0.0
         else:
             edu_keywords = ["engineering", "business", "computer", "developer",
                             "education", "teacher", "science", "design", "finance",
                             "marketing", "management", "health", "law", "it"]
             if any(kw in opp_full_text.lower() for kw in edu_keywords):
-                edu_score = 3.0
+                edu_score = 0.0
 
-        # ── Dimension G: GV Theme Match (0–25 pts, only for GV) ───────────────
-        # GV opportunities have garbage skills — score them via theme keyword match
+        # Programme themes do not add a separate score.
         gv_score = 0.0
-        if opp_cat == "GV":
-            gv_score = gv_theme_score(opp_title, all_cv_terms)
-            # For GV: reduce weight of skills dimension (they never have real skills)
-            # and boost the GV theme score
-            skill_score = min(skill_score, 10.0)  # cap, since GV skills are fake
-        else:
-            gv_score = 0.0
 
-        # ── Total ──────────────────────────────────────────────────────────────
-        total = skill_score + exp_score + job_score + proj_score + lang_score + edu_score + gv_score
-        # Max theoretical non-GV: 35+25+20+12+8+5 = 105
-        # Max theoretical GV:     10+25+20+12+8+5+25 = 105 (same)
-        # Normalize to 0–99 — divide by 105 and cap
+        # ── Total: skills 80%, experience 20% ────────────────────────────────
+        # exp_score is capped at 25, so scale it to a maximum of 20 points.
         # Do not manufacture a positive match for unrelated opportunities.
         # A score of zero is useful to the caller and keeps ranking evidence-based.
-        final_score = round(min(99.0, max(0.0, total * 99.0 / 105.0)), 1)
+        final_score = round(min(100.0, max(0.0, skill_score + exp_score * 0.8)), 1)
 
         # Build human-readable reasons
         reasons = []
