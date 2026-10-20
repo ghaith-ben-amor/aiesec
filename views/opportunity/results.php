@@ -207,6 +207,38 @@ $offset = (($currentPage ?? 1) - 1) * ($perPage ?? 9);
 
 <?php else: ?>
 
+    <?php
+        // Count per programme from ALL session matches (not just current page)
+        $allSessionMatches = $_SESSION['last_matches'] ?? [];
+        $countAll = count($allSessionMatches);
+        $countGTe = count(array_filter($allSessionMatches, fn($m) => ($m['category'] ?? '') === 'GTe'));
+        $countGTa = count(array_filter($allSessionMatches, fn($m) => ($m['category'] ?? '') === 'GTa'));
+        $countGV  = count(array_filter($allSessionMatches, fn($m) => ($m['category'] ?? '') === 'GV'));
+        $activeProg = $_GET['prog'] ?? 'ALL';
+    ?>
+
+    <!-- Programme filter tabs -->
+    <div class="d-flex gap-2 flex-wrap mb-4">
+        <?php
+        $tabs = [
+            'ALL' => ['label' => '🌐 All', 'count' => $countAll],
+            'GTe' => ['label' => '🎓 Global Teacher', 'count' => $countGTe],
+            'GTa' => ['label' => '💼 Global Talent', 'count' => $countGTa],
+            'GV'  => ['label' => '🌍 Global Volunteer', 'count' => $countGV],
+        ];
+        foreach ($tabs as $code => $tab):
+            $isActive = ($activeProg === $code);
+            $href = '?prog=' . urlencode($code) . '&page=1';
+        ?>
+            <a href="<?= $href ?>" class="btn btn-sm <?= $isActive ? 'btn-primary' : 'btn-outline-secondary' ?> rounded-pill">
+                <?= $tab['label'] ?>
+                <?php if ($tab['count'] > 0): ?>
+                    <span class="badge <?= $isActive ? 'bg-white text-primary' : 'bg-secondary' ?> ms-1"><?= $tab['count'] ?></span>
+                <?php endif; ?>
+            </a>
+        <?php endforeach; ?>
+    </div>
+
     <!-- Results summary bar -->
     <?php
         $goodMatches = count(array_filter($matches, fn($m) => ($m['score'] ?? 0) >= 30));
@@ -341,6 +373,9 @@ $offset = (($currentPage ?? 1) - 1) * ($perPage ?? 9);
     </div>
 
     <!-- Pagination -->
+    <?php
+        $progParam = isset($_GET['prog']) && $_GET['prog'] !== 'ALL' ? '&prog=' . urlencode($_GET['prog']) : '';
+    ?>
     <?php if ($totalPages > 1): ?>
     <nav class="mt-5 d-flex justify-content-center" aria-label="Results pagination">
         <ul class="pagination pagination-lg gap-1 flex-wrap justify-content-center" id="paginationNav">
@@ -348,7 +383,7 @@ $offset = (($currentPage ?? 1) - 1) * ($perPage ?? 9);
             <!-- Previous -->
             <?php $prevPage = $currentPage - 1; ?>
             <li class="page-item <?= $currentPage <= 1 ? 'disabled' : '' ?>">
-                <a class="page-link paginator-link rounded-3" href="?page=<?= $prevPage ?>" aria-label="Previous">
+                <a class="page-link paginator-link rounded-3" href="?page=<?= $prevPage ?><?= $progParam ?>" aria-label="Previous">
                     ‹
                 </a>
             </li>
@@ -367,14 +402,14 @@ $offset = (($currentPage ?? 1) - 1) * ($perPage ?? 9);
                     <li class="page-item disabled"><span class="page-link paginator-link rounded-3">…</span></li>
                 <?php endif; ?>
                 <li class="page-item <?= $p === $currentPage ? 'active' : '' ?>">
-                    <a class="page-link paginator-link rounded-3" href="?page=<?= $p ?>"><?= $p ?></a>
+                    <a class="page-link paginator-link rounded-3" href="?page=<?= $p ?><?= $progParam ?>"><?= $p ?></a>
                 </li>
             <?php $prev = $p; endforeach; ?>
 
             <!-- Next -->
             <?php $nextPage = $currentPage + 1; ?>
             <li class="page-item <?= $currentPage >= $totalPages ? 'disabled' : '' ?>">
-                <a class="page-link paginator-link rounded-3" href="?page=<?= $nextPage ?>" aria-label="Next">
+                <a class="page-link paginator-link rounded-3" href="?page=<?= $nextPage ?><?= $progParam ?>" aria-label="Next">
                     ›
                 </a>
             </li>
