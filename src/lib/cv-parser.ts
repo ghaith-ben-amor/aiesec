@@ -145,6 +145,11 @@ const SKILL_TAXONOMY: {
       { name: "Adaptability", regex: /\bAdaptability|Adaptable\b/i },
       { name: "Critical Thinking", regex: /\bCritical\s*Thinking\b/i },
       { name: "Presentation skills", regex: /\bPresentation(?:\s*skills)?\b/i },
+      { name: "Teaching", regex: /\b(?:Teaching|Teacher|Tutoring|Tutor|Instructor|Educator)\b/i, searchWeight: 3 },
+      { name: "Lesson Planning", regex: /\bLesson\s*Planning\b/i },
+      { name: "Classroom Management", regex: /\bClassroom\s*Management\b/i },
+      { name: "Pedagogy", regex: /\bPedagogy|Pédagogie\b/i },
+      { name: "Curriculum Development", regex: /\bCurriculum(?:\s*Development)?\b/i },
     ],
   },
 ];

@@ -75,6 +75,16 @@ ALIASES = {
     "embedded systems": "embedded systems",
     "arduino": "embedded systems",
     "stm32": "embedded systems",
+    "teaching": "teaching",
+    "teacher": "teaching",
+    "education": "education",
+    "educator": "teaching",
+    "tutoring": "teaching",
+    "tutor": "teaching",
+    "instructor": "teaching",
+    "pedagogy": "teaching",
+    "lesson planning": "teaching",
+    "classroom management": "teaching",
 }
 
 # ─── Stop words: must NOT be treated as skills ────────────────────────────────

@@ -38,14 +38,16 @@ SKILL_KEYWORDS = [
     "git", "github", "linux", "word", "powerpoint", "microsoft office", "power bi", "tableau",
     "autocad", "matlab", "kotlin", "swift", "typescript", "seo", "social media", "premiere pro",
     "presentation", "copywriting", "translation", "customer service", "problem-solving", "critical thinking",
-    "embedded systems", "iot", "electronics", "robotics", "networking", "mysql", "postgresql", "mongodb"
+    "embedded systems", "iot", "electronics", "robotics", "networking", "mysql", "postgresql", "mongodb",
+    "teaching", "education", "lesson planning", "classroom management", "pedagogy", "curriculum development", "tutoring", "training"
 ]
 
 LANGUAGE_KEYWORDS = ["english", "french", "spanish", "german", "arabic", "portuguese", "italian", "hindi", "chinese", "turkish"]
 EDUCATION_KEYWORDS = [
     "bachelor", "master", "mba", "phd", "bsc", "msc", "license", "licence",
     "university", "college", "school", "institute", "degree", "diploma",
-    "baccalaureate", "baccalauréat", "preparatory", "engineering", "esprit", "insat", "enit"
+    "baccalaureate", "baccalauréat", "preparatory", "engineering", "esprit", "insat", "enit",
+    "education", "pedagogy", "teaching", "linguistics", "literature"
 ]
 
 SECTION_PATTERNS = {
@@ -62,7 +64,8 @@ SECTION_PATTERNS = {
 ROLE_KEYWORDS = [
     "seller", "sales", "developer", "engineer", "designer", "intern", "manager",
     "lead", "leader", "freelance", "specialist", "consultant", "analyst", "assistant",
-    "teacher", "instructor", "officer", "coordinator", "volunteer", "technician", "architect",
+    "teacher", "instructor", "tutor", "educator", "professor", "lecturer", "trainer",
+    "officer", "coordinator", "volunteer", "technician", "architect",
     "representative", "associate"
 ]
 
@@ -315,6 +318,11 @@ def extract_job_titles(exp_roles: list, summary: str, raw_text: str) -> list:
         ("customer service", "Customer Service Specialist"),
         ("marketing", "Marketing Specialist"),
         ("teacher", "Teacher"),
+        ("teaching", "Teacher"),
+        ("educator", "Educator"),
+        ("instructor", "Instructor"),
+        ("tutor", "Tutor"),
+        ("education", "Education Specialist"),
     ]
     summary_lower = (summary + " " + raw_text[:800]).lower()
     for kw, title in domain_map:

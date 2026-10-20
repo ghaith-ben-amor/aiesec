@@ -81,6 +81,7 @@ function skillMatches(cvSkill: string, oppSkill: string): boolean {
     "graphic design": ["photoshop", "illustrator", "branding"],
     sales: ["seller", "customer service", "negotiation", "commercial"],
     communication: ["teamwork", "collaboration", "leadership"],
+    teaching: ["teacher", "education", "tutoring", "tutor", "instructor", "lesson planning", "classroom management", "pedagogy"],
   };
 
   for (const [key, list] of Object.entries(synonyms)) {

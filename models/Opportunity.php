@@ -13,6 +13,14 @@ final class Opportunity extends BaseModel
     {
         $dbItems = $this->loadFromDatabase($filters);
 
+        // If a country filter returned 0, fall back to same programme without country restriction
+        // so the user still gets their matching opportunities ranked instead of an empty screen!
+        if (empty($dbItems) && !empty($filters['country'])) {
+            $filtersWithoutCountry = $filters;
+            unset($filtersWithoutCountry['country']);
+            $dbItems = $this->loadFromDatabase($filtersWithoutCountry);
+        }
+
         // Only use fallback sample data if DB is completely empty AND no filters active
         if (empty($dbItems) && empty($filters['country']) && empty($filters['programme'])) {
             return $this->fallbackOpportunities();
@@ -36,15 +44,25 @@ final class Opportunity extends BaseModel
             }
 
             if (!empty($filters['country'])) {
-                // Exact country match (location stores normalized country name)
-                $where[] = 'LOWER(location) = LOWER(:country)';
-                $params['country'] = trim($filters['country']);
+                $c = trim($filters['country']);
+                $where[] = '(LOWER(location) = LOWER(:country) OR LOWER(location) LIKE :countryLike OR LOWER(description) LIKE :countryMcLike)';
+                $params['country'] = $c;
+                $params['countryLike'] = '%' . strtolower($c) . '%';
+                $params['countryMcLike'] = '%mc: ' . strtolower($c) . '%';
             }
 
             if (!empty($filters['programme'])) {
-                // DB stores short codes: GV, GTa, GTe — exact match
-                $where[] = 'category = :programme';
-                $params['programme'] = $filters['programme'];
+                $prog = trim($filters['programme']);
+                if ($prog === 'GTe' || stripos($prog, 'teacher') !== false) {
+                    $where[] = "(category = 'GTe' OR source_url LIKE '%global-teacher%' OR description LIKE '%Global Teacher%')";
+                } elseif ($prog === 'GV' || stripos($prog, 'volunteer') !== false) {
+                    $where[] = "(category = 'GV' OR source_url LIKE '%global-volunteer%' OR description LIKE '%Global Volunteer%')";
+                } elseif ($prog === 'GTa' || stripos($prog, 'talent') !== false) {
+                    $where[] = "(category = 'GTa' OR source_url LIKE '%global-talent%' OR description LIKE '%Global Talent%')";
+                } else {
+                    $where[] = 'category = :programme';
+                    $params['programme'] = $prog;
+                }
             }
 
             $sql = 'SELECT * FROM opportunities';
@@ -98,6 +116,19 @@ final class Opportunity extends BaseModel
 
         $count = 0;
         foreach ($items as $item) {
+            $cat = $item['category'] ?? null;
+            if (!$cat) {
+                $desc = $item['description'] ?? '';
+                $url = $item['source_url'] ?? '';
+                if (stripos($desc, 'Global Teacher') !== false || stripos($url, 'global-teacher') !== false) {
+                    $cat = 'GTe';
+                } elseif (stripos($desc, 'Global Volunteer') !== false || stripos($url, 'global-volunteer') !== false) {
+                    $cat = 'GV';
+                } elseif (stripos($desc, 'Global Talent') !== false || stripos($url, 'global-talent') !== false) {
+                    $cat = 'GTa';
+                }
+            }
+
             $stmt = $this->pdo->prepare('INSERT INTO opportunities (title, description, skills, location, source_url, duration, company, category, external_id, source_type) VALUES (:title, :description, :skills, :location, :source_url, :duration, :company, :category, :external_id, :source_type)');
             $stmt->execute([
                 'title'       => $item['title'] ?? 'Untitled opportunity',
@@ -107,7 +138,7 @@ final class Opportunity extends BaseModel
                 'source_url'  => $item['source_url'] ?? 'https://aiesec.org/search',
                 'duration'    => $item['duration'] ?? null,
                 'company'     => $item['company'] ?? null,
-                'category'    => $item['category'] ?? null,
+                'category'    => $cat,
                 'external_id' => $item['external_id'] ?? null,
                 'source_type' => $item['source_type'] ?? 'api',
             ]);

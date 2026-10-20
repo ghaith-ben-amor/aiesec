@@ -81,7 +81,9 @@ final class OpportunityController extends BaseController
             $countryLower    = strtolower(trim($selectedCountry));
             $hasExactCountry = false;
             foreach ($opportunities as $opp) {
-                if (str_contains(strtolower($opp['location'] ?? ''), $countryLower)) {
+                $locLower = strtolower($opp['location'] ?? '');
+                $descLower = strtolower($opp['description'] ?? '');
+                if (str_contains($locLower, $countryLower) || str_contains($descLower, 'mc: ' . $countryLower) || str_contains($descLower, $countryLower)) {
                     $hasExactCountry = true;
                     break;
                 }

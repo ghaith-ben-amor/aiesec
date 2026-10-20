@@ -59,11 +59,15 @@ final class MatchResult extends BaseModel
             }
 
             // Insert match (opportunity_id may be null if no match found)
-            $insertStmt->execute([
-                ':cv_id' => $cvId,
-                ':opportunity_id' => $opportunityIdToUse,
-                ':score' => $result['score'] ?? 0,
-            ]);
+            try {
+                $insertStmt->execute([
+                    ':cv_id' => $cvId,
+                    ':opportunity_id' => $opportunityIdToUse,
+                    ':score' => $result['score'] ?? 0,
+                ]);
+            } catch (\Throwable $e) {
+                // Ignore DB insertion error if FK constraint; results are still returned to session
+            }
         }
 
         foreach ([$cvFile, $opportunitiesFile] as $file) {
