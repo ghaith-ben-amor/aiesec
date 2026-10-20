@@ -20,6 +20,7 @@ export interface ParsedCvResult {
   languages: string[];
   experience: string[];
   projects: string[];
+  jobTitles: string[];
   summary: string;
   searchKeywords: string[];
 }
@@ -269,34 +270,74 @@ function extractEducationAndField(text: string, manualField?: string | null): {
   return { fieldOfStudy, education };
 }
 
-function extractExperienceAndProjects(text: string): { experience: string[]; projects: string[] } {
+function extractExperienceAndProjects(text: string): { experience: string[]; projects: string[]; jobTitles: string[] } {
   const experience: string[] = [];
   const projects: string[] = [];
+  const jobTitles: string[] = [];
 
-  // Identify common project or work role patterns
-  const roleMatches = text.match(/(?:Seller|Developer|Designer|Intern|Engineer|Freelance|Vice-Chair|Active Member)[^\n\r•]+/gi);
-  if (roleMatches) {
-    for (const r of roleMatches) {
-      const clean = r.trim().replace(/\s+/g, " ");
-      if (clean.length > 5 && clean.length < 80) {
+  // Match section headers
+  const expMatch = text.match(/(?:PROFESSIONAL EXPERIENCE|WORK EXPERIENCE|EXPERIENCE)([\s\S]*?)(?:ACADEMIC|PROJECTS|EDUCATION|SKILLS|COMMUNITY|$)/i);
+  if (expMatch && expMatch[1]) {
+    const expLines = expMatch[1].split(/\r?\n/);
+    for (const line of expLines) {
+      const clean = line.trim();
+      if (!clean || clean.length < 3) continue;
+      const lower = clean.toLowerCase();
+      const isRole = /(?:Seller|Developer|Designer|Intern|Engineer|Freelance|Manager|Lead|Specialist|Consultant|Analyst|Assistant|Teacher|Officer|Coordinator)\b/i.test(clean)
+        && !clean.startsWith("•") && !clean.startsWith("-") && !clean.startsWith("·")
+        && !/^(?:jan|feb|mar|apr|may|jun|jul|aug|sep|oct|nov|dec|\d{4})\b/i.test(clean)
+        && clean.length < 80;
+      
+      if (isRole) {
         experience.push(clean);
+        const titleClean = clean.replace(/^(?:intern\s*[-–]\s*|freelance\s*)/i, "").split(/[-–—@|(]/)[0].trim();
+        if (titleClean) jobTitles.push(titleClean);
+      } else if (clean.startsWith("•") || clean.startsWith("-") || clean.startsWith("·")) {
+        const bullet = clean.replace(/^[•·▪●-]\s*/, "").trim();
+        if (bullet.length > 10) experience.push(bullet);
       }
     }
   }
 
-  // Specific project names if mentioned
-  const knownProjects = [
-    "FinTrack", "InnoVest", "SmartFix", "Smart Greenhouse", "TMUZYA", "IEEE"
-  ];
+  // Fallback if no explicit section header found
+  if (experience.length === 0) {
+    const roleMatches = text.match(/(?:Seller|Developer|Designer|Intern|Engineer|Freelance|Vice-Chair|Active Member)[^\n\r•]+/gi);
+    if (roleMatches) {
+      for (const r of roleMatches) {
+        const clean = r.trim().replace(/\s+/g, " ");
+        if (clean.length > 5 && clean.length < 80) {
+          experience.push(clean);
+        }
+      }
+    }
+  }
+
+  // Projects extraction
+  const projMatch = text.match(/(?:ACADEMIC & TECHNICAL PROJECTS|ACADEMIC PROJECTS|TECHNICAL PROJECTS|PROJECTS)([\s\S]*?)(?:COMMUNITY|SKILLS|EDUCATION|EXPERIENCE|$)/i);
+  if (projMatch && projMatch[1]) {
+    const projLines = projMatch[1].split(/\r?\n/);
+    for (const line of projLines) {
+      const clean = line.trim();
+      if (!clean) continue;
+      if (!clean.startsWith("•") && !clean.startsWith("-") && !clean.startsWith("·")
+        && clean.length < 70 && !/^technologies/i.test(clean)) {
+        projects.push(clean);
+      }
+    }
+  }
+
+  // Known project fallback
+  const knownProjects = ["FinTrack", "InnoVest", "SmartFix", "Smart Greenhouse", "TMUZYA", "IEEE"];
   for (const proj of knownProjects) {
-    if (new RegExp(`\\b${proj}\\b`, "i").test(text)) {
+    if (new RegExp(`\\b${proj}\\b`, "i").test(text) && !projects.some(p => p.includes(proj))) {
       projects.push(proj);
     }
   }
 
   return {
-    experience: Array.from(new Set(experience)).slice(0, 6),
-    projects: Array.from(new Set(projects)),
+    experience: Array.from(new Set(experience)).slice(0, 10),
+    projects: Array.from(new Set(projects)).slice(0, 10),
+    jobTitles: Array.from(new Set(jobTitles)).slice(0, 8),
   };
 }
 
@@ -310,7 +351,7 @@ export function parseCvText(
   const location = extractLocation(cvText);
 
   const { fieldOfStudy, education } = extractEducationAndField(cvText, options?.manualField);
-  const { experience, projects } = extractExperienceAndProjects(cvText);
+  const { experience, projects, jobTitles } = extractExperienceAndProjects(cvText);
 
   // Extract skills by category
   const skillsByCategory: ParsedCvResult["skillsByCategory"] = {
@@ -408,6 +449,7 @@ export function parseCvText(
     languages: detectedLanguages,
     experience,
     projects,
+    jobTitles,
     summary,
     searchKeywords: uniqueSearchKeywords,
   };

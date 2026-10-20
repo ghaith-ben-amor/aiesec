@@ -6,7 +6,6 @@ from pathlib import Path
 
 try:
     from dotenv import load_dotenv
-    # Load .env from parent directories (up to the project root)
     env_path = Path(__file__).parent.parent / '.env'
     if env_path.exists():
         load_dotenv(env_path)
@@ -32,39 +31,40 @@ SKILL_KEYWORDS = [
     "marketing", "sales", "leadership", "communication", "teamwork", "project management",
     "python", "php", "javascript", "html", "css", "sql", "data analysis", "research",
     "content creation", "design", "public speaking", "problem solving", "excel", "ai", "nlp",
-    "java", "c", "c++", "flutter", "flutterflow", "mvc", "qt", "arduino", "stm32", "photoshop", "illustrator",
+    "java", "c", "c++", "c#", "flutter", "flutterflow", "mvc", "qt", "arduino", "stm32", "photoshop", "illustrator",
     "machine learning", "deep learning", "web development", "mobile development", "software development",
     "ui/ux", "ui ux", "user interface", "user experience", "figma", "canva", "bootstrap", "tailwind",
     "react", "vue", "angular", "node", "node.js", "django", "flask", "laravel", "symfony",
     "git", "github", "linux", "word", "powerpoint", "microsoft office", "power bi", "tableau",
-    "autocad", "matlab", "kotlin", "swift", "typescript", "typescript", "seo", "social media",
-    "presentation", "copywriting", "translation", "customer service", "problem-solving", "critical thinking"
+    "autocad", "matlab", "kotlin", "swift", "typescript", "seo", "social media", "premiere pro",
+    "presentation", "copywriting", "translation", "customer service", "problem-solving", "critical thinking",
+    "embedded systems", "iot", "electronics", "robotics", "networking", "mysql", "postgresql", "mongodb"
 ]
 
-LANGUAGE_KEYWORDS = ["english", "french", "spanish", "german", "arabic", "portuguese", "italian", "hindi"]
+LANGUAGE_KEYWORDS = ["english", "french", "spanish", "german", "arabic", "portuguese", "italian", "hindi", "chinese", "turkish"]
 EDUCATION_KEYWORDS = [
     "bachelor", "master", "mba", "phd", "bsc", "msc", "license", "licence",
-    "university", "college", "school", "institute", "degree", "diploma"
+    "university", "college", "school", "institute", "degree", "diploma",
+    "baccalaureate", "baccalauréat", "preparatory", "engineering", "esprit", "insat", "enit"
 ]
 
-SECTION_STOP_WORDS = [
-    "skills", "technical skills", "experience", "professional experience", "work experience",
-    "projects", "academic", "community", "certifications", "languages", "summary", "profile"
-]
+SECTION_PATTERNS = {
+    "summary": r"(?:professional\s+summary|summary|profile|about\s+me|objective)",
+    "education": r"(?:education|academic\s+background|studies|formation)",
+    "experience": r"(?:professional\s+experience|work\s+experience|experience|employment(?:\s+history)?)",
+    "projects": r"(?:academic\s*(?:&|and)\s*technical\s+projects|academic\s+projects|technical\s+projects|projects|key\s+projects|personal\s+projects)",
+    "community": r"(?:community\s+involvement|volunteer(?:ing)?|extracurricular\s+activities|activities)",
+    "skills": r"(?:technical\s+skills|core\s+skills|key\s+skills|skills|technologies|competencies)",
+    "languages": r"(?:languages|spoken\s+languages)",
+    "certifications": r"(?:certifications?|licenses|certificates)",
+}
 
-SKILL_SECTION_MARKERS = [
-    "skills",
-    "technical skills",
-    "key skills",
-    "core skills",
-    "core competencies",
-    "competencies",
-    "technologies",
-    "tools",
-    "abilities",
-    "expertise",
+ROLE_KEYWORDS = [
+    "seller", "sales", "developer", "engineer", "designer", "intern", "manager",
+    "lead", "leader", "freelance", "specialist", "consultant", "analyst", "assistant",
+    "teacher", "instructor", "officer", "coordinator", "volunteer", "technician", "architect",
+    "representative", "associate"
 ]
-
 
 def debug_log(msg):
     if os.getenv("APP_DEBUG") or os.getenv("PY_DEBUG"):
@@ -76,22 +76,18 @@ def extract_text(pdf_path: str) -> str:
     
     if fitz is not None:
         try:
-            debug_log("trying PyMuPDF")
             document = fitz.open(pdf_path)
             text = []
             for page in document:
                 text.append(page.get_text())
             combined = "\n".join(text).strip()
             if combined:
-                debug_log(f"PyMuPDF success: {len(combined)} chars")
                 return combined
         except Exception as e:
             debug_log(f"PyMuPDF error: {e}")
-            pass
 
     if pdfplumber is not None:
         try:
-            debug_log("trying pdfplumber")
             lines = []
             with pdfplumber.open(pdf_path) as pdf:
                 for page in pdf.pages:
@@ -100,13 +96,10 @@ def extract_text(pdf_path: str) -> str:
                         lines.append(extracted)
             result = "\n".join(lines).strip()
             if result:
-                debug_log(f"pdfplumber success: {len(result)} chars")
                 return result
         except Exception as e:
             debug_log(f"pdfplumber error: {e}")
-            pass
 
-    debug_log("no text extracted")
     return ""
 
 
@@ -129,63 +122,24 @@ def normalize_skill_text(value: str) -> str:
         "js": "javascript",
         "nodejs": "javascript",
         "node.js": "javascript",
-        "mysql": "sql",
-        "postgresql": "sql",
-        "postgres": "sql",
+        "mysql": "mysql",
+        "postgresql": "postgresql",
+        "postgres": "postgresql",
         "database": "sql",
-        "ui": "design",
-        "ux": "design",
-        "figma": "design",
-        "content": "content creation",
-        "writing": "content creation",
-        "communicat": "communication",
-        "collaboration": "teamwork",
-        "team work": "teamwork",
+        "ui": "ui ux",
+        "ux": "ui ux",
         "ui/ux": "ui ux",
         "ui/ux design": "ui ux",
-        "ux design": "design",
-        "ui design": "design",
+        "ux design": "ui ux",
+        "ui design": "ui ux",
         "user interface": "ui ux",
         "user experience": "ui ux",
         "problem-solving": "problem solving",
         "microsoft office": "microsoft office",
+        "premiere": "premiere pro",
+        "adobe premiere": "premiere pro",
     }
-
     return alias.get(lowered, lowered)
-
-
-def is_skill_candidate(value: str) -> bool:
-    clean = " ".join(str(value).split()).strip(" -–—:;,.|/\\")
-    lowered = clean.lower()
-
-    if not clean or not any(ch.isalpha() for ch in clean):
-        return False
-    if len(clean) > 60:
-        return False
-    if any(stop in lowered for stop in [
-        "experience", "education", "project", "summary", "profile", "certification", "achievement",
-        "responsible", "responsibility", "internship", "volunteer work",
-    ]):
-        return False
-    if len(clean.split()) > 6:
-        return False
-    return True
-
-
-def extract_skill_candidates(blob: str):
-    candidates = []
-    for token in re.split(r"(?:\n+|[,;|]+|[•·▪●]+)", blob):
-        clean = token.strip()
-        if " and " in clean.lower() and len(clean.split()) <= 6:
-            for part in re.split(r"\s+and\s+", clean, flags=re.IGNORECASE):
-                part = part.strip()
-                if is_skill_candidate(part):
-                    candidates.append(normalize_skill_text(part))
-            continue
-        if not is_skill_candidate(clean):
-            continue
-        candidates.append(normalize_skill_text(clean))
-    return candidates
 
 
 def dedupe_keep_order(items):
@@ -203,178 +157,197 @@ def dedupe_keep_order(items):
     return out
 
 
-def normalize_lines(text: str):
-    return [" ".join(line.strip().split()) for line in text.splitlines() if line.strip()]
+def parse_cv_sections(raw_text: str) -> dict:
+    all_headers_pattern = r"(?im)^[ \t]*(?:[•·▪●-]\s*)?(" + "|".join(SECTION_PATTERNS.values()) + r")[ \t]*:?[ \t]*$"
+    splits = list(re.finditer(all_headers_pattern, raw_text))
+
+    sections = {}
+    for i, m in enumerate(splits):
+        hdr = m.group(0).strip().lower()
+        start = m.end()
+        end = splits[i+1].start() if i+1 < len(splits) else len(raw_text)
+        for key, pat in SECTION_PATTERNS.items():
+            if re.search(pat, hdr, re.IGNORECASE):
+                sections[key] = raw_text[start:end].strip()
+                break
+    return sections
 
 
-def extract_section_lines(text: str, section_markers):
-    lines = normalize_lines(text)
-    collected = []
-    in_section = False
-
-    for line in lines:
-        lowered = line.lower()
-        if any(re.fullmatch(rf"{re.escape(marker)}[:\- ]*", lowered) for marker in section_markers):
-            in_section = True
-            continue
-
-        if in_section and any(stop == lowered or lowered.startswith(stop + ":") or lowered.startswith(stop + "-") for stop in SECTION_STOP_WORDS):
-            break
-
-        if in_section:
-            collected.append(line)
-
-    return collected
-
-
-def extract_skills(text: str):
-    hits = keyword_hits(text, SKILL_KEYWORDS)
-    section_lines = extract_section_lines(text, SKILL_SECTION_MARKERS)
-    section_blob = "\n".join(section_lines)
-
+def extract_skills_robust(raw_text: str, sections: dict) -> list:
+    hits = keyword_hits(raw_text, SKILL_KEYWORDS)
+    skills_sec = sections.get("skills", "")
+    
     candidates = []
-    candidates.extend(extract_skill_candidates(section_blob))
-
-    if not candidates:
-        lines = normalize_lines(text)
-        for line in lines:
-            lowered = line.lower()
-            if any(stop in lowered for stop in SECTION_STOP_WORDS):
-                continue
-            if re.match(r"^\s*(?:[-*•·]|\d+[.)])\s*", line) or len(line.split()) <= 6:
-                candidates.extend(extract_skill_candidates(line))
+    if skills_sec:
+        for line in skills_sec.splitlines():
+            line_clean = re.sub(r"^[A-Za-z0-9\s/&–—\-]+:\s*", "", line).strip()
+            for token in re.split(r"[,;|•·]+", line_clean):
+                tok = normalize_skill_text(token)
+                if tok and len(tok) > 1 and len(tok) < 40:
+                    candidates.append(tok)
 
     merged = hits + candidates
     filtered = []
-    for skill in merged:
-        skill = normalize_skill_text(skill)
-        if not skill:
-            continue
-        if skill.startswith("software development"):
-            continue
-        if skill.startswith("adobe & creative tools"):
-            continue
-        if skill.startswith("embedded systems"):
-            continue
-        if skill in {"skills", "technical skills", "technologies", "tools"}:
-            continue
-        filtered.append(skill)
-
-    return dedupe_keep_order(filtered)[:30]
+    for s in merged:
+        s_norm = normalize_skill_text(s)
+        if s_norm and not any(stop in s_norm for stop in ["software development", "embedded systems", "adobe & creative tools"]):
+            filtered.append(s_norm)
+    return dedupe_keep_order(filtered)[:40]
 
 
-def extract_languages(text: str):
-    langs = keyword_hits(text, LANGUAGE_KEYWORDS)
-    section_lines = extract_section_lines(text, ["languages", "language"])
-    section_blob = " ".join(section_lines).lower()
-
-    alias = {
-        "frenc": "french",
-        "anglais": "english",
-        "arab": "arabic",
-    }
-
-    for token in re.split(r"[,;/| ]+", section_blob):
-        t = token.strip().lower()
-        if not t:
-            continue
-        t = alias.get(t, t)
-        if t in LANGUAGE_KEYWORDS:
-            langs.append(t)
-
+def extract_languages_robust(raw_text: str, sections: dict) -> list:
+    langs = keyword_hits(raw_text, LANGUAGE_KEYWORDS)
+    lang_sec = sections.get("languages", "")
+    if lang_sec:
+        for tok in re.split(r"[,;|•·\s]+", lang_sec.lower()):
+            t = tok.strip()
+            if t in LANGUAGE_KEYWORDS:
+                langs.append(t)
     return dedupe_keep_order(langs)[:8]
 
 
-def extract_experience(text: str):
-    years = sorted(set(re.findall(r"(\d+)\+?\s+years?", text.lower())))
-    roles = []
-    exp_section = extract_section_lines(text, ["professional experience", "work experience", "experience"])
-    source_lines = exp_section if exp_section else text.splitlines()
+def extract_experience_robust(raw_text: str, sections: dict) -> dict:
+    exp_blob = sections.get("experience", "")
+    years = sorted(set(re.findall(r"(\d+)\+?\s+years?", raw_text.lower())))
+    
+    exp_roles = []
+    exp_descriptions = []
+    current_role = None
+    current_desc = []
 
-    for line in source_lines:
+    lines = exp_blob.splitlines() if exp_blob else raw_text.splitlines()
+    for line in lines:
         clean = line.strip()
+        if not clean:
+            continue
         lowered = clean.lower()
-        if "passionate about" in lowered or "professional summary" in lowered:
-            continue
-        if "student branch" in lowered or "certification" in lowered:
-            continue
-        if len(clean) > 110 and "." in clean:
-            continue
-        if 2 < len(clean) < 160 and any(token in lowered for token in ["intern", "manager", "developer", "volunteer", "leader", "analyst", "designer", "engineer"]):
-            roles.append(clean)
-    return {"years": years, "roles": dedupe_keep_order(roles)[:8]}
+
+        is_role_header = (
+            (any(re.search(rf"\b{re.escape(k)}\b", lowered) for k in ROLE_KEYWORDS) or " – " in clean or " - " in clean or " at " in clean)
+            and not clean.startswith("•") and not clean.startswith("-") and not clean.startswith("·")
+            and not re.search(r"^(?:jan|feb|mar|apr|may|jun|jul|aug|sep|oct|nov|dec|\d{4})\b", lowered)
+            and len(clean) < 80
+        )
+
+        if is_role_header:
+            if current_role:
+                exp_roles.append(current_role)
+                if current_desc:
+                    exp_descriptions.append(" ".join(current_desc))
+                    current_desc = []
+            current_role = clean
+        elif clean.startswith("•") or clean.startswith("-") or clean.startswith("·") or any(v in lowered for v in ["developed", "managed", "assisted", "created", "designed", "implemented"]):
+            desc_line = re.sub(r"^[•·▪●-]\s*", "", clean)
+            current_desc.append(desc_line)
+
+    if current_role:
+        exp_roles.append(current_role)
+    if current_desc:
+        exp_descriptions.append(" ".join(current_desc))
+
+    for match in re.finditer(r"\b(20\d{2})\s*(?:–|-|to)\s*(present|20\d{2})\b", exp_blob, re.IGNORECASE):
+        years.append(match.group(0))
+
+    return {
+        "years": dedupe_keep_order(years),
+        "roles": dedupe_keep_order(exp_roles)[:8],
+        "descriptions": dedupe_keep_order(exp_descriptions)[:8],
+        "text": exp_blob[:1200],
+    }
 
 
-def extract_education(text: str):
+def extract_projects_robust(raw_text: str, sections: dict) -> list:
+    proj_blob = sections.get("projects", "")
+    projects = []
+    
+    if proj_blob:
+        for line in proj_blob.splitlines():
+            clean = line.strip()
+            if not clean:
+                continue
+            if (not clean.startswith("•") and not clean.startswith("-") and not clean.startswith("·") 
+                and len(clean) < 70 and not clean.lower().startswith("technologies") and not clean.lower().startswith("tools")):
+                projects.append(clean)
+    else:
+        for line in raw_text.splitlines():
+            clean = line.strip()
+            if re.match(r"^[A-Z][A-Za-z0-9\s\-]{3,40}(?:App|Platform|System|Tool|Website|Bot|Game)$", clean):
+                projects.append(clean)
+
+    return dedupe_keep_order(projects)[:12]
+
+
+def extract_education_robust(raw_text: str, sections: dict) -> list:
+    edu_blob = sections.get("education", "")
     education = []
-    edu_section = extract_section_lines(text, ["education", "academic background"])
-    source_lines = edu_section if edu_section else text.splitlines()
-
-    for line in source_lines:
-        clean = " ".join(line.strip().split())
+    
+    lines = edu_blob.splitlines() if edu_blob else raw_text.splitlines()
+    for line in lines:
+        clean = line.strip()
         lowered = clean.lower()
         if not clean or len(clean) < 4:
             continue
-        if "project" in lowered or "technologies:" in lowered:
+        if re.match(r"^\d{4}\s*(?:–|-)\s*(?:present|\d{4})$", lowered) or re.match(r"^\d{4}$", clean):
             continue
-        if any(keyword in lowered for keyword in EDUCATION_KEYWORDS) or re.search(r"\b(19|20)\d{2}\b", clean):
+        if any(keyword in lowered for keyword in EDUCATION_KEYWORDS) or "esprit" in lowered or "cycle" in lowered:
             education.append(clean)
-
-    if not education and edu_section:
-        # Keep first entries from explicit education section even without classic keywords.
-        for line in edu_section[:4]:
-            lowered = line.lower()
-            if "project" in lowered or "technologies:" in lowered:
-                continue
-            education.append(line)
 
     return dedupe_keep_order(education)[:8]
 
 
-def build_summary(skills, languages, education, experience):
+def extract_job_titles(exp_roles: list, summary: str, raw_text: str) -> list:
+    titles = []
+    for r in exp_roles:
+        cleaned = re.sub(r"^(?:intern\s*[-–]\s*|freelance\s*)", "", r, flags=re.IGNORECASE)
+        cleaned = re.split(r"[-–—@|(]", cleaned)[0].strip()
+        if cleaned and len(cleaned) < 40:
+            titles.append(cleaned)
+
+    domain_map = [
+        ("web developer", "Web Developer"),
+        ("software developer", "Software Developer"),
+        ("software engineer", "Software Engineer"),
+        ("graphic designer", "Graphic Designer"),
+        ("ui/ux designer", "UI/UX Designer"),
+        ("embedded systems", "Embedded Systems Engineer"),
+        ("iot", "IoT Developer"),
+        ("sales", "Sales Associate"),
+        ("customer service", "Customer Service Specialist"),
+        ("marketing", "Marketing Specialist"),
+        ("teacher", "Teacher"),
+    ]
+    summary_lower = (summary + " " + raw_text[:800]).lower()
+    for kw, title in domain_map:
+        if kw in summary_lower:
+            titles.append(title)
+
+    return dedupe_keep_order(titles)[:8]
+
+
+def build_summary(skills, languages, education, experience, projects):
     parts = []
     if skills:
         parts.append(f"{len(skills)} skills detected")
     if languages:
-        parts.append(f"{len(languages)} languages detected")
+        parts.append(f"{len(languages)} languages ({', '.join(languages)})")
     if education:
         parts.append(f"{len(education)} education entries")
     if experience.get("roles"):
         parts.append(f"{len(experience.get('roles', []))} experience roles")
+    if projects:
+        parts.append(f"{len(projects)} technical projects")
 
     if not parts:
         return "No structured profile data could be extracted from the PDF text."
-    return "CV analysis completed: " + ", ".join(parts) + "."
-
-
-def parse_json_from_response(content: str):
-    try:
-        return json.loads(content)
-    except Exception:
-        pass
-
-    match = re.search(r"\{.*\}", content, re.DOTALL)
-    if match:
-        try:
-            return json.loads(match.group(0))
-        except Exception:
-            return {}
-    return {}
+    return "Comprehensive CV Profile: " + ", ".join(parts) + "."
 
 
 def groq_extract_profile(raw_text: str):
     api_key = os.getenv("GROQ_API_KEY", "").strip()
-    debug_log(f"groq_extract: api_key={'YES' if api_key else 'NO'}, text_len={len(raw_text)}")
-    
-    if not api_key:
-        debug_log("no api_key")
-        return None
-    if requests is None:
-        debug_log("requests not available")
+    if not api_key or requests is None:
         return None
 
     try:
-        debug_log("calling groq api")
         response = requests.post(
             "https://api.groq.com/openai/v1/chat/completions",
             headers={
@@ -382,24 +355,33 @@ def groq_extract_profile(raw_text: str):
                 "Content-Type": "application/json",
             },
             json={
-                "model": os.getenv("GROQ_MODEL", "llama3-8b-8192"),
+                "model": os.getenv("GROQ_MODEL", "llama-3.3-70b-versatile"),
                 "messages": [
                     {
                         "role": "system",
                         "content": (
-                            "You are a CV parser. Extract information from a CV and return ONLY valid JSON. "
-                            "No markdown, no code blocks, no extra text. Only JSON. "
-                            'Return: {"skills": [...], "languages": [...], "education": [...], '
-                            '"experience": {"years": [...], "roles": [...]}, "summary": "...", "suggestions": [...]}'
+                            "You are an expert CV parser. Extract all detailed candidate information from the CV text and return ONLY valid JSON.\n"
+                            "Return format:\n"
+                            "{\n"
+                            '  "skills": ["..."],\n'
+                            '  "languages": ["..."],\n'
+                            '  "education": ["..."],\n'
+                            '  "experience": {\n'
+                            '    "years": ["..."],\n'
+                            '    "roles": ["..."],\n'
+                            '    "descriptions": ["..."],\n'
+                            '    "text": "..."\n'
+                            "  },\n"
+                            '  "projects": ["..."],\n'
+                            '  "job_titles": ["..."],\n'
+                            '  "summary": "...",\n'
+                            '  "suggestions": ["..."]\n'
+                            "}"
                         ),
                     },
                     {
                         "role": "user",
-                        "content": (
-                            "Extract ALL information from this CV. Return JSON only:\n\n"
-                            f"{raw_text[:16000]}\n\n"
-                            "Return JSON with skills, languages, education, experience (years and roles), summary, suggestions."
-                        ),
+                        "content": f"Extract complete CV profile from this text:\n\n{raw_text[:16000]}",
                     },
                 ],
                 "temperature": 0.2,
@@ -407,28 +389,17 @@ def groq_extract_profile(raw_text: str):
             },
             timeout=30,
         )
-        debug_log(f"response status: {response.status_code}")
         response.raise_for_status()
         data = response.json()
-        
-        if "error" in data:
-            debug_log(f"api error: {data.get('error')}")
-            return None
-        
         content = data["choices"][0]["message"]["content"]
-        debug_log(f"response content length: {len(content)}")
-        
-        parsed = parse_json_from_response(content)
-        if parsed and isinstance(parsed, dict) and len(parsed.get("skills", [])) > 0:
-            debug_log(f"success: parsed {len(parsed.get('skills', []))} skills")
-            return parsed
-        else:
-            debug_log(f"parse failed or no skills")
-            return None
+        match = re.search(r"\{.*\}", content, re.DOTALL)
+        if match:
+            parsed = json.loads(match.group(0))
+            if parsed and isinstance(parsed, dict) and len(parsed.get("skills", [])) > 0:
+                return parsed
     except Exception as e:
-        debug_log(f"exception: {type(e).__name__}: {str(e)}")
-        return None
-
+        debug_log(f"Groq API error: {e}")
+    return None
 
 
 def main():
@@ -436,46 +407,42 @@ def main():
         print(json.dumps({"error": "PDF path required"}))
         return
 
-    debug_log(f"starting main")
     pdf_path = Path(sys.argv[1])
     raw_text = extract_text(str(pdf_path))
-    debug_log(f"raw_text length: {len(raw_text)}")
 
-    if len(raw_text.strip()) < 100:
-        debug_log("text too short, skipping groq")
-    else:
+    if len(raw_text.strip()) >= 100:
         groq_profile = groq_extract_profile(raw_text)
         if groq_profile:
-            debug_log("returning groq result")
-            print(json.dumps(groq_profile, ensure_ascii=True))
+            groq_profile["raw_text"] = raw_text
+            print(json.dumps(groq_profile, ensure_ascii=False))
             return
-    
-    debug_log("using heuristics")
-    skills = extract_skills(raw_text)
-    languages = extract_languages(raw_text)
-    education = extract_education(raw_text)
-    experience = extract_experience(raw_text)
 
-    heuristic_profile = {
+    sections = parse_cv_sections(raw_text)
+    skills = extract_skills_robust(raw_text, sections)
+    languages = extract_languages_robust(raw_text, sections)
+    education = extract_education_robust(raw_text, sections)
+    experience = extract_experience_robust(raw_text, sections)
+    projects = extract_projects_robust(raw_text, sections)
+    summary_text = sections.get("summary", "") or raw_text[:400]
+    job_titles = extract_job_titles(experience.get("roles", []), summary_text, raw_text)
+
+    profile = {
         "raw_text": raw_text,
         "skills": skills,
         "languages": languages,
         "education": education,
         "experience": experience,
-        "summary": build_summary(skills, languages, education, experience),
+        "projects": projects,
+        "job_titles": job_titles,
+        "summary": build_summary(skills, languages, education, experience, projects),
         "suggestions": [
-            "Add measurable achievements to the CV.",
-            "Highlight technical and interpersonal skills more clearly.",
+            "Add measurable impact and metric-driven achievements to your roles.",
+            "Include direct live links or GitHub repos for your technical projects.",
         ],
     }
 
-    if not heuristic_profile.get("skills") and not heuristic_profile.get("languages") and not heuristic_profile.get("education"):
-        heuristic_profile["summary"] = "No structured profile data could be extracted from the PDF text."
-        heuristic_profile["suggestions"] = [
-            "Make sure the PDF contains selectable text, not only scanned images.",
-            "Try a CV with clear headings like Skills, Education, Languages, and Experience.",
-        ]
+    print(json.dumps(profile, ensure_ascii=False))
 
-    print(json.dumps(heuristic_profile, ensure_ascii=True))
+
 if __name__ == "__main__":
     main()

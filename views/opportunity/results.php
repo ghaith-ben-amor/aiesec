@@ -83,13 +83,35 @@ $offset = (($currentPage ?? 1) - 1) * ($perPage ?? 9);
             <div class="mt-3 border-top pt-3">
                 <div class="small text-uppercase text-secondary fw-semibold mb-2">Experience</div>
                 <?php if (!empty($profile['experience']['years'])): ?>
-                    <div class="small mb-2"><strong>Years detected:</strong> <?= htmlspecialchars(implode(', ', $profile['experience']['years'])) ?></div>
+                    <div class="small mb-2"><strong>Years / Periods:</strong> <?= htmlspecialchars(implode(', ', $profile['experience']['years'])) ?></div>
                 <?php endif; ?>
                 <?php if (!empty($profile['experience']['roles'])): ?>
                     <?php foreach ($profile['experience']['roles'] as $role): ?>
-                        <div class="small text-secondary"><?= htmlspecialchars($role) ?></div>
+                        <div class="small text-white fw-semibold mb-1"><?= htmlspecialchars($role) ?></div>
                     <?php endforeach; ?>
                 <?php endif; ?>
+            </div>
+        <?php endif; ?>
+
+        <?php if (!empty($profile['projects'])): ?>
+            <div class="mt-3 border-top pt-3">
+                <div class="small text-uppercase text-secondary fw-semibold mb-2">Projects & Portfolio</div>
+                <div class="d-flex flex-wrap gap-1">
+                    <?php foreach ($profile['projects'] as $proj): ?>
+                        <span class="badge text-bg-secondary me-1 mb-1"><?= htmlspecialchars($proj) ?></span>
+                    <?php endforeach; ?>
+                </div>
+            </div>
+        <?php endif; ?>
+
+        <?php if (!empty($profile['job_titles'])): ?>
+            <div class="mt-3 border-top pt-3">
+                <div class="small text-uppercase text-secondary fw-semibold mb-2">Target Job Roles</div>
+                <div class="d-flex flex-wrap gap-1">
+                    <?php foreach ($profile['job_titles'] as $job): ?>
+                        <span class="badge text-bg-dark border me-1 mb-1"><?= htmlspecialchars($job) ?></span>
+                    <?php endforeach; ?>
+                </div>
             </div>
         <?php endif; ?>
 
@@ -256,14 +278,53 @@ $offset = (($currentPage ?? 1) - 1) * ($perPage ?? 9);
                                 <span class="small text-secondary">No direct skill overlap — ranked by profile relevance.</span>
                             <?php endif; ?>
                         </div>
+
+                        <?php if (!empty($match['matched_experience'])): ?>
+                            <div class="mb-3">
+                                <div class="small fw-semibold text-uppercase text-secondary mb-1">💼 Matched experience</div>
+                                <?php foreach ($match['matched_experience'] as $exp): ?>
+                                    <span class="badge text-bg-info text-dark me-1 mb-1"><?= htmlspecialchars($exp) ?></span>
+                                <?php endforeach; ?>
+                            </div>
+                        <?php endif; ?>
+
+                        <?php if (!empty($match['matched_job_roles'])): ?>
+                            <div class="mb-3">
+                                <div class="small fw-semibold text-uppercase text-secondary mb-1">🎯 Job role match</div>
+                                <?php foreach ($match['matched_job_roles'] as $jobRole): ?>
+                                    <span class="badge text-bg-secondary me-1 mb-1"><?= htmlspecialchars($jobRole) ?></span>
+                                <?php endforeach; ?>
+                            </div>
+                        <?php endif; ?>
+
+                        <?php if (!empty($match['matched_projects'])): ?>
+                            <div class="mb-3">
+                                <div class="small fw-semibold text-uppercase text-secondary mb-1">🚀 Matched projects</div>
+                                <?php foreach ($match['matched_projects'] as $proj): ?>
+                                    <span class="badge text-bg-warning text-dark me-1 mb-1"><?= htmlspecialchars($proj) ?></span>
+                                <?php endforeach; ?>
+                            </div>
+                        <?php endif; ?>
+
                         <?php if (!empty($match['matched_languages'])): ?>
                             <div class="mb-3">
-                                <div class="small fw-semibold text-uppercase text-secondary mb-2">Matched languages</div>
+                                <div class="small fw-semibold text-uppercase text-secondary mb-1">🌐 Matched languages</div>
                                 <?php foreach (($match['matched_languages'] ?? []) as $language): ?>
                                     <span class="badge text-bg-success me-1 mb-1"><?= htmlspecialchars($language) ?></span>
                                 <?php endforeach; ?>
                             </div>
                         <?php endif; ?>
+                        <?php if (!empty($match['reasons']) && is_array($match['reasons'])): ?>
+                            <div class="mb-3 p-2 rounded border bg-dark-subtle">
+                                <div class="text-secondary fw-semibold mb-1" style="font-size:0.75rem; letter-spacing: 0.05em;">WHY THIS MATCHES</div>
+                                <ul class="mb-0 ps-3 small text-secondary" style="font-size: 0.8rem; line-height: 1.4;">
+                                    <?php foreach (array_slice($match['reasons'], 0, 3) as $reason): ?>
+                                        <li><?= htmlspecialchars($reason) ?></li>
+                                    <?php endforeach; ?>
+                                </ul>
+                            </div>
+                        <?php endif; ?>
+
                         <?php if (!empty($match['source_type'])): ?>
                             <div class="small text-success mb-3"><?= htmlspecialchars(ucfirst((string) $match['source_type'])) ?> opportunity</div>
                         <?php endif; ?>

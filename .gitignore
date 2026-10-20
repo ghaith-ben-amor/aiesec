@@ -19,3 +19,5 @@ try_*.php
 quick_*.php
 get_ogt_eps.php
 *.mongodb.js
+__pycache__/
+*.pyc

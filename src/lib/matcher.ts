@@ -8,6 +8,7 @@ export interface ParsedCv {
   fieldOfStudy?: string;
   education?: string[] | string;
   experience?: string[];
+  projects?: string[];
   languages?: string[];
   summary?: string;
 }
@@ -18,6 +19,10 @@ export interface MatchResultItem {
   reasons: string[];
   matchingSkills: string[];
   missingSkills: string[];
+  matchedExperience?: string[];
+  matchedProjects?: string[];
+  matchedJobRoles?: string[];
+  matchedLanguages?: string[];
 }
 
 export interface UserPreferences {
@@ -28,6 +33,29 @@ export interface UserPreferences {
 
 function normalizeSkill(s: string): string {
   return s.toLowerCase().trim().replace(/[-_.]/g, " ");
+}
+
+/**
+ * Extract meaningful keywords from a text string, filtering common stop words.
+ */
+function extractKeywords(text: string): string[] {
+  const stopWords = new Set([
+    "the", "and", "for", "with", "that", "this", "from", "are", "will", "have",
+    "has", "been", "can", "able", "your", "our", "their", "you", "we", "they",
+    "who", "what", "how", "when", "where", "which", "all", "any", "each", "more",
+    "most", "some", "such", "than", "also", "both", "but", "not", "only", "other",
+    "very", "just", "work", "role", "team", "support", "new", "good", "skills",
+    "experience", "internship", "opportunity", "global", "volunteer",
+  ]);
+  return Array.from(
+    new Set(
+      text
+        .toLowerCase()
+        .replace(/[^a-z\s]/g, " ")
+        .split(/\s+/)
+        .filter(w => w.length > 3 && !stopWords.has(w))
+    )
+  );
 }
 
 function skillMatches(cvSkill: string, oppSkill: string): boolean {
@@ -74,7 +102,21 @@ export function heuristicMatcher(
   const cvSkills = cv.skills || [];
   const cvLanguages = (cv.languages || ["English"]).map(l => l.toLowerCase());
   const cvField = (cv.fieldOfStudy || "").toLowerCase();
-  const cvText = `${cvField} ${cv.summary || ""} ${(cv.experience || []).join(" ")}`.toLowerCase();
+  const cvExperience = (cv.experience || []).join(" ").toLowerCase();
+  const cvProjects = (cv.projects || []).join(" ").toLowerCase();
+  const cvEducation = Array.isArray(cv.education)
+    ? cv.education.join(" ").toLowerCase()
+    : (cv.education || "").toLowerCase();
+
+  // Combined CV full-text for keyword matching (skills + experience + projects + education + summary + field)
+  const cvFullText = [
+    cvField,
+    cv.summary || "",
+    cvExperience,
+    cvProjects,
+    cvEducation,
+    cvSkills.join(" "),
+  ].join(" ").toLowerCase();
 
   return opportunities.map(opp => {
     const oppSkills = opp.skills || [];
@@ -83,14 +125,12 @@ export function heuristicMatcher(
     const oppBackgrounds = (opp.backgrounds || []).map(b => b.toLowerCase());
     const oppLanguages = (opp.languages || []).map(l => l.toLowerCase());
 
-    // 1. Skill overlap
+    // ── 1. Skill match (CV skills vs opportunity required skills) ──────────
     const matchingSkills: string[] = [];
     const missingSkills: string[] = [];
 
     oppSkills.forEach(skill => {
-      // Ignore generic education level constant like "High School", "Bachelor" if stored in skills
       if (/^(high school|bachelor|master|phd)$/i.test(skill)) return;
-
       const found = cvSkills.some(cs => skillMatches(cs, skill));
       if (found) {
         matchingSkills.push(skill);
@@ -102,55 +142,62 @@ export function heuristicMatcher(
     let skillScore = 0;
     const realOppSkillsCount = matchingSkills.length + missingSkills.length;
     if (realOppSkillsCount > 0) {
-      skillScore = (matchingSkills.length / realOppSkillsCount) * 45;
+      skillScore = (matchingSkills.length / realOppSkillsCount) * 40;
     } else {
-      skillScore = 25; // neutral base for opportunities without tag restrictions
+      skillScore = 20; // neutral base for opportunities without tag restrictions
     }
 
-    // 2. Field of study & Background alignment
+    // ── 2. Experience match (CV experience text vs opportunity title+description) ──
+    let experienceScore = 0;
+    const experienceKeywords = extractKeywords(oppTitle + " " + oppDesc);
+    const cvExpKeywordHits = experienceKeywords.filter(kw => cvExperience.includes(kw));
+    if (cvExperience.length > 10) {
+      // Up to 20 pts based on keyword overlap between experience and opportunity
+      experienceScore = Math.min(20, cvExpKeywordHits.length * 4);
+    }
+
+    // ── 3. Projects match (CV projects text vs opportunity title+description) ──
+    let projectScore = 0;
+    if (cvProjects.length > 5) {
+      const cvProjKeywordHits = experienceKeywords.filter(kw => cvProjects.includes(kw));
+      projectScore = Math.min(10, cvProjKeywordHits.length * 3);
+    }
+
+    // ── 4. Field of study & Background alignment ──────────────────────────
     let backgroundScore = 0;
     let bgMatchName = "";
     for (const bg of oppBackgrounds) {
       if (
         cvField.includes(bg) ||
+        cvEducation.includes(bg) ||
         bg.includes("software") ||
         bg.includes("computer") ||
         bg.includes("engineering") ||
-        cvText.includes(bg)
+        cvFullText.includes(bg)
       ) {
-        backgroundScore = 25;
+        backgroundScore = 15;
         bgMatchName = bg;
         break;
       }
     }
-    if (backgroundScore === 0 && (cvText.includes(oppTitle) || oppTitle.includes(cvField))) {
-      backgroundScore = 15;
+    if (backgroundScore === 0 && (cvFullText.includes(oppTitle) || oppTitle.includes(cvField))) {
+      backgroundScore = 10;
     }
 
-    // 3. Language requirement match
+    // ── 5. Language requirement match ─────────────────────────────────────
     let langScore = 0;
     let matchedLang = "";
     if (oppLanguages.length > 0) {
-      const match = oppLanguages.find(ol => cvLanguages.some(cl => cl.includes(ol) || ol.includes(cl)));
-      if (match) {
+      const langMatch = oppLanguages.find(ol => cvLanguages.some(cl => cl.includes(ol) || ol.includes(cl)));
+      if (langMatch) {
         langScore = 15;
-        matchedLang = match;
+        matchedLang = langMatch;
       }
     } else {
-      langScore = 10;
+      langScore = 8; // no language restriction — slight bonus
     }
 
-    // 4. Role keywords bonus
-    let roleBonus = 0;
-    const roleKeywords = ["developer", "software", "engineer", "designer", "sales", "marketing", "web", "iot", "app"];
-    for (const kw of roleKeywords) {
-      if (oppTitle.includes(kw) && cvText.includes(kw)) {
-        roleBonus += 5;
-      }
-    }
-    roleBonus = Math.min(15, roleBonus);
-
-    // 5. User Preferences Alignment (Destination, Duration, Start Date)
+    // ── 6. User Preferences Alignment (Destination, Duration, Start Date) ──
     let preferenceBonus = 0;
     const preferenceReasons: string[] = [];
 
@@ -189,26 +236,38 @@ export function heuristicMatcher(
       }
     }
 
-    // Calculate total score (min 45, max 99)
-    const rawScore = skillScore + backgroundScore + langScore + roleBonus + preferenceBonus;
-    const totalScore = Math.min(99, Math.max(45, Math.round(rawScore)));
+    // ── Compute total score ────────────────────────────────────────────────
+    // Max breakdown: skills(40) + experience(20) + projects(10) + background(15) + language(15) + preferences(35)
+    const rawScore = skillScore + experienceScore + projectScore + backgroundScore + langScore + preferenceBonus;
+    const totalScore = Math.min(99, Math.max(30, Math.round(rawScore)));
 
-    // Formulate personalized match reasons
+    // ── Build human-readable reasons ──────────────────────────────────────
     const reasons: string[] = [...preferenceReasons];
+
     if (matchingSkills.length > 0) {
-      reasons.push(`Compétences clés alignées : ${matchingSkills.slice(0, 4).join(", ")}`);
+      reasons.push(`✅ Compétences alignées : ${matchingSkills.slice(0, 4).join(", ")}`);
+    }
+    if (cvExpKeywordHits.length > 0) {
+      reasons.push(`💼 Expérience pertinente détectée : ${cvExpKeywordHits.slice(0, 3).join(", ")}`);
+    }
+    if (projectScore > 0) {
+      reasons.push(`🚀 Projets correspondants au domaine de l'opportunité`);
     }
     if (bgMatchName) {
-      reasons.push(`Correspond à votre domaine académique (${bgMatchName})`);
+      reasons.push(`🎓 Correspond à votre domaine académique (${bgMatchName})`);
     } else if (cv.fieldOfStudy) {
-      reasons.push(`Pertinent pour votre profil en ${cv.fieldOfStudy}`);
+      reasons.push(`📚 Pertinent pour votre profil en ${cv.fieldOfStudy}`);
     }
     if (matchedLang) {
-      reasons.push(`Exigence linguistique validée : ${matchedLang.charAt(0).toUpperCase() + matchedLang.slice(1)}`);
+      reasons.push(`🌐 Exigence linguistique validée : ${matchedLang.charAt(0).toUpperCase() + matchedLang.slice(1)}`);
     }
     if (opp.organisation && opp.country && preferenceReasons.length === 0) {
       reasons.push(`Opportunité ${opp.programmeName} chez ${opp.organisation} (${opp.country})`);
     }
+
+    const matchedProjectsList = (cv.projects || []).filter(p =>
+      oppTitle.includes(p.toLowerCase()) || oppDesc.includes(p.toLowerCase()) || experienceKeywords.some(kw => p.toLowerCase().includes(kw))
+    );
 
     return {
       opportunity: opp,
@@ -216,6 +275,9 @@ export function heuristicMatcher(
       reasons,
       matchingSkills,
       missingSkills,
+      matchedExperience: cvExpKeywordHits.slice(0, 4),
+      matchedProjects: matchedProjectsList.slice(0, 3),
+      matchedLanguages: matchedLang ? [matchedLang] : [],
     };
   }).sort((a, b) => b.score - a.score);
 }
@@ -241,7 +303,10 @@ Candidate Profile:
 - Skills: ${cvParsed.skills.join(", ")}
 - Field of Study: ${cvParsed.fieldOfStudy || "N/A"}
 - Languages: ${(cvParsed.languages || ["English"]).join(", ")}
-- Experience Summary: ${cvText.slice(0, 1000)}
+- Education: ${Array.isArray(cvParsed.education) ? cvParsed.education.join(", ") : (cvParsed.education || "N/A")}
+- Experience: ${(cvParsed.experience || []).slice(0, 5).join(" | ") || "N/A"}
+- Projects: ${(cvParsed.projects || []).slice(0, 5).join(" | ") || "N/A"}
+- Summary: ${cvText.slice(0, 600)}
 
 Opportunities to rank (top candidates):
 ${JSON.stringify(
