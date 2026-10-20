@@ -418,9 +418,15 @@ Only return a valid JSON array, no extra markdown or explanations.`;
     return opportunities.map(opp => {
       const rating = ratings.find(r => r.id === opp.id);
       const fallback = heuristicMatcher(cvParsed, [opp], preferences)[0];
+      const heuristicScore = fallback.score;
+      const aiScore = rating ? Math.min(99, Math.max(0, rating.score)) : heuristicScore;
+      const blendedScore = rating
+        ? Math.round(heuristicScore * 0.7 + aiScore * 0.3)
+        : heuristicScore;
+
       return {
         opportunity: opp,
-        score: rating ? Math.min(100, Math.max(40, rating.score)) : fallback.score,
+        score: blendedScore,
         reasons: rating?.reasons?.length ? rating.reasons : fallback.reasons,
         matchingSkills: fallback.matchingSkills,
         missingSkills: fallback.missingSkills,

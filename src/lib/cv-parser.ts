@@ -419,8 +419,8 @@ export function parseCvText(
     detectedLanguages.push("English");
   }
 
-  // Generate top search keywords for GIS querying
-  // Sort weighted keywords and pick high-impact terms
+  // Generate specific search keywords for GIS querying. Generic role terms
+  // alone return broad, low-quality result sets from the GIS API.
   const searchKeywords: string[] = [];
 
   const hasTeaching =
@@ -434,28 +434,24 @@ export function parseCvText(
     searchKeywords.push("education");
   }
   
-  if (skillsByCategory.webAndMobile.length > 0 || skillsByCategory.programming.length > 0) {
-    searchKeywords.push("developer");
-    searchKeywords.push("software");
-  }
-  if (skillsByCategory.webAndMobile.some(s => ["React", "HTML", "CSS", "Next.js"].includes(s))) {
-    searchKeywords.push("web");
-  }
-  if (skillsByCategory.designAndCreative.length > 0) {
-    searchKeywords.push("graphic");
-  }
-  if (skillsByCategory.businessAndSales.length > 0) {
-    searchKeywords.push("marketing");
-  }
+  const rankedSkillKeywords = weightedKeywords
+    .sort((a, b) => b.weight - a.weight)
+    .map(item => item.term)
+    .filter(term => term.length > 2);
 
-  // Deduplicate and ensure at least 2 search keywords
-  const uniqueSearchKeywords = Array.from(new Set(searchKeywords));
+  searchKeywords.push(...rankedSkillKeywords);
+  if (fieldOfStudy) searchKeywords.push(fieldOfStudy);
+  if (skillsByCategory.webAndMobile.length > 0) searchKeywords.push("web development");
+  if (skillsByCategory.designAndCreative.length > 0) searchKeywords.push("design");
+  if (skillsByCategory.businessAndSales.length > 0) searchKeywords.push("marketing");
+  if (hasTeaching) searchKeywords.push("teaching");
+
+  // Keep the most specific terms first and avoid generic-only searches.
+  const uniqueSearchKeywords = Array.from(new Set(searchKeywords))
+    .filter(keyword => !["developer", "software"].includes(keyword.toLowerCase()))
+    .slice(0, 8);
   if (uniqueSearchKeywords.length === 0) {
-    if (hasTeaching) {
-      uniqueSearchKeywords.push("teacher", "teaching");
-    } else {
-      uniqueSearchKeywords.push("developer", "software");
-    }
+    uniqueSearchKeywords.push(hasTeaching ? "teaching" : "technology");
   }
 
   // Extract professional summary

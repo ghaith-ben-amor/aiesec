@@ -272,7 +272,7 @@ export async function fetchRealAiesecOpportunities(options?: {
   const searchTerms = (options?.keywords || [])
     .map(k => k.trim())
     .filter(k => k.length > 2)
-    .slice(0, 3);
+    .slice(0, 8);
 
   // If preferred country provided, include it in search queries
   if (options?.preferredCountry && options.preferredCountry.trim().length > 1) {
@@ -291,7 +291,7 @@ export async function fetchRealAiesecOpportunities(options?: {
     const qEscaped = term.replace(/"/g, '\\"');
     const qStr = `
       query {
-        opportunities(q: "${qEscaped}", page: 1, per_page: 25, filters: { status: "open" }) {
+        opportunities(q: "${qEscaped}", page: 1, per_page: 40, filters: { status: "open" }) {
           data {
             id
             title
@@ -324,7 +324,7 @@ export async function fetchRealAiesecOpportunities(options?: {
   // 2. Broad open opportunities query
   const broadQuery = `
     query {
-      allOpportunity(page: 1, per_page: 40, filters: { status: "open" }) {
+      allOpportunity(page: 1, per_page: 80, filters: { status: "open" }) {
         data {
           id
           title
@@ -508,4 +508,3 @@ const FALLBACK_OPPORTUNITIES: RealOpportunity[] = [
     slots: [],
   }
 ];
-
