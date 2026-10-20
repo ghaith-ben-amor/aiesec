@@ -117,6 +117,22 @@ final class OpportunityController extends BaseController
         $cvId       = $_SESSION['last_cv_id'] ?? null;
         $profile    = $_SESSION['last_cv_profile'] ?? [];
 
+        $progFilter = $_GET['prog'] ?? 'ALL';
+        if ($progFilter !== 'ALL') {
+            $allMatches = array_values(array_filter($allMatches, function($m) use ($progFilter) {
+                if ($progFilter === 'GTe') {
+                    return ($m['category'] ?? '') === 'GTe' || stripos($m['title'] ?? '', 'teach') !== false;
+                }
+                if ($progFilter === 'GTa') {
+                    return ($m['category'] ?? '') === 'GTa' && stripos($m['title'] ?? '', 'teach') === false;
+                }
+                if ($progFilter === 'GV') {
+                    return ($m['category'] ?? '') === 'GV';
+                }
+                return true;
+            }));
+        }
+
         // --- Pagination ---
         $perPage     = 9;
         $totalMatches = count($allMatches);
