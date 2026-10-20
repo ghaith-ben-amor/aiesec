@@ -144,39 +144,53 @@ OPP_SKILL_NOISE = {
     "4", "6", "8", "up", "scale", "skill", "discover", "map",
 }
 
+# ─── Generic single-word tokens too broad for reliable skill matching ─────────
+# These tokens (bare "developer", "design", etc.) appear in many unrelated
+# opportunity titles and cause false-positive matches.
+# They are stripped from CV skills BEFORE matching, but compound phrases
+# containing them (e.g. "web developer", "graphic design") remain valid.
+GENERIC_TOKENS = {
+    "developer", "designer", "design", "engineer", "engineering",
+    "business", "development", "management", "specialist", "analyst",
+    "manager", "coordinator", "assistant", "representative", "intern",
+    "trainer", "director", "officer", "consultant", "executive",
+    "graphic", "visual", "creative", "programmer", "programmer",
+    "etap", "freelance",   # CV-specific noise from role tokenization
+}
+
 # ─── Domain synergies: CV practical skills → job role keywords ────────────────
 TECH_DOMAINS = [
     {
         "triggers": {"php", "javascript", "html", "css", "react", "vue", "node",
                      "angular", "symfony", "laravel", "mvc", "django", "flask", "web"},
-        "skills": ["web", "developer", "web developer", "web development",
-                   "software development", "full stack", "fullstack", "frontend", "backend"]
+        "skills": ["web developer", "web development", "full stack",
+                   "fullstack", "frontend", "backend"]
+        # NOTE: do NOT add bare "developer" — it would match "C# Developer", "Business Developer" etc.
     },
     {
         "triggers": {"python", "java", "c++", "c#", "software development",
                      "software engineering", "algorithms", "data structures"},
-        "skills": ["developer", "software developer", "software development",
-                   "programmer", "software engineer"]
+        "skills": ["software developer", "software development", "software engineer"]
+        # NOTE: no bare "developer" or "engineer"
     },
     {
-        "triggers": {"photoshop", "illustrator", "figma", "ui ux", "design",
+        "triggers": {"photoshop", "illustrator", "figma", "ui ux",
                      "graphic design", "premiere pro", "canva", "after effects",
                      "motion graphics", "adobe photoshop", "video editing"},
-        "skills": ["design", "designer", "graphic design", "graphic designer",
-                   "ui ux", "motion graphics", "video editing", "content creator",
-                   "visual", "creative"]
+        "skills": ["graphic design", "graphic designer", "ui ux",
+                   "motion graphics", "video editing", "content creator", "visual"]
+        # NOTE: no bare "design" or "designer" — would match "electrical design", "sound designer" etc.
     },
     {
-        "triggers": {"sales", "customer service", "seller", "business", "negotiation",
-                     "crm", "business development"},
-        "skills": ["sales", "seller", "sales representative", "customer service",
-                   "business development", "business", "representative"]
+        "triggers": {"sales", "customer service", "seller", "negotiation", "crm"},
+        "skills": ["sales representative", "customer service", "sales"]
+        # NOTE: no bare "business" — would match "business developer", "business development"
     },
     {
         "triggers": {"marketing", "social media marketing", "seo", "content creation",
                      "digital marketing", "advertising", "branding", "email marketing"},
-        "skills": ["marketing", "digital marketing", "marketing specialist",
-                   "content creator", "social media", "media buying"]
+        "skills": ["digital marketing", "marketing specialist",
+                   "content creator", "social media marketing", "media buying"]
     },
     {
         "triggers": {"teaching", "teacher", "tutoring", "lesson planning",
@@ -190,20 +204,18 @@ TECH_DOMAINS = [
         "skills": ["embedded systems", "iot", "hardware", "electronics", "robotics"]
     },
     {
-        "triggers": {"finance", "accounting", "financial analysis", "budgeting",
-                     "excel", "microsoft office"},
-        "skills": ["finance", "accounting", "financial", "finance specialist"]
+        "triggers": {"finance", "accounting", "financial analysis", "budgeting"},
+        "skills": ["finance specialist", "financial analyst", "accounting"]
     },
     {
         "triggers": {"human resources", "hr", "recruitment", "talent acquisition",
                      "onboarding", "performance management"},
-        "skills": ["hr", "human resources", "recruitment", "hr specialist"]
+        "skills": ["hr specialist", "human resources", "recruitment"]
     },
     {
         "triggers": {"data analysis", "data science", "machine learning",
                      "artificial intelligence", "statistics", "tableau", "power bi"},
-        "skills": ["data analysis", "data science", "analyst", "data analyst",
-                   "machine learning", "ai"]
+        "skills": ["data analysis", "data science", "data analyst", "machine learning"]
     },
 ]
 
@@ -250,33 +262,51 @@ def tokenize(text: str) -> set:
 
 
 def skill_overlap(cv_skills: set, opp_skills: list) -> list:
-    """Return the list of opportunity skills that match CV skills (exact or substring)."""
+    """Return the list of opportunity skills that match CV skills (exact or smart substring).
+    cv_skills must already be cleaned of GENERIC_TOKENS before calling this."""
     matched = []
     for raw_skill in opp_skills:
         if not raw_skill:
             continue
         ns = normalize(str(raw_skill))
-        if ns in STOP_WORDS or ns in OPP_SKILL_NOISE or len(ns) < 2:
+        if ns in STOP_WORDS or ns in OPP_SKILL_NOISE or ns in GENERIC_TOKENS or len(ns) < 3:
             continue
+
+        # Exact match
         if ns in cv_skills:
             matched.append(raw_skill)
             continue
-        # Substring overlap: "web developer" ↔ "developer"
+
+        # Compound-phrase substring match only:
+        # e.g. opp="web developer" ↔ cv="web developer" (exact compound)
+        # e.g. opp="web developer" ↔ cv="full stack web developer" (compound ⊂ compound)
+        # NOT: opp="c# developer" ↔ cv skips because "developer" alone is GENERIC
         for cs in cv_skills:
-            if len(ns) > 3 and len(cs) > 3 and (ns in cs or cs in ns):
+            if len(ns) < 5 or len(cs) < 5:
+                continue
+            if " " in ns and " " in cs and (ns in cs or cs in ns):
                 matched.append(raw_skill)
                 break
     return sorted(set(matched))
 
 
 def expand_skills_with_domains(skills_set: set) -> set:
-    """Expand CV skills using domain synergies."""
+    """Expand CV skills using domain synergies. Only adds compound phrases, not bare generics."""
     expanded = set(skills_set)
     for dom in TECH_DOMAINS:
         if skills_set & dom["triggers"]:
             for s in dom["skills"]:
                 expanded.add(normalize(s))
     return expanded
+
+
+# Generic single-word tokens that are too broad to use for matching
+# (they appear in many unrelated opportunity titles and cause false positives)
+GENERIC_TOKENS = {
+    "developer", "designer", "design", "engineer", "business", "development",
+    "management", "specialist", "analyst", "manager", "coordinator", "assistant",
+    "representative", "intern", "trainer", "director", "officer", "consultant",
+}
 
 
 def gv_theme_score(opp_title: str, all_cv_terms: set) -> float:
@@ -357,7 +387,12 @@ def match(cv_data: dict, opportunities: list) -> list:
     cv_edu_text = " ".join(cv_education) if isinstance(cv_education, list) else str(cv_education)
     cv_edu_tokens = tokenize(cv_edu_text)
 
-    # ── All CV terms combined (for general overlap) ────────────────────────────
+    # ── Strip GENERIC_TOKENS from cv_skills — prevents false-positive matches ──
+    # e.g. bare "developer" from role tokenization must NOT match "C# Developer"
+    # Compound phrases like "web developer", "graphic designer" are safe and stay.
+    cv_skills -= GENERIC_TOKENS
+
+    # ── All CV terms combined (for GV theme scoring & general overlap) ─────────
     all_cv_terms = (
         cv_skills | cv_languages | cv_exp_tokens
         | cv_proj_tokens | cv_edu_tokens
@@ -408,20 +443,24 @@ def match(cv_data: dict, opportunities: list) -> list:
             skill_score = coverage * 35
         else:
             # No structured skills: fall back to token overlap with title+desc
-            skill_hits = cv_skills & opp_tokens
+            # Exclude generic tokens from this fallback to prevent false positives
+            skill_hits = (cv_skills - GENERIC_TOKENS) & (opp_tokens - GENERIC_TOKENS)
             skill_score = min(30, len(skill_hits) * 7)
 
         # ── Dimension B: Work Experience Match (0–25 pts) ─────────────────────
         matched_experience_items = []
         exp_score = 0.0
+        # Use a cleaned version of exp_tokens (no generic words like "developer", "designer")
+        cv_exp_tokens_clean = cv_exp_tokens - GENERIC_TOKENS
+        opp_tokens_clean = opp_tokens - GENERIC_TOKENS
         if cv_exp_roles:
             for role in cv_exp_roles:
-                role_toks = tokenize(role)
-                # Match if role shares tokens with opp title OR opp description
-                if role_toks & (opp_title_tokens | opp_tokens):
+                role_toks = tokenize(role) - GENERIC_TOKENS
+                # Match if role shares NON-GENERIC tokens with opp title or description
+                if role_toks and role_toks & (opp_title_tokens - GENERIC_TOKENS | opp_tokens_clean):
                     matched_experience_items.append(role)
 
-            exp_keyword_hits = cv_exp_tokens & opp_tokens
+            exp_keyword_hits = cv_exp_tokens_clean & opp_tokens_clean
             if matched_experience_items:
                 exp_score = min(25.0, 12.0 + len(exp_keyword_hits) * 3.0)
             else:
@@ -431,15 +470,18 @@ def match(cv_data: dict, opportunities: list) -> list:
         matched_job_roles = []
         job_score = 0.0
         for title in cv_job_titles:
-            title_toks = tokenize(title)
-            if title_toks & opp_title_tokens:
+            title_toks = tokenize(title) - GENERIC_TOKENS
+            if not title_toks:
+                continue
+            if title_toks & (opp_title_tokens - GENERIC_TOKENS):
                 matched_job_roles.append(title)
-            elif title_toks & opp_tokens:
+            elif title_toks & opp_tokens_clean:
                 matched_job_roles.append(title)
 
         if matched_job_roles:
-            # Strong match = job title appears in opp title
-            strong = any(tokenize(t) & opp_title_tokens for t in matched_job_roles)
+            # Strong match = job title NON-GENERIC tokens appear in opp title
+            strong = any((tokenize(t) - GENERIC_TOKENS) & (opp_title_tokens - GENERIC_TOKENS)
+                         for t in matched_job_roles)
             job_score = 20.0 if strong else 10.0
 
         # ── Dimension D: Project Portfolio (0–12 pts) ──────────────────────────
@@ -447,10 +489,10 @@ def match(cv_data: dict, opportunities: list) -> list:
         proj_score = 0.0
         if cv_projects:
             for p in (cv_projects if isinstance(cv_projects, list) else [cv_proj_text]):
-                p_toks = tokenize(str(p))
-                if p_toks & opp_tokens:
+                p_toks = tokenize(str(p)) - GENERIC_TOKENS
+                if p_toks and p_toks & opp_tokens_clean:
                     matched_projects.append(p)
-            proj_hits = cv_proj_tokens & opp_tokens
+            proj_hits = (cv_proj_tokens - GENERIC_TOKENS) & opp_tokens_clean
             if matched_projects:
                 proj_score = min(12.0, 6.0 + len(proj_hits) * 2.0)
             else:
