@@ -179,9 +179,16 @@ export default function ResultsPage() {
     // 2. Programme filter
     if (selectedProgramme !== "ALL") {
       const progCode = (opp.programme?.short_name || "").toUpperCase();
-      if (selectedProgramme === "GT" && progCode !== "GT" && progCode !== "GTA") return false;
+      const isTeacher =
+        progCode === "GTE" ||
+        progCode === "TE" ||
+        opp.programmeSlug === "global-teacher" ||
+        opp.programmeName === "Global Teacher" ||
+        /\b(?:teach|teacher|teaching|instructor|tutor|education)\b/i.test(opp.title + " " + opp.description);
+
+      if (selectedProgramme === "GTE" && !isTeacher) return false;
       if (selectedProgramme === "GV" && progCode !== "GV") return false;
-      if (selectedProgramme === "GTE" && progCode !== "GTE" && progCode !== "TE") return false;
+      if (selectedProgramme === "GT" && (isTeacher || (progCode !== "GT" && progCode !== "GTA"))) return false;
     }
 
     // 3. Duration filter (mirroring AIESEC.org: Short 6-12w, Medium 13-26w, Long 27-78w)

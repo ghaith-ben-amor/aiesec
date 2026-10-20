@@ -764,6 +764,16 @@ GRAPHQL;
     {
         return [
             [
+                'title' => 'Global Teacher - English Educator',
+                'description' => 'Teach English language classes to students, prepare curriculum and lead educational activities.',
+                'skills' => ['teaching', 'english', 'lesson planning', 'classroom management', 'communication'],
+                'languages' => ['english'],
+                'location' => 'Alexandria, Egypt',
+                'source_url' => 'https://aiesec.org/opportunity/global-teacher/1336260',
+                'category' => 'GTe',
+                'source_type' => 'sample',
+            ],
+            [
                 'title' => 'Global Talent - Marketing Intern',
                 'description' => 'Support campaign execution, content creation, and market research.',
                 'skills' => ['marketing', 'content creation'],

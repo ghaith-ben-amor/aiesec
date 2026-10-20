@@ -265,6 +265,16 @@ function extractEducationAndField(text: string, manualField?: string | null): {
       fieldOfStudy = "Embedded Systems & IoT";
     } else if (lower.includes("marketing") || lower.includes("business") || lower.includes("sales")) {
       fieldOfStudy = "Business & Marketing";
+    } else if (
+      lower.includes("education") ||
+      lower.includes("teaching") ||
+      lower.includes("pedagogy") ||
+      lower.includes("linguistics") ||
+      lower.includes("literature") ||
+      lower.includes("languages") ||
+      lower.includes("teacher")
+    ) {
+      fieldOfStudy = "Education & Teaching";
     } else if (lower.includes("engineering")) {
       fieldOfStudy = "Engineering & Technology";
     } else {
@@ -412,6 +422,17 @@ export function parseCvText(
   // Generate top search keywords for GIS querying
   // Sort weighted keywords and pick high-impact terms
   const searchKeywords: string[] = [];
+
+  const hasTeaching =
+    /teach|educat|tutor|pedagog|school|instructor|curriculum|classroom/i.test(cvText) ||
+    skillsByCategory.softSkills.some(s => /teach|lesson|classroom|pedagog/i.test(s)) ||
+    allSkillsSet.has("Teaching");
+
+  if (hasTeaching) {
+    searchKeywords.push("teacher");
+    searchKeywords.push("teaching");
+    searchKeywords.push("education");
+  }
   
   if (skillsByCategory.webAndMobile.length > 0 || skillsByCategory.programming.length > 0) {
     searchKeywords.push("developer");
@@ -430,7 +451,11 @@ export function parseCvText(
   // Deduplicate and ensure at least 2 search keywords
   const uniqueSearchKeywords = Array.from(new Set(searchKeywords));
   if (uniqueSearchKeywords.length === 0) {
-    uniqueSearchKeywords.push("developer", "software");
+    if (hasTeaching) {
+      uniqueSearchKeywords.push("teacher", "teaching");
+    } else {
+      uniqueSearchKeywords.push("developer", "software");
+    }
   }
 
   // Extract professional summary

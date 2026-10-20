@@ -21,7 +21,7 @@ export async function POST(req: Request) {
     let cvText = "";
 
     // 1. Extract raw text from PDF
-    if (file && file.type === "application/pdf") {
+    if (file && (file.type === "application/pdf" || (file.name && file.name.toLowerCase().endsWith(".pdf")) || !file.type)) {
       try {
         const arrayBuffer = await file.arrayBuffer();
         const buffer = Buffer.from(arrayBuffer);
