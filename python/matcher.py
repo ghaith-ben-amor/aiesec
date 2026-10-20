@@ -538,7 +538,9 @@ def match(cv_data: dict, opportunities: list) -> list:
         # Max theoretical non-GV: 35+25+20+12+8+5 = 105
         # Max theoretical GV:     10+25+20+12+8+5+25 = 105 (same)
         # Normalize to 0–99 — divide by 105 and cap
-        final_score = round(min(99.0, max(15.0, total * 99.0 / 105.0)), 1)
+        # Do not manufacture a positive match for unrelated opportunities.
+        # A score of zero is useful to the caller and keeps ranking evidence-based.
+        final_score = round(min(99.0, max(0.0, total * 99.0 / 105.0)), 1)
 
         # Build human-readable reasons
         reasons = []

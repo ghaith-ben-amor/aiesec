@@ -32,7 +32,11 @@ export interface UserPreferences {
 }
 
 function normalizeSkill(s: string): string {
-  return s.toLowerCase().trim().replace(/[-_.]/g, " ");
+  return s
+    .toLowerCase()
+    .trim()
+    .replace(/[._/-]+/g, " ")
+    .replace(/\s+/g, " ");
 }
 
 /**
@@ -58,26 +62,69 @@ function extractKeywords(text: string): string[] {
   );
 }
 
+const SKILL_ALIASES: Record<string, string> = {
+  js: "javascript",
+  nodejs: "node js",
+  ts: "typescript",
+  html5: "html",
+  css3: "css",
+  mysql: "sql",
+  postgresql: "sql",
+  postgres: "sql",
+  sqlite: "sql",
+  reactjs: "react",
+  vuejs: "vue",
+  "react js": "react",
+  "node js": "node js",
+  "graphic designer": "graphic design",
+  "web design": "design",
+  "ui ux": "ui ux",
+  "ui/ux": "ui ux",
+  flutter: "mobile development",
+  flutterflow: "mobile development",
+  android: "mobile development",
+  ios: "mobile development",
+  arduino: "embedded systems",
+  stm32: "embedded systems",
+  "software engineering": "software development",
+  "software engineer": "software development",
+};
+
+function canonicalSkill(value: string): string {
+  const normalized = normalizeSkill(value);
+  return SKILL_ALIASES[normalized] || normalized;
+}
+
+function containsTerm(text: string, term: string): boolean {
+  const normalizedText = normalizeSkill(text).replace(/[^a-z0-9+#]+/gi, " ").trim();
+  const normalizedTerm = normalizeSkill(term).replace(/[^a-z0-9+#]+/gi, " ").trim();
+  if (!normalizedText || !normalizedTerm) return false;
+  if (normalizedTerm.length === 1 || /^[c][+#]?$/.test(normalizedTerm)) {
+    return new RegExp(`(^|\\s)${normalizedTerm.replace(/[+#]/g, "\\$&")}(?=\\s|$)`, "i").test(normalizedText);
+  }
+  return new RegExp(`(^|\\s)${normalizedTerm.replace(/[.*+?^${}()|[\]\\]/g, "\\$&")}(?=\\s|$)`, "i").test(normalizedText);
+}
+
 function skillMatches(cvSkill: string, oppSkill: string): boolean {
-  const c = normalizeSkill(cvSkill);
-  const o = normalizeSkill(oppSkill);
+  const c = canonicalSkill(cvSkill);
+  const o = canonicalSkill(oppSkill);
 
   if (c === o) return true;
-  if (c.includes(o) || o.includes(c)) return true;
+  if (c.length >= 3 && o.length >= 3 && (containsTerm(c, o) || containsTerm(o, c))) return true;
 
   // Common synonyms / abbreviations
   const synonyms: Record<string, string[]> = {
-    javascript: ["js", "es6", "web development"],
+    javascript: ["js", "es6"],
     typescript: ["ts"],
-    nodejs: ["node", "node js", "backend"],
-    react: ["reactjs", "react js", "frontend"],
-    html: ["html5", "web"],
-    css: ["css3", "styles", "web"],
-    sql: ["mysql", "postgresql", "postgres", "database", "sqlite"],
+    "node js": ["node", "nodejs"],
+    react: ["reactjs", "react js"],
+    html: ["html5"],
+    css: ["css3"],
+    sql: ["mysql", "postgresql", "postgres", "sqlite"],
     python: ["django", "flask"],
     java: ["javafx", "spring", "spring boot"],
-    "c++": ["qt", "qt creator", "c"],
-    "ui/ux": ["figma", "graphic design", "adobe photoshop", "design"],
+    "c++": ["qt", "qt creator"],
+    "ui ux": ["figma", "graphic design", "adobe photoshop"],
     "graphic design": ["photoshop", "illustrator", "branding"],
     sales: ["seller", "customer service", "negotiation", "commercial"],
     communication: ["teamwork", "collaboration", "leadership"],
@@ -85,9 +132,10 @@ function skillMatches(cvSkill: string, oppSkill: string): boolean {
   };
 
   for (const [key, list] of Object.entries(synonyms)) {
-    const keyNorm = normalizeSkill(key);
-    if ((c === keyNorm || list.some(item => c.includes(item))) &&
-        (o === keyNorm || list.some(item => o.includes(item)))) {
+    const keyNorm = canonicalSkill(key);
+    const cMatches = c === keyNorm || list.some(item => canonicalSkill(item) === c);
+    const oMatches = o === keyNorm || list.some(item => canonicalSkill(item) === o);
+    if (cMatches && oMatches) {
       return true;
     }
   }
@@ -151,7 +199,7 @@ export function heuristicMatcher(
     // ── 2. Experience match (CV experience text vs opportunity title+description) ──
     let experienceScore = 0;
     const experienceKeywords = extractKeywords(oppTitle + " " + oppDesc);
-    const cvExpKeywordHits = experienceKeywords.filter(kw => cvExperience.includes(kw));
+    const cvExpKeywordHits = experienceKeywords.filter(kw => containsTerm(cvExperience, kw));
     if (cvExperience.length > 10) {
       // Up to 20 pts based on keyword overlap between experience and opportunity
       experienceScore = Math.min(20, cvExpKeywordHits.length * 4);
@@ -160,7 +208,7 @@ export function heuristicMatcher(
     // ── 3. Projects match (CV projects text vs opportunity title+description) ──
     let projectScore = 0;
     if (cvProjects.length > 5) {
-      const cvProjKeywordHits = experienceKeywords.filter(kw => cvProjects.includes(kw));
+      const cvProjKeywordHits = experienceKeywords.filter(kw => containsTerm(cvProjects, kw));
       projectScore = Math.min(10, cvProjKeywordHits.length * 3);
     }
 
@@ -171,10 +219,9 @@ export function heuristicMatcher(
       if (
         cvField.includes(bg) ||
         cvEducation.includes(bg) ||
-        bg.includes("software") ||
-        bg.includes("computer") ||
-        bg.includes("engineering") ||
-        cvFullText.includes(bg)
+        containsTerm(cvField, bg) ||
+        containsTerm(cvEducation, bg) ||
+        containsTerm(cvFullText, bg)
       ) {
         backgroundScore = 15;
         bgMatchName = bg;
@@ -189,7 +236,9 @@ export function heuristicMatcher(
     let langScore = 0;
     let matchedLang = "";
     if (oppLanguages.length > 0) {
-      const langMatch = oppLanguages.find(ol => cvLanguages.some(cl => cl.includes(ol) || ol.includes(cl)));
+      const langMatch = oppLanguages.find(ol =>
+        cvLanguages.some(cl => containsTerm(cl, ol) || containsTerm(ol, cl))
+      );
       if (langMatch) {
         langScore = 15;
         matchedLang = langMatch;
@@ -240,7 +289,7 @@ export function heuristicMatcher(
     // ── Compute total score ────────────────────────────────────────────────
     // Max breakdown: skills(40) + experience(20) + projects(10) + background(15) + language(15) + preferences(35)
     const rawScore = skillScore + experienceScore + projectScore + backgroundScore + langScore + preferenceBonus;
-    const totalScore = Math.min(99, Math.max(30, Math.round(rawScore)));
+    const totalScore = Math.min(99, Math.max(0, Math.round(rawScore)));
 
     // ── Build human-readable reasons ──────────────────────────────────────
     const reasons: string[] = [...preferenceReasons];
@@ -267,7 +316,9 @@ export function heuristicMatcher(
     }
 
     const matchedProjectsList = (cv.projects || []).filter(p =>
-      oppTitle.includes(p.toLowerCase()) || oppDesc.includes(p.toLowerCase()) || experienceKeywords.some(kw => p.toLowerCase().includes(kw))
+      containsTerm(oppTitle, p) ||
+      containsTerm(oppDesc, p) ||
+      experienceKeywords.some(kw => containsTerm(p, kw))
     );
 
     return {
