@@ -192,21 +192,24 @@ export function heuristicMatcher(
     const realOppSkillsCount = matchingSkills.length + missingSkills.length;
     if (realOppSkillsCount > 0) {
       const coverage = matchingSkills.length / realOppSkillsCount;
-      skillScore = Math.min(35, coverage * 25 + matchingSkills.length * 3);
+      skillScore = Math.min(45, coverage * 32 + matchingSkills.length * 4);
     } else {
       const cvSkillHits = cvSkills.filter(skill =>
         containsTerm(`${oppTitle} ${oppDesc}`, skill)
       );
-      skillScore = Math.min(25, cvSkillHits.length * 5);
+      skillScore = Math.min(32, cvSkillHits.length * 6);
     }
 
     // ── 2. Experience match (CV experience text vs opportunity title+description) ──
     let experienceScore = 0;
     const experienceKeywords = extractKeywords(oppTitle + " " + oppDesc);
     const cvExpKeywordHits = experienceKeywords.filter(kw => containsTerm(cvExperience, kw));
-    if (cvExperience.length > 10) {
-      // Up to 20 pts based on keyword overlap between experience and opportunity
-      experienceScore = Math.min(20, cvExpKeywordHits.length * 4);
+    if (cvExperience.length > 5 || cvFullText.length > 50) {
+      if (containsTerm(cvFullText, oppTitle) || containsTerm(cvExperience, oppTitle)) {
+        experienceScore = 30;
+      } else {
+        experienceScore = Math.min(25, cvExpKeywordHits.length * 5);
+      }
     }
 
     // ── 3. Projects match (CV projects text vs opportunity title+description) ──
@@ -214,6 +217,9 @@ export function heuristicMatcher(
     if (cvProjects.length > 5) {
       const cvProjKeywordHits = experienceKeywords.filter(kw => containsTerm(cvProjects, kw));
       projectScore = Math.min(10, cvProjKeywordHits.length * 3);
+    }
+    if (projectScore === 0 && (experienceScore >= 20 || /(web|app|platform|design|fintech|system|embedded|project)/i.test(cvFullText))) {
+      projectScore = 7;
     }
 
     // ── 4. Field of study & Background alignment ──────────────────────────
@@ -232,8 +238,28 @@ export function heuristicMatcher(
         break;
       }
     }
-    if (backgroundScore === 0 && (cvFullText.includes(oppTitle) || oppTitle.includes(cvField))) {
-      backgroundScore = 10;
+    if (backgroundScore === 0) {
+      if (/(engineering|computer|informatique|software|esprit)/i.test(cvFullText)) {
+        if (/(developer|engineer|software|design|tech|web|data)/i.test(oppTitle)) {
+          backgroundScore = 15;
+        } else {
+          backgroundScore = 9;
+        }
+      } else if (/(business|management|marketing|finance|commerce)/i.test(cvFullText)) {
+        if (/(sales|marketing|business|finance|hr|management)/i.test(oppTitle)) {
+          backgroundScore = 15;
+        } else {
+          backgroundScore = 9;
+        }
+      } else if (/(teacher|teaching|education|languages)/i.test(cvFullText)) {
+        if (/(teacher|teaching|trainer|instructor|educator)/i.test(oppTitle)) {
+          backgroundScore = 15;
+        } else {
+          backgroundScore = 9;
+        }
+      } else if (cvFullText.includes(oppTitle) || oppTitle.includes(cvField)) {
+        backgroundScore = 10;
+      }
     }
 
     // ── 5. Language requirement match ─────────────────────────────────────
@@ -291,8 +317,21 @@ export function heuristicMatcher(
     }
 
     // ── Compute total score ────────────────────────────────────────────────
-    const rawScore = skillScore + experienceScore + projectScore + backgroundScore + langScore + preferenceBonus;
-    const totalScore = Math.min(99, Math.max(15, Math.round(rawScore)));
+    const isGv = opp.programme?.short_name === "GV" ||
+      opp.programmeSlug === "global-volunteer" ||
+      (opp.programmeName || "").toLowerCase().includes("volunteer");
+    let totalScore = 0;
+    if (isGv) {
+      const rawGv = (skillScore * 0.5) + (experienceScore * 0.4) + projectScore + backgroundScore + langScore + preferenceBonus + 16;
+      totalScore = Math.min(85, Math.max(35, Math.round((rawGv * 85) / 72)));
+    } else {
+      const rawScore = skillScore + experienceScore + projectScore + backgroundScore + langScore + preferenceBonus;
+      if (experienceScore === 0 && matchingSkills.length === 0) {
+        totalScore = Math.min(25, Math.max(12, Math.round((backgroundScore + langScore) * 1.2)));
+      } else {
+        totalScore = Math.min(98, Math.max(28, Math.round((rawScore * 98) / 102)));
+      }
+    }
 
     // ── Build human-readable reasons ──────────────────────────────────────
     const reasons: string[] = [...preferenceReasons];

@@ -157,6 +157,9 @@ def tokenize(text: str) -> set:
     return toks
 
 def match(cv_data: dict, opportunities: list) -> list:
+    raw_text = str(cv_data.get("raw_text", "")).lower()
+    summary = str(cv_data.get("summary", "")).lower()
+
     # ── 1. Candidate Skills ───────────────────────────────────────────────────
     raw_skills = [str(s) for s in cv_data.get("skills", []) if s]
     cv_skills = {normalize(s) for s in raw_skills} - STOP_WORDS
@@ -176,9 +179,23 @@ def match(cv_data: dict, opportunities: list) -> list:
         cv_descs = []
         exp_full = str(exp_data)
 
-    cv_job_titles = cv_data.get("job_titles", [])
-    if not cv_job_titles and cv_roles:
-        cv_job_titles = [re.split(r"[-–—@|(]", r)[0].strip() for r in cv_roles if r]
+    cv_job_titles = cv_data.get("job_titles") or []
+    if not cv_job_titles:
+        cv_job_titles = []
+        for r in cv_roles:
+            clean_r = re.split(r"[-–—@|(]", str(r))[0].strip()
+            if clean_r and len(clean_r) > 3 and not re.search(r'\d', clean_r):
+                cv_job_titles.append(clean_r)
+        for jt in [
+            "web developer", "software engineer", "frontend developer", "backend developer",
+            "full stack developer", "c# developer", "java developer", "python developer",
+            "mobile developer", "graphic designer", "ui ux designer", "motion graphics designer",
+            "sales representative", "business developer", "account manager", "english teacher",
+            "marketing specialist", "content creator", "data analyst", "embedded engineer"
+        ]:
+            if jt in raw_text or jt in summary or jt in exp_full.lower():
+                cv_job_titles.append(jt)
+    cv_job_titles = list(set(cv_job_titles))
 
     # Incorporate job_titles and clean roles into cv_skills
     for jt in cv_job_titles:
@@ -190,7 +207,7 @@ def match(cv_data: dict, opportunities: list) -> list:
                     cv_skills.add(part)
 
     for r in cv_roles:
-        clean_r = re.split(r"[-–—@|(]", r)[0].strip()
+        clean_r = re.split(r"[-–—@|(]", str(r))[0].strip()
         norm_r = normalize(clean_r)
         if norm_r:
             cv_skills.add(norm_r)
@@ -199,19 +216,19 @@ def match(cv_data: dict, opportunities: list) -> list:
                     cv_skills.add(part)
 
     # Domain Synonyms expansion
-    if cv_skills & {"php", "javascript", "html", "css", "react", "vue", "angular", "node", "sql", "symfony", "laravel", "mvc", "django"}:
+    if cv_skills & {"php", "javascript", "html", "css", "react", "vue", "angular", "node", "sql", "symfony", "laravel", "mvc", "django"} or "web developer" in raw_text or "developer" in raw_text:
         cv_skills.update({"web", "developer", "web developer", "web development", "software developer", "software development"})
 
-    if cv_skills & {"figma", "photoshop", "illustrator", "design", "ui ux", "graphic design"}:
+    if cv_skills & {"figma", "photoshop", "illustrator", "design", "ui ux", "graphic design"} or "graphic designer" in raw_text:
         cv_skills.update({"graphic designer", "graphic design", "designer", "design", "ui ux"})
 
-    if cv_skills & {"teaching", "lesson planning", "classroom management", "pedagogy", "curriculum"}:
+    if cv_skills & {"teaching", "lesson planning", "classroom management", "pedagogy", "curriculum"} or "teacher" in raw_text:
         cv_skills.update({"teacher", "teaching", "educator", "instructor", "education"})
 
-    if cv_skills & {"sales", "seller", "customer service"}:
+    if cv_skills & {"sales", "seller", "customer service"} or "sales" in raw_text or "seller" in raw_text:
         cv_skills.update({"sales", "seller", "sales representative", "customer service"})
 
-    if cv_skills & {"marketing", "social media", "seo"}:
+    if cv_skills & {"marketing", "social media", "seo"} or "marketing" in raw_text:
         cv_skills.update({"marketing", "digital marketing", "marketing specialist"})
 
     # ── 3. Candidate Languages ────────────────────────────────────────────────
@@ -220,15 +237,15 @@ def match(cv_data: dict, opportunities: list) -> list:
         cv_languages = {"english"}
 
     # ── 4. Candidate Projects & Education ─────────────────────────────────────
-    cv_projects = cv_data.get("projects", [])
-    projects_text = " ".join(str(p) for p in cv_projects).lower()
+    cv_projects = cv_data.get("projects") or []
+    projects_text = (" ".join(str(p) for p in cv_projects) + " " + raw_text).lower()
     projects_tokens = tokenize(projects_text)
 
-    cv_edu = cv_data.get("education", [])
-    edu_text = " ".join(str(e) for e in cv_edu).lower()
+    cv_edu = cv_data.get("education") or []
+    edu_text = (" ".join(str(e) for e in cv_edu) + " " + raw_text + " " + summary).lower()
     edu_tokens = tokenize(edu_text)
 
-    role_and_job_text = " ".join(cv_roles + cv_job_titles + [exp_full]).lower()
+    role_and_job_text = (" ".join(str(r) for r in cv_roles) + " " + " ".join(cv_job_titles) + " " + exp_full + " " + summary + " " + raw_text).lower()
 
     # Identify candidate's primary domain strengths
     domain_strengths = {}
@@ -274,7 +291,7 @@ def match(cv_data: dict, opportunities: list) -> list:
         opp_full_text = f"{title_lower} {desc_lower}"
         opp_tokens = tokenize(opp_full_text)
 
-        # ─── 1. SKILLS SCORE (0 to 35 points) ─────────────────────────────────
+        # ─── 1. SKILLS SCORE (0 to 45 points) ─────────────────────────────────
         matched_skills = []
         for os in clean_opp_skills:
             if os in cv_skills:
@@ -297,11 +314,11 @@ def match(cv_data: dict, opportunities: list) -> list:
 
         if clean_opp_skills:
             coverage = len([s for s in matched_skills if s in clean_opp_skills]) / max(1, len(clean_opp_skills))
-            skill_score = min(35.0, (coverage * 25.0) + (len(matched_skills) * 3.0))
+            skill_score = min(45.0, (coverage * 32.0) + (len(matched_skills) * 4.0))
         else:
-            skill_score = min(25.0, len(matched_skills) * 5.0)
+            skill_score = min(32.0, len(matched_skills) * 6.0)
 
-        # ─── 2. DOMAIN & JOB ROLE RELEVANCE (0 to 30 points) ──────────────────
+        # ─── 2. DOMAIN & JOB ROLE RELEVANCE (0 to 35 points) ──────────────────
         role_score = 0.0
         best_domain_match = None
         matched_roles = []
@@ -318,7 +335,7 @@ def match(cv_data: dict, opportunities: list) -> list:
             if is_opp_domain:
                 candidate_strength = domain_strengths.get(domain, 0)
                 if candidate_strength > 0:
-                    d_score = min(30.0, 12.0 + candidate_strength * 2.0)
+                    d_score = min(35.0, 16.0 + candidate_strength * 2.2)
                     if d_score > role_score:
                         role_score = d_score
                         best_domain_match = domain
@@ -326,15 +343,15 @@ def match(cv_data: dict, opportunities: list) -> list:
         for jt in cv_job_titles:
             jt_clean = normalize(jt)
             if jt_clean and len(jt_clean) > 3 and jt_clean in title_lower:
-                role_score = max(role_score, 28.0)
+                role_score = max(role_score, 35.0)
                 matched_roles.append(jt)
             elif any(w in title_lower for w in jt_clean.split() if len(w) > 3):
-                role_score = max(role_score, 20.0)
+                role_score = max(role_score, 25.0)
                 matched_roles.append(jt)
 
         matched_roles = list(set(matched_roles))
 
-        # ─── 3. PROJECTS & PORTFOLIO FIT (0 to 15 points) ─────────────────────
+        # ─── 3. PROJECTS & PORTFOLIO FIT (0 to 10 points) ─────────────────────
         proj_score = 0.0
         matched_projects = []
         if cv_projects:
@@ -345,46 +362,48 @@ def match(cv_data: dict, opportunities: list) -> list:
                 if len(common) >= 2 or any(len(w) > 4 and w in title_lower for w in p_toks):
                     matched_projects.append(p_str)
             if matched_projects:
-                proj_score = min(15.0, 8.0 + len(matched_projects) * 3.5)
-            elif role_score >= 18.0:
-                proj_score = 6.0
+                proj_score = min(10.0, 6.0 + len(matched_projects) * 2.0)
 
-        # ─── 4. EDUCATION & BACKGROUND (0 to 10 points) ───────────────────────
+        if proj_score == 0.0:
+            if role_score >= 20.0 or any(p in projects_text for p in ["web", "app", "platform", "design", "fintech", "system", "embedded", "project"]):
+                proj_score = 7.0
+
+        # ─── 4. EDUCATION & BACKGROUND (0 to 12 points) ───────────────────────
         edu_score = 0.0
-        if "engineering" in edu_text or "computer" in edu_text or "informatique" in edu_text:
+        if any(w in edu_text for w in ["engineering", "computer", "informatique", "software", "esprit"]):
             if any(w in title_lower for w in ["developer", "engineer", "software", "design", "tech", "web"]):
-                edu_score = 10.0
+                edu_score = 12.0
             elif cat == "GTa":
-                edu_score = 7.0
+                edu_score = 9.0
             elif cat == "GV":
-                edu_score = 5.0
-        elif "education" in edu_text or "literature" in edu_text or "teaching" in edu_text or "languages" in edu_text:
-            if any(w in title_lower for w in ["teacher", "teaching", "trainer", "instructor", "educator"]):
-                edu_score = 10.0
-            elif cat == "GTe":
-                edu_score = 8.0
-        elif "business" in edu_text or "management" in edu_text or "marketing" in edu_text or "finance" in edu_text:
-            if any(w in title_lower for w in ["sales", "marketing", "business", "finance", "hr", "management"]):
-                edu_score = 10.0
-            elif cat == "GTa":
                 edu_score = 7.0
+        elif any(w in edu_text for w in ["education", "literature", "teaching", "languages", "anglais"]):
+            if any(w in title_lower for w in ["teacher", "teaching", "trainer", "instructor", "educator"]):
+                edu_score = 12.0
+            elif cat == "GTe":
+                edu_score = 10.0
+        elif any(w in edu_text for w in ["business", "management", "marketing", "finance", "commerce"]):
+            if any(w in title_lower for w in ["sales", "marketing", "business", "finance", "hr", "management"]):
+                edu_score = 12.0
+            elif cat == "GTa":
+                edu_score = 9.0
 
-        if edu_score == 0.0 and len(edu_tokens) > 0:
-            edu_score = 3.0
+        if edu_score == 0.0 and len(tokenize(edu_text)) > 0:
+            edu_score = 5.0
 
-        # ─── 5. LANGUAGES FIT (0 to 10 points) ────────────────────────────────
+        # ─── 5. LANGUAGES FIT (0 to 8 points) ─────────────────────────────────
         lang_score = 0.0
         matched_languages = []
         if "english" in cv_languages:
             matched_languages.append("English")
-            lang_score = 7.0
+            lang_score = 6.0
         if "french" in cv_languages:
             matched_languages.append("French")
             if "french" in opp_full_text:
-                lang_score = 10.0
+                lang_score = 8.0
         if "arabic" in cv_languages and ("arabic" in opp_full_text or "egypt" in opp_full_text):
             matched_languages.append("Arabic")
-            lang_score = min(10.0, lang_score + 2.0)
+            lang_score = min(8.0, lang_score + 2.0)
 
         # ─── 6. GLOBAL VOLUNTEER (GV) PROGRAMME RELEVANCE (0 to 25 points) ────
         gv_score = 0.0
@@ -393,21 +412,21 @@ def match(cv_data: dict, opportunities: list) -> list:
                 if theme in title_lower:
                     bonus_domain = tinfo["bonus_domain"]
                     cand_strength = domain_strengths.get(bonus_domain, 0)
-                    gv_score = min(25.0, 14.0 + cand_strength * 1.5)
+                    gv_score = min(25.0, 15.0 + cand_strength * 1.5)
                     break
             if gv_score == 0.0:
-                gv_score = 14.0
+                gv_score = 16.0
 
         # ─── TOTAL SCORE COMPUTATION ──────────────────────────────────────────
         if cat == "GV":
-            raw = (skill_score * 0.6) + (role_score * 0.5) + (proj_score * 0.7) + edu_score + lang_score + gv_score
-            final_score = round(min(82.0, max(28.0, raw * 82.0 / 75.0)), 1)
+            raw = (skill_score * 0.5) + (role_score * 0.4) + proj_score + edu_score + lang_score + gv_score
+            final_score = round(min(85.0, max(35.0, raw * 85.0 / 72.0)), 1)
         else:
             raw = skill_score + role_score + proj_score + edu_score + lang_score
             if role_score == 0 and not matched_skills:
-                final_score = round(min(22.0, max(10.0, (edu_score + lang_score) * 1.2)), 1)
+                final_score = round(min(25.0, max(12.0, (edu_score + lang_score) * 1.2)), 1)
             else:
-                final_score = round(min(98.0, max(25.0, raw)), 1)
+                final_score = round(min(98.0, max(28.0, raw * 98.0 / 102.0)), 1)
 
         # Reasons
         reasons = []
