@@ -208,35 +208,122 @@ $offset = (($currentPage ?? 1) - 1) * ($perPage ?? 9);
 <?php else: ?>
 
     <?php
-        // Count per programme from ALL session matches (not just current page)
+        // Count per programme from ALL session matches (consistent with controller logic)
         $allSessionMatches = $_SESSION['last_matches'] ?? [];
         $countAll = count($allSessionMatches);
-        $countGTe = count(array_filter($allSessionMatches, fn($m) => ($m['category'] ?? '') === 'GTe'));
-        $countGTa = count(array_filter($allSessionMatches, fn($m) => ($m['category'] ?? '') === 'GTa'));
+        $countGTe = count(array_filter($allSessionMatches, function($m) {
+            $cat = $m['category'] ?? '';
+            $title = $m['title'] ?? '';
+            return ($cat === 'GTe' || stripos($title, 'teach') !== false || stripos($title, 'instructor') !== false || stripos($title, 'educator') !== false);
+        }));
+        $countGTa = count(array_filter($allSessionMatches, function($m) {
+            $cat = $m['category'] ?? '';
+            $title = $m['title'] ?? '';
+            $isTeacher = ($cat === 'GTe' || stripos($title, 'teach') !== false || stripos($title, 'instructor') !== false || stripos($title, 'educator') !== false);
+            return ($cat === 'GTa' && !$isTeacher);
+        }));
         $countGV  = count(array_filter($allSessionMatches, fn($m) => ($m['category'] ?? '') === 'GV'));
-        $activeProg = $_GET['prog'] ?? 'ALL';
+
+        $activeProg     = $progFilter ?? 'ALL';
+        $activeCountry  = $countryFilter ?? '';
+        $activeDuration = $durationFilter ?? '';
+        $activeQuery    = $searchQuery ?? '';
+
+        // Helper to build URL with preserved query parameters
+        $buildFilterUrl = function(array $overrides = []) use ($activeProg, $activeCountry, $activeDuration, $activeQuery): string {
+            $params = [
+                'prog'     => $activeProg !== 'ALL' ? $activeProg : null,
+                'country'  => $activeCountry !== '' ? $activeCountry : null,
+                'duration' => $activeDuration !== '' ? $activeDuration : null,
+                'q'        => $activeQuery !== '' ? $activeQuery : null,
+                'page'     => 1,
+            ];
+            foreach ($overrides as $k => $v) {
+                if ($v === null || $v === '' || $v === 'ALL') {
+                    unset($params[$k]);
+                } else {
+                    $params[$k] = $v;
+                }
+            }
+            $filtered = array_filter($params, fn($val) => $val !== null && $val !== '');
+            return '?' . http_build_query($filtered);
+        };
     ?>
 
-    <!-- Programme filter tabs -->
-    <div class="d-flex gap-2 flex-wrap mb-4">
-        <?php
-        $tabs = [
-            'ALL' => ['label' => '🌐 All', 'count' => $countAll],
-            'GTe' => ['label' => '🎓 Global Teacher', 'count' => $countGTe],
-            'GTa' => ['label' => '💼 Global Talent', 'count' => $countGTa],
-            'GV'  => ['label' => '🌍 Global Volunteer', 'count' => $countGV],
-        ];
-        foreach ($tabs as $code => $tab):
-            $isActive = ($activeProg === $code);
-            $href = '?prog=' . urlencode($code) . '&page=1';
-        ?>
-            <a href="<?= $href ?>" class="btn btn-sm <?= $isActive ? 'btn-primary' : 'btn-outline-secondary' ?> rounded-pill">
-                <?= $tab['label'] ?>
-                <?php if ($tab['count'] > 0): ?>
-                    <span class="badge <?= $isActive ? 'bg-white text-primary' : 'bg-secondary' ?> ms-1"><?= $tab['count'] ?></span>
+    <!-- Modern Filter Toolbar -->
+    <div class="card bg-dark bg-opacity-50 border border-secondary border-opacity-25 rounded-4 p-3 mb-4 shadow-sm">
+        <form method="get" action="" class="row g-2 align-items-center">
+
+            <!-- Programme Filter Pills -->
+            <div class="col-12 mb-2 d-flex gap-2 flex-wrap align-items-center">
+                <span class="text-secondary small fw-bold me-1 text-uppercase" style="letter-spacing:0.5px;">Programme:</span>
+                <?php
+                $tabs = [
+                    'ALL' => ['label' => '🌐 All Opportunities', 'count' => $countAll],
+                    'GTa' => ['label' => '💼 Global Talent',      'count' => $countGTa],
+                    'GTe' => ['label' => '🎓 Global Teacher',     'count' => $countGTe],
+                    'GV'  => ['label' => '🌍 Global Volunteer',  'count' => $countGV],
+                ];
+                foreach ($tabs as $code => $tab):
+                    $isActive = ($activeProg === $code);
+                    $url = $buildFilterUrl(['prog' => $code]);
+                ?>
+                    <a href="<?= htmlspecialchars($url) ?>" class="btn btn-sm <?= $isActive ? 'btn-primary shadow-sm' : 'btn-outline-secondary' ?> rounded-pill px-3 py-1">
+                        <?= $tab['label'] ?>
+                        <?php if ($tab['count'] > 0): ?>
+                            <span class="badge <?= $isActive ? 'bg-white text-primary' : 'bg-secondary' ?> ms-1"><?= $tab['count'] ?></span>
+                        <?php endif; ?>
+                    </a>
+                <?php endforeach; ?>
+            </div>
+
+            <!-- Keep active prog in form when submitting other filters -->
+            <?php if ($activeProg !== 'ALL'): ?>
+                <input type="hidden" name="prog" value="<?= htmlspecialchars($activeProg) ?>">
+            <?php endif; ?>
+
+            <!-- Search input -->
+            <div class="col-md-4">
+                <div class="input-group input-group-sm">
+                    <span class="input-group-text bg-dark border-secondary border-opacity-25 text-secondary">🔍</span>
+                    <input type="text" name="q" class="form-control bg-dark border-secondary border-opacity-25 text-white"
+                           placeholder="Search title, skills, keyword..." value="<?= htmlspecialchars($activeQuery) ?>">
+                </div>
+            </div>
+
+            <!-- Location dropdown -->
+            <div class="col-sm-6 col-md-3">
+                <select name="country" class="form-select form-select-sm bg-dark border-secondary border-opacity-25 text-white" onchange="this.form.submit()">
+                    <option value="">🌐 All Locations / Countries</option>
+                    <?php foreach (($availableLocations ?? []) as $loc): ?>
+                        <option value="<?= htmlspecialchars($loc) ?>" <?= $activeCountry === $loc ? 'selected' : '' ?>>
+                            <?= htmlspecialchars($loc) ?>
+                        </option>
+                    <?php endforeach; ?>
+                </select>
+            </div>
+
+            <!-- Duration dropdown -->
+            <div class="col-sm-6 col-md-3">
+                <select name="duration" class="form-select form-select-sm bg-dark border-secondary border-opacity-25 text-white" onchange="this.form.submit()">
+                    <option value="">⏱️ All Durations</option>
+                    <?php foreach (($availableDurations ?? []) as $dur): ?>
+                        <option value="<?= htmlspecialchars($dur) ?>" <?= $activeDuration === $dur ? 'selected' : '' ?>>
+                            <?= htmlspecialchars($dur) ?>
+                        </option>
+                    <?php endforeach; ?>
+                </select>
+            </div>
+
+            <!-- Actions -->
+            <div class="col-md-2 d-flex gap-1 justify-content-end">
+                <button type="submit" class="btn btn-sm btn-outline-primary px-3">Filter</button>
+                <?php if ($activeProg !== 'ALL' || $activeCountry !== '' || $activeDuration !== '' || $activeQuery !== ''): ?>
+                    <a href="?page=1" class="btn btn-sm btn-outline-danger px-2" title="Reset all filters">✕ Reset</a>
                 <?php endif; ?>
-            </a>
-        <?php endforeach; ?>
+            </div>
+
+        </form>
     </div>
 
     <!-- Results summary bar -->
@@ -252,11 +339,17 @@ $offset = (($currentPage ?? 1) - 1) * ($perPage ?? 9);
             Showing
             <strong class="text-white"><?= $offset + 1 ?>–<?= min($offset + $perPage, $allMatchesCount) ?></strong>
             of <strong class="text-white"><?= $allMatchesCount ?></strong> opportunities
-            <?php if (!empty($selectedCountry) && !$countryNoMatch): ?>
-                in <strong class="text-white"><?= htmlspecialchars($selectedCountry) ?></strong>
+            <?php if (!empty($activeCountry)): ?>
+                in <strong class="text-white"><?= htmlspecialchars($activeCountry) ?></strong>
             <?php endif; ?>
-            <?php if (!empty($selectedProgramme)): ?>
-                · <span class="badge text-bg-primary"><?= htmlspecialchars($selectedProgramme) ?></span>
+            <?php if (!empty($activeDuration)): ?>
+                · <span class="badge text-bg-secondary"><?= htmlspecialchars($activeDuration) ?></span>
+            <?php endif; ?>
+            <?php if ($activeProg !== 'ALL'): ?>
+                · <span class="badge text-bg-primary"><?= htmlspecialchars($activeProg === 'GTe' ? 'Global Teacher' : ($activeProg === 'GTa' ? 'Global Talent' : 'Global Volunteer')) ?></span>
+            <?php endif; ?>
+            <?php if (!empty($activeQuery)): ?>
+                · matching &ldquo;<span class="text-info"><?= htmlspecialchars($activeQuery) ?></span>&rdquo;
             <?php endif; ?>
             <?php if ($allGood > 0): ?>
                 · <span class="text-success fw-semibold"><?= $allGood ?> good match<?= $allGood > 1 ? 'es' : '' ?> (≥30%)</span>
@@ -288,16 +381,26 @@ $offset = (($currentPage ?? 1) - 1) * ($perPage ?? 9);
                             <span class="score-badge-pill <?= $badgeClass ?>"><?= $badgeLabel ?> <?= $sc ?>%</span>
                         </div>
                         <div class="text-secondary mb-2"><strong>Location:</strong> <?= htmlspecialchars($match['location']) ?></div>
-                        <?php if (!empty($match['category']) || !empty($match['duration'])): ?>
-                            <div class="small text-secondary mb-2">
-                                <?php if (!empty($match['category'])): ?>
-                                    <span><?= htmlspecialchars($match['category']) ?></span>
-                                <?php endif; ?>
-                                <?php if (!empty($match['duration'])): ?>
-                                    <span><?= !empty($match['category']) ? ' · ' : '' ?><?= htmlspecialchars($match['duration']) ?></span>
-                                <?php endif; ?>
-                            </div>
-                        <?php endif; ?>
+                        <div class="small text-secondary mb-2 d-flex gap-1 align-items-center flex-wrap">
+                            <?php
+                                $cat = $match['category'] ?? '';
+                                $title = $match['title'] ?? '';
+                                if ($cat === 'GTe' || stripos($title, 'teach') !== false || stripos($title, 'instructor') !== false || stripos($title, 'educator') !== false) {
+                                    $catBadge = '🎓 Global Teacher';
+                                    $catClass = 'text-bg-warning';
+                                } elseif ($cat === 'GTa') {
+                                    $catBadge = '💼 Global Talent';
+                                    $catClass = 'text-bg-primary';
+                                } else {
+                                    $catBadge = '🌍 Global Volunteer';
+                                    $catClass = 'text-bg-success';
+                                }
+                            ?>
+                            <span class="badge <?= $catClass ?> me-1"><?= $catBadge ?></span>
+                            <?php if (!empty($match['duration'])): ?>
+                                <span class="badge text-bg-dark border border-secondary border-opacity-50"><?= htmlspecialchars($match['duration']) ?></span>
+                            <?php endif; ?>
+                        </div>
                         <p class="text-secondary flex-grow-1"><?= htmlspecialchars($match['description']) ?></p>
                         <?php $exactMatchedSkills = is_array($match['matched_skills'] ?? null) ? $match['matched_skills'] : []; ?>
                         <div class="mb-3">
@@ -374,7 +477,17 @@ $offset = (($currentPage ?? 1) - 1) * ($perPage ?? 9);
 
     <!-- Pagination -->
     <?php
-        $progParam = isset($_GET['prog']) && $_GET['prog'] !== 'ALL' ? '&prog=' . urlencode($_GET['prog']) : '';
+        $pagQuery = [];
+        if (!empty($activeProg) && $activeProg !== 'ALL') $pagQuery['prog'] = $activeProg;
+        if (!empty($activeCountry))                       $pagQuery['country'] = $activeCountry;
+        if (!empty($activeDuration))                      $pagQuery['duration'] = $activeDuration;
+        if (!empty($activeQuery))                         $pagQuery['q'] = $activeQuery;
+
+        $makePageUrl = function(int $pageNum) use ($pagQuery): string {
+            $q = $pagQuery;
+            $q['page'] = $pageNum;
+            return '?' . http_build_query($q);
+        };
     ?>
     <?php if ($totalPages > 1): ?>
     <nav class="mt-5 d-flex justify-content-center" aria-label="Results pagination">
@@ -383,13 +496,12 @@ $offset = (($currentPage ?? 1) - 1) * ($perPage ?? 9);
             <!-- Previous -->
             <?php $prevPage = $currentPage - 1; ?>
             <li class="page-item <?= $currentPage <= 1 ? 'disabled' : '' ?>">
-                <a class="page-link paginator-link rounded-3" href="?page=<?= $prevPage ?><?= $progParam ?>" aria-label="Previous">
+                <a class="page-link paginator-link rounded-3" href="<?= $makePageUrl($prevPage) ?>" aria-label="Previous">
                     ‹
                 </a>
             </li>
 
             <?php
-            // Show smart page range: always show first, last, and ±2 around current
             $range = [];
             for ($i = 1; $i <= $totalPages; $i++) {
                 if ($i === 1 || $i === $totalPages || abs($i - $currentPage) <= 2) {
@@ -402,14 +514,14 @@ $offset = (($currentPage ?? 1) - 1) * ($perPage ?? 9);
                     <li class="page-item disabled"><span class="page-link paginator-link rounded-3">…</span></li>
                 <?php endif; ?>
                 <li class="page-item <?= $p === $currentPage ? 'active' : '' ?>">
-                    <a class="page-link paginator-link rounded-3" href="?page=<?= $p ?><?= $progParam ?>"><?= $p ?></a>
+                    <a class="page-link paginator-link rounded-3" href="<?= $makePageUrl($p) ?>"><?= $p ?></a>
                 </li>
             <?php $prev = $p; endforeach; ?>
 
             <!-- Next -->
             <?php $nextPage = $currentPage + 1; ?>
             <li class="page-item <?= $currentPage >= $totalPages ? 'disabled' : '' ?>">
-                <a class="page-link paginator-link rounded-3" href="?page=<?= $nextPage ?><?= $progParam ?>" aria-label="Next">
+                <a class="page-link paginator-link rounded-3" href="<?= $makePageUrl($nextPage) ?>" aria-label="Next">
                     ›
                 </a>
             </li>

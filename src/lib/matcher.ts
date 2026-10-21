@@ -191,14 +191,13 @@ export function heuristicMatcher(
     let skillScore = 0;
     const realOppSkillsCount = matchingSkills.length + missingSkills.length;
     if (realOppSkillsCount > 0) {
-      skillScore = (matchingSkills.length / realOppSkillsCount) * 80;
+      const coverage = matchingSkills.length / realOppSkillsCount;
+      skillScore = Math.min(35, coverage * 25 + matchingSkills.length * 3);
     } else {
       const cvSkillHits = cvSkills.filter(skill =>
         containsTerm(`${oppTitle} ${oppDesc}`, skill)
       );
-      skillScore = cvSkills.length > 0
-        ? Math.min(80, (cvSkillHits.length / cvSkills.length) * 80)
-        : 0;
+      skillScore = Math.min(25, cvSkillHits.length * 5);
     }
 
     // ── 2. Experience match (CV experience text vs opportunity title+description) ──
@@ -292,9 +291,8 @@ export function heuristicMatcher(
     }
 
     // ── Compute total score ────────────────────────────────────────────────
-    // Only skills (80%) and experience (20%) determine the score.
-    const rawScore = skillScore + experienceScore;
-    const totalScore = Math.min(100, Math.max(0, Math.round(rawScore)));
+    const rawScore = skillScore + experienceScore + projectScore + backgroundScore + langScore + preferenceBonus;
+    const totalScore = Math.min(99, Math.max(15, Math.round(rawScore)));
 
     // ── Build human-readable reasons ──────────────────────────────────────
     const reasons: string[] = [...preferenceReasons];
@@ -424,10 +422,13 @@ Only return a valid JSON array, no extra markdown or explanations.`;
       const rating = ratings.find(r => r.id === opp.id);
       const fallback = heuristicMatcher(cvParsed, [opp], preferences)[0];
       const heuristicScore = fallback.score;
+      const aiScore = rating?.score != null ? Math.min(99, Math.max(15, rating.score)) : null;
+      const finalScore = aiScore != null ? Math.round(heuristicScore * 0.65 + aiScore * 0.35) : heuristicScore;
+
       return {
         opportunity: opp,
-        score: heuristicScore,
-        reasons: fallback.reasons,
+        score: finalScore,
+        reasons: rating?.reasons?.length ? rating.reasons : fallback.reasons,
         matchingSkills: fallback.matchingSkills,
         missingSkills: fallback.missingSkills,
       };

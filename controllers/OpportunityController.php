@@ -59,39 +59,16 @@ final class OpportunityController extends BaseController
             ]);
             return;
         }
-
         $cv = $uploader->createFromUploadedFile($result['path']);
         // Collect optional filters from the form
-        $selectedDuration  = $_POST['duration_filter']  ?? '';
-        $selectedCountry   = $_POST['country_filter']   ?? '';
-        $selectedProgramme = $_POST['programme_filter'] ?? '';
+        $selectedDuration  = trim($_POST['duration_filter']  ?? '');
+        $selectedCountry   = trim($_POST['country_filter']   ?? '');
+        $selectedProgramme = trim($_POST['programme_filter'] ?? '');
 
         $opportunityModel = new Opportunity();
 
-        // Load opportunities from DB with filters
-        $opportunities = $opportunityModel->syncFromScraper([
-            'duration'   => $selectedDuration  ?: null,
-            'country'    => $selectedCountry   ?: null,
-            'programme'  => $selectedProgramme ?: null,
-        ]);
-
-        // Detect if the country filter produced no exact results
-        $countryNoMatch = false;
-        if (!empty($selectedCountry) && !empty($opportunities)) {
-            $countryLower    = strtolower(trim($selectedCountry));
-            $hasExactCountry = false;
-            foreach ($opportunities as $opp) {
-                $locLower = strtolower($opp['location'] ?? '');
-                $descLower = strtolower($opp['description'] ?? '');
-                if (str_contains($locLower, $countryLower) || str_contains($descLower, 'mc: ' . $countryLower) || str_contains($descLower, $countryLower)) {
-                    $hasExactCountry = true;
-                    break;
-                }
-            }
-            if (!$hasExactCountry) {
-                $countryNoMatch = true;
-            }
-        }
+        // Match against ALL opportunities so the user can freely filter on the results page
+        $opportunities = $opportunityModel->syncFromScraper([]);
 
         $matcher = new MatchResult();
         $matches = $matcher->generateMatches($cv['parsed_data'], $opportunities, (int) $cv['id']);
@@ -100,66 +77,145 @@ final class OpportunityController extends BaseController
         $_SESSION['last_cv_id']               = (int) $cv['id'];
         $_SESSION['last_cv_profile']          = $cv['parsed_data'];
         $_SESSION['last_matches']             = $matches;
-        $_SESSION['last_selected_country']    = $selectedCountry   ?: null;
-        $_SESSION['last_selected_duration']   = $selectedDuration  ?: null;
-        $_SESSION['last_selected_programme']  = $selectedProgramme ?: null;
-        $_SESSION['last_country_no_match']    = $countryNoMatch;
-        $_SESSION['last_opportunity_source']  = $this->summarizeOpportunitySource($opportunities, $selectedCountry, $countryNoMatch);
+        $_SESSION['last_opportunity_source']  = $this->summarizeOpportunitySource($opportunities, $selectedCountry, false);
 
-        $this->redirect('/results');
+        // Build redirect query with any initial filters selected on upload form
+        $redirectParams = [];
+        if (!empty($selectedProgramme)) {
+            $redirectParams['prog'] = $selectedProgramme;
+        }
+        if (!empty($selectedCountry)) {
+            $redirectParams['country'] = $selectedCountry;
+        }
+        if (!empty($selectedDuration)) {
+            $redirectParams['duration'] = $selectedDuration;
+        }
+
+        $redirectUrl = '/results' . (!empty($redirectParams) ? '?' . http_build_query($redirectParams) : '');
+        $this->redirect($redirectUrl);
     }
 
     public function results(): void
     {
-		$this->requireAuth();
+        $this->requireAuth();
 
         $allMatches = $_SESSION['last_matches'] ?? [];
         $cvId       = $_SESSION['last_cv_id'] ?? null;
         $profile    = $_SESSION['last_cv_profile'] ?? [];
 
-        $progFilter = $_GET['prog'] ?? 'ALL';
-        if ($progFilter !== 'ALL') {
-            $allMatches = array_values(array_filter($allMatches, function($m) use ($progFilter) {
-                if ($progFilter === 'GTe') {
-                    return ($m['category'] ?? '') === 'GTe' || stripos($m['title'] ?? '', 'teach') !== false;
-                }
-                if ($progFilter === 'GTa') {
-                    return ($m['category'] ?? '') === 'GTa' && stripos($m['title'] ?? '', 'teach') === false;
-                }
-                if ($progFilter === 'GV') {
-                    return ($m['category'] ?? '') === 'GV';
-                }
+        // Extract available locations and durations for filter dropdowns
+        $availableLocations = [];
+        $availableDurations = [];
+        foreach ($allMatches as $m) {
+            $loc = trim($m['location'] ?? '');
+            if ($loc !== '' && !in_array($loc, $availableLocations, true)) {
+                $availableLocations[] = $loc;
+            }
+            $dur = trim($m['duration'] ?? '');
+            if ($dur !== '' && !in_array($dur, $availableDurations, true)) {
+                $availableDurations[] = $dur;
+            }
+        }
+        sort($availableLocations, SORT_STRING | SORT_FLAG_CASE);
+        sort($availableDurations, SORT_STRING | SORT_FLAG_CASE);
+
+        if (!in_array('Egypt', $availableLocations, true)) {
+            array_unshift($availableLocations, 'Egypt');
+        }
+
+        // --- Filters from GET request ---
+        $progFilter     = $_GET['prog'] ?? 'ALL';
+        $countryFilter  = trim($_GET['country'] ?? '');
+        $durationFilter = trim($_GET['duration'] ?? '');
+        $searchQuery    = trim($_GET['q'] ?? '');
+
+        $filteredMatches = $allMatches;
+
+        // 1. Programme Filter
+        if ($progFilter !== 'ALL' && $progFilter !== '') {
+            $filteredMatches = array_values(array_filter($filteredMatches, function($m) use ($progFilter) {
+                $cat = $m['category'] ?? '';
+                $title = $m['title'] ?? '';
+                $isTeacher = ($cat === 'GTe' || stripos($title, 'teach') !== false || stripos($title, 'instructor') !== false || stripos($title, 'educator') !== false);
+                $isVolunteer = ($cat === 'GV');
+                $isTalent = ($cat === 'GTa' && !$isTeacher);
+
+                if ($progFilter === 'GTe') return $isTeacher;
+                if ($progFilter === 'GTa') return $isTalent;
+                if ($progFilter === 'GV')  return $isVolunteer;
                 return true;
             }));
         }
 
+        // 2. Country / Location Filter
+        if ($countryFilter !== '' && $countryFilter !== 'ALL') {
+            $cLower = strtolower($countryFilter);
+            $filteredMatches = array_values(array_filter($filteredMatches, function($m) use ($cLower) {
+                $locLower   = strtolower($m['location'] ?? '');
+                $descLower  = strtolower($m['description'] ?? '');
+                $titleLower = strtolower($m['title'] ?? '');
+                return str_contains($locLower, $cLower)
+                    || str_contains($descLower, $cLower)
+                    || str_contains($descLower, 'mc: ' . $cLower)
+                    || str_contains($titleLower, $cLower);
+            }));
+        }
+
+        // 3. Duration Filter
+        if ($durationFilter !== '' && $durationFilter !== 'ALL') {
+            $dLower = strtolower($durationFilter);
+            $filteredMatches = array_values(array_filter($filteredMatches, function($m) use ($dLower) {
+                $durLower   = strtolower($m['duration'] ?? '');
+                $titleLower = strtolower($m['title'] ?? '');
+                return str_contains($durLower, $dLower) || str_contains($titleLower, $dLower);
+            }));
+        }
+
+        // 4. Search Query Filter
+        if ($searchQuery !== '') {
+            $qLower = strtolower($searchQuery);
+            $filteredMatches = array_values(array_filter($filteredMatches, function($m) use ($qLower) {
+                $title  = strtolower($m['title'] ?? '');
+                $loc    = strtolower($m['location'] ?? '');
+                $desc   = strtolower($m['description'] ?? '');
+                $comp   = strtolower($m['company'] ?? '');
+                $skills = is_array($m['skills'] ?? null) ? implode(' ', $m['skills']) : strtolower((string)($m['skills'] ?? ''));
+                return str_contains($title, $qLower)
+                    || str_contains($loc, $qLower)
+                    || str_contains($desc, $qLower)
+                    || str_contains($comp, $qLower)
+                    || str_contains(strtolower($skills), $qLower);
+            }));
+        }
+
         // --- Pagination ---
-        $perPage     = 9;
-        $totalMatches = count($allMatches);
-        $totalPages  = max(1, (int) ceil($totalMatches / $perPage));
-        $currentPage = max(1, min($totalPages, (int) ($_GET['page'] ?? 1)));
-        $offset      = ($currentPage - 1) * $perPage;
-        $matches     = array_slice($allMatches, $offset, $perPage);
+        $perPage      = 9;
+        $totalMatches = count($filteredMatches);
+        $totalPages   = max(1, (int) ceil($totalMatches / $perPage));
+        $currentPage  = max(1, min($totalPages, (int) ($_GET['page'] ?? 1)));
+        $offset       = ($currentPage - 1) * $perPage;
+        $matches      = array_slice($filteredMatches, $offset, $perPage);
 
         $this->view('opportunity/results', [
-            'config'            => config(),
-            'matches'           => $matches,
-            'allMatchesCount'   => $totalMatches,
-            'currentPage'       => $currentPage,
-            'totalPages'        => $totalPages,
-            'perPage'           => $perPage,
-            'cvId'              => $cvId,
-            'profile'           => $profile,
-            'selectedCountry'   => $_SESSION['last_selected_country']   ?? null,
-            'selectedDuration'  => $_SESSION['last_selected_duration']  ?? null,
-            'selectedProgramme' => $_SESSION['last_selected_programme'] ?? null,
-            'countryNoMatch'    => $_SESSION['last_country_no_match']   ?? false,
-            'opportunitySource' => $_SESSION['last_opportunity_source'] ?? null,
-            'flashSuccess'      => $_SESSION['flash_success'] ?? null,
+            'config'             => config(),
+            'matches'            => $matches,
+            'allMatchesCount'    => $totalMatches,
+            'currentPage'        => $currentPage,
+            'totalPages'         => $totalPages,
+            'perPage'            => $perPage,
+            'cvId'               => $cvId,
+            'profile'            => $profile,
+            'progFilter'         => $progFilter,
+            'countryFilter'      => $countryFilter,
+            'durationFilter'     => $durationFilter,
+            'searchQuery'        => $searchQuery,
+            'availableLocations' => $availableLocations,
+            'availableDurations' => $availableDurations,
+            'opportunitySource'  => $_SESSION['last_opportunity_source'] ?? null,
+            'flashSuccess'       => $_SESSION['flash_success'] ?? null,
         ]);
 
         unset($_SESSION['flash_success']);
-
     }
 
     public function dashboard(): void

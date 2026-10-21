@@ -8,7 +8,7 @@ try:
 except Exception:
     pass
 
-# ─── Alias map: normalize skill variations ────────────────────────────────────
+# ─── Aliases & Normalization ──────────────────────────────────────────────────
 ALIASES = {
     "js": "javascript",
     "nodejs": "javascript",
@@ -23,18 +23,15 @@ ALIASES = {
     "ui/ux": "ui ux",
     "ui": "ui ux",
     "ux": "ui ux",
-    "graphic design": "design",
-    "web design": "design",
+    "graphic design": "graphic design",
+    "graphic designer": "graphic design",
+    "web design": "web design",
+    "photoshop": "graphic design",
+    "adobe photoshop": "graphic design",
+    "illustrator": "graphic design",
+    "adobe illustrator": "graphic design",
     "content writing": "content creation",
     "writing": "content creation",
-    "communicat": "communication",
-    "collaboration": "teamwork",
-    "team work": "teamwork",
-    "team player": "teamwork",
-    "problem-solving": "problem solving",
-    "ml": "machine learning",
-    "ai": "artificial intelligence",
-    "deep learning": "machine learning",
     "react.js": "react",
     "reactjs": "react",
     "vue.js": "vue",
@@ -42,42 +39,13 @@ ALIASES = {
     "angular.js": "angular",
     "customer service": "customer service",
     "social media": "social media marketing",
-    "social media management": "social media marketing",
-    "information technology": "it",
-    "marketing": "marketing",
+    "digital marketing": "marketing",
+    "media buying": "marketing",
     "sales": "sales",
     "seller": "sales",
-    "management": "management",
-    "leadership": "leadership",
-    "public speaking": "presentation",
-    "microsoft office": "microsoft office",
-    "ms office": "microsoft office",
-    "excel": "microsoft office",
-    "word": "microsoft office",
-    "powerpoint": "microsoft office",
-    "business development": "business",
-    "business administration": "business",
-    "entrepreneurship": "business",
-    "data analysis": "data analysis",
-    "data science": "data science",
-    "software development": "software development",
-    "software engineering": "software development",
-    "web development": "web development",
-    "mobile development": "mobile development",
-    "android": "mobile development",
-    "ios": "mobile development",
-    "flutter": "mobile development",
-    "flutterflow": "mobile development",
-    "project management": "project management",
-    "agile": "project management",
-    "scrum": "project management",
-    "iot": "iot",
-    "embedded systems": "embedded systems",
-    "arduino": "embedded systems",
-    "stm32": "embedded systems",
     "teaching": "teaching",
     "teacher": "teaching",
-    "education": "education",
+    "education": "teaching",
     "educator": "teaching",
     "tutoring": "teaching",
     "tutor": "teaching",
@@ -85,327 +53,210 @@ ALIASES = {
     "pedagogy": "teaching",
     "lesson planning": "teaching",
     "classroom management": "teaching",
-    "finance": "finance",
-    "accounting": "finance",
-    "financial analysis": "finance",
-    "hr": "human resources",
-    "human resources": "human resources",
-    "recruitment": "human resources",
-    "photoshop": "graphic design",
-    "adobe photoshop": "graphic design",
-    "illustrator": "graphic design",
-    "adobe illustrator": "graphic design",
-    "premiere pro": "video editing",
-    "after effects": "video editing",
-    "motion graphics": "video editing",
-    "canva": "graphic design",
+    "embedded systems": "embedded systems",
+    "arduino": "embedded systems",
+    "stm32": "embedded systems",
+    "iot": "embedded systems",
+    "flutter": "mobile development",
+    "flutterflow": "mobile development",
+    "android": "mobile development",
+    "ios": "mobile development",
+    "c#": "c#",
+    "c++": "c++",
+    "c": "c",
+    "python": "python",
+    "java": "java",
+    "php": "php",
+    "symfony": "php",
+    "laravel": "php",
 }
 
-# ─── Stop words: must NOT be treated as skills ────────────────────────────────
 STOP_WORDS = {
-    # Generic filler
     "the", "and", "for", "with", "that", "this", "from", "are", "will",
     "have", "has", "been", "can", "able", "your", "our", "their", "its",
     "you", "we", "they", "who", "what", "how", "when", "where", "which",
     "all", "any", "each", "more", "most", "some", "such", "than", "then",
     "also", "both", "but", "not", "only", "other", "same", "very", "just",
-    # CV structural headers
     "cv", "resume", "summary", "profile", "contact", "address", "email", "phone",
-    "responsible", "responsibilities", "activities", "activity",
-    # AIESEC specific filler
+    "responsible", "responsibilities", "activities", "activity", "part",
     "aiesec", "exchange", "participant", "lc", "mc", "gv", "gt", "gte", "gta",
     "outgoing", "incoming", "raising", "awareness", "opportunity", "product",
-    "global", "volunteer", "talent", "openings",
-    # Locations
-    "tunisia", "tunisie", "tunis", "ariana", "sfax", "sousse", "monastir",
-    "remote", "country", "countries", "city", "region", "location",
-    "africa", "europe", "asia", "america", "greece", "india", "egypt", "brazil",
-    "turkey", "ukraine", "romania", "vietnam", "colombia", "mexico", "kenya",
-    "nigeria", "ghana", "rwanda", "bolivia", "nepal", "sri", "lanka", "ecuador",
-    "cairo", "alexandria", "mansoura", "menofia", "helwan", "tanta", "zagazig",
-    "giza", "october", "miu", "must", "guc", "esprit",
-    # Filler descriptors
+    "global", "volunteer", "talent", "openings", "open", "offer",
     "good", "strong", "excellent", "great", "high", "new", "various",
     "different", "specific", "important", "based", "including", "providing",
     "support", "supporting", "ensure", "environment", "impact", "strategy",
     "local", "results", "working", "developing", "building", "creating",
     "understanding", "learning", "people", "tasks", "tools", "time",
     "weeks", "months", "level", "area", "areas", "needs", "goals", "goal",
-    "open", "offer", "part", "department", "company", "center", "centre",
-    # Numbers and non-skills
-    "4", "6", "8", "10", "12", "up", "scale", "skill", "discover",
 }
 
-# ─── Fake opp skill tokens to filter out ─────────────────────────────────────
-# These appear in auto-generated skill lists from titles but add no signal
-OPP_SKILL_NOISE = {
-    "talent", "opportunity", "weeks", "months", "global", "volunteer",
-    "outgoing", "openings", "product", "aiesec", "lc", "mc",
-    "4", "6", "8", "up", "scale", "skill", "discover", "map",
+DOMAIN_PROFILES = {
+    "web_developer": {
+        "title_keywords": ["web", "developer", "frontend", "backend", "full stack", "fullstack", "software", "programmer"],
+        "cv_skills": {"php", "javascript", "html", "css", "react", "vue", "angular", "node", "sql", "symfony", "laravel", "mvc", "django"},
+    },
+    "graphic_designer": {
+        "title_keywords": ["graphic", "designer", "design", "ui ux", "motion", "creative", "visual", "art"],
+        "cv_skills": {"graphic design", "ui ux", "figma", "photoshop", "illustrator", "design", "visual", "video editing"},
+    },
+    "mobile_developer": {
+        "title_keywords": ["mobile", "android", "ios", "flutter", "flutterflow", "app developer"],
+        "cv_skills": {"flutter", "flutterflow", "android", "ios", "mobile development"},
+    },
+    "embedded_engineer": {
+        "title_keywords": ["embedded", "iot", "electrical", "hardware", "robotics", "electronics", "firmware"],
+        "cv_skills": {"embedded systems", "arduino", "stm32", "c", "c++", "iot", "electronics"},
+    },
+    "teacher_educator": {
+        "title_keywords": ["teacher", "teaching", "trainer", "instructor", "educator", "tutor", "pedagogy", "school", "preschool", "classroom", "curriculum"],
+        "cv_skills": {"teaching", "lesson planning", "classroom management", "pedagogy", "education", "curriculum", "english", "french", "tutoring"},
+    },
+    "sales_business": {
+        "title_keywords": ["sales", "seller", "commercial", "business developer", "business development", "account manager", "negotiation"],
+        "cv_skills": {"sales", "customer service", "business development", "negotiation", "crm", "commercial"},
+    },
+    "marketing_digital": {
+        "title_keywords": ["marketing", "digital marketing", "media buying", "social media", "content creator", "seo", "branding"],
+        "cv_skills": {"marketing", "social media marketing", "digital marketing", "content creation", "media buying", "seo"},
+    },
+    "hr_recruitment": {
+        "title_keywords": ["hr", "human resources", "recruitment", "talent acquisition"],
+        "cv_skills": {"human resources", "recruitment", "talent acquisition"},
+    },
+    "finance_accounting": {
+        "title_keywords": ["finance", "financial", "accounting", "accountant", "audit", "banking"],
+        "cv_skills": {"finance", "accounting", "financial analysis", "audit"},
+    },
+    "volunteer_impact": {
+        "title_keywords": ["skill up", "scale up", "aquatica", "on the map", "discover", "classroom", "fingerprint", "volunteer"],
+        "cv_skills": {"communication", "teamwork", "leadership", "project management", "english", "teaching", "marketing", "sales"},
+    }
 }
 
-# ─── Generic single-word tokens too broad for reliable skill matching ─────────
-# These tokens (bare "developer", "design", etc.) appear in many unrelated
-# opportunity titles and cause false-positive matches.
-# They are stripped from CV skills BEFORE matching, but compound phrases
-# containing them (e.g. "web developer", "graphic design") remain valid.
-GENERIC_TOKENS = {
-    "developer", "designer", "design", "engineer", "engineering",
-    "business", "development", "management", "specialist", "analyst",
-    "manager", "coordinator", "assistant", "representative", "intern",
-    "trainer", "director", "officer", "consultant", "executive",
-    "graphic", "visual", "creative", "programmer", "programmer",
-    "etap", "freelance",   # CV-specific noise from role tokenization
+GV_THEMES = {
+    "skill up":   {"keywords": ["skills", "training", "coding", "software", "web", "design", "professional"], "bonus_domain": "web_developer"},
+    "scale up":   {"keywords": ["entrepreneurship", "business", "startups", "management", "growth"], "bonus_domain": "sales_business"},
+    "aquatica":   {"keywords": ["environment", "sustainability", "conservation", "water", "nature"], "bonus_domain": "volunteer_impact"},
+    "discover":   {"keywords": ["culture", "language", "tourism", "heritage", "exchange"], "bonus_domain": "teacher_educator"},
+    "classroom":  {"keywords": ["children", "education", "school", "teaching", "youth"], "bonus_domain": "teacher_educator"},
+    "map":        {"keywords": ["community", "development", "social", "impact"], "bonus_domain": "volunteer_impact"},
+    "fingerprint":{"keywords": ["health", "wellbeing", "society", "empowerment"], "bonus_domain": "volunteer_impact"},
 }
 
-# ─── Domain synergies: CV practical skills → job role keywords ────────────────
-TECH_DOMAINS = [
-    {
-        "triggers": {"php", "javascript", "html", "css", "react", "vue", "node",
-                     "angular", "symfony", "laravel", "mvc", "django", "flask", "web"},
-        "skills": ["web developer", "web development", "full stack",
-                   "fullstack", "frontend", "backend"]
-        # NOTE: do NOT add bare "developer" — it would match "C# Developer", "Business Developer" etc.
-    },
-    {
-        "triggers": {"python", "java", "c++", "c#", "software development",
-                     "software engineering", "algorithms", "data structures"},
-        "skills": ["software developer", "software development", "software engineer"]
-        # NOTE: no bare "developer" or "engineer"
-    },
-    {
-        "triggers": {"photoshop", "illustrator", "figma", "ui ux",
-                     "graphic design", "premiere pro", "canva", "after effects",
-                     "motion graphics", "adobe photoshop", "video editing"},
-        "skills": ["graphic design", "graphic designer", "ui ux",
-                   "motion graphics", "video editing", "content creator", "visual"]
-        # NOTE: no bare "design" or "designer" — would match "electrical design", "sound designer" etc.
-    },
-    {
-        "triggers": {"sales", "customer service", "seller", "negotiation", "crm"},
-        "skills": ["sales representative", "customer service", "sales"]
-        # NOTE: no bare "business" — would match "business developer", "business development"
-    },
-    {
-        "triggers": {"marketing", "social media marketing", "seo", "content creation",
-                     "digital marketing", "advertising", "branding", "email marketing"},
-        "skills": ["digital marketing", "marketing specialist",
-                   "content creator", "social media marketing", "media buying"]
-    },
-    {
-        "triggers": {"teaching", "teacher", "tutoring", "lesson planning",
-                     "classroom management", "pedagogy", "education", "curriculum"},
-        "skills": ["teaching", "teacher", "educator", "tutor", "instructor",
-                   "education", "curriculum", "trainer"]
-    },
-    {
-        "triggers": {"arduino", "stm32", "esp32", "embedded systems", "iot",
-                     "electronics", "robotics", "pic", "mikroc"},
-        "skills": ["embedded systems", "iot", "hardware", "electronics", "robotics"]
-    },
-    {
-        "triggers": {"finance", "accounting", "financial analysis", "budgeting"},
-        "skills": ["finance specialist", "financial analyst", "accounting"]
-    },
-    {
-        "triggers": {"human resources", "hr", "recruitment", "talent acquisition",
-                     "onboarding", "performance management"},
-        "skills": ["hr specialist", "human resources", "recruitment"]
-    },
-    {
-        "triggers": {"data analysis", "data science", "machine learning",
-                     "artificial intelligence", "statistics", "tableau", "power bi"},
-        "skills": ["data analysis", "data science", "data analyst", "machine learning"]
-    },
-]
-
-# ─── GV programme theme keywords → CV signal words ───────────────────────────
-# Maps GV opportunity title keywords to what kind of CV they suit
-GV_THEME_MAP = {
-    "skill up":       {"skills", "software", "developer", "design", "business", "marketing", "tech",
-                       "engineering", "communication", "leadership", "professional"},
-    "scale up":       {"business", "entrepreneur", "management", "leadership", "economics",
-                       "finance", "sales", "startup", "innovation"},
-    "discover":       {"culture", "language", "communication", "social", "education",
-                       "teaching", "international", "exchange"},
-    "aquatica":       {"environment", "nature", "biology", "ecology", "science",
-                       "sustainability", "conservation", "marine"},
-    "on the map":     {"geography", "environment", "social", "community", "culture",
-                       "sustainability", "education"},
-    "code":           {"programming", "software", "developer", "coding", "tech", "computer"},
-    "teach":          {"teaching", "education", "language", "english", "communication",
-                       "curriculum", "children", "school"},
-    "sports":         {"sports", "fitness", "coaching", "health", "physical"},
-    "health":         {"health", "medicine", "biology", "nursing", "pharmacy", "public health"},
-    "environment":    {"environment", "sustainability", "ecology", "science", "biology"},
-    "art":            {"art", "design", "creative", "painting", "photography", "music"},
-    "business":       {"business", "management", "finance", "marketing", "entrepreneurship"},
-    "community":      {"social", "community", "volunteer", "ngo", "development", "people"},
-    "innovation":     {"engineering", "tech", "startup", "entrepreneur", "innovation", "design"},
-}
-
-
-def normalize(value: str) -> str:
-    v = re.sub(r"\s+", " ", str(value).lower().strip())
+def normalize(val: str) -> str:
+    v = re.sub(r"[^a-zA-Z0-9+#]+", " ", str(val).lower()).strip()
     return ALIASES.get(v, v)
 
-
 def tokenize(text: str) -> set:
-    """Extract meaningful word tokens from text, excluding stop words."""
-    text = text.lower()
-    tokens = set()
-    for tok in re.findall(r"[a-zA-Z][a-zA-Z+#.]{1,}", text):
-        n = normalize(tok)
-        if n and n not in STOP_WORDS and len(n) > 2:
-            tokens.add(n)
-    return tokens
-
-
-def skill_overlap(cv_skills: set, opp_skills: list) -> list:
-    """Return the list of opportunity skills that match CV skills (exact or smart substring).
-    cv_skills must already be cleaned of GENERIC_TOKENS before calling this."""
-    matched = []
-    for raw_skill in opp_skills:
-        if not raw_skill:
-            continue
-        ns = normalize(str(raw_skill))
-        if ns in STOP_WORDS or ns in OPP_SKILL_NOISE or ns in GENERIC_TOKENS or len(ns) < 3:
-            continue
-
-        # Exact match
-        if ns in cv_skills:
-            matched.append(raw_skill)
-            continue
-
-        # Compound-phrase substring match only:
-        # e.g. opp="web developer" ↔ cv="web developer" (exact compound)
-        # e.g. opp="web developer" ↔ cv="full stack web developer" (compound ⊂ compound)
-        # NOT: opp="c# developer" ↔ cv skips because "developer" alone is GENERIC
-        for cs in cv_skills:
-            if len(ns) < 5 or len(cs) < 5:
-                continue
-            if " " in ns and " " in cs and (ns in cs or cs in ns):
-                matched.append(raw_skill)
-                break
-    return sorted(set(matched))
-
-
-def expand_skills_with_domains(skills_set: set) -> set:
-    """Expand CV skills using domain synergies. Only adds compound phrases, not bare generics."""
-    expanded = set(skills_set)
-    for dom in TECH_DOMAINS:
-        if skills_set & dom["triggers"]:
-            for s in dom["skills"]:
-                expanded.add(normalize(s))
-    return expanded
-
-
-# Generic single-word tokens that are too broad to use for matching
-# (they appear in many unrelated opportunity titles and cause false positives)
-GENERIC_TOKENS = {
-    "developer", "designer", "design", "engineer", "business", "development",
-    "management", "specialist", "analyst", "manager", "coordinator", "assistant",
-    "representative", "intern", "trainer", "director", "officer", "consultant",
-}
-
-
-def gv_theme_score(opp_title: str, all_cv_terms: set) -> float:
-    """
-    Score a Global Volunteer opportunity based on its theme vs the CV.
-    Returns 0–25 points.
-    """
-    title_lower = opp_title.lower()
-    best = 0.0
-    for theme, related_words in GV_THEME_MAP.items():
-        if theme in title_lower:
-            hits = all_cv_terms & related_words
-            score = min(25.0, len(hits) * 6.0)
-            if score > best:
-                best = score
-    # Fallback: "Skill Up!" suits everyone with any professional skill
-    if best == 0 and ("skill" in title_lower or "scale" in title_lower):
-        if len(all_cv_terms) > 5:
-            best = 15.0
-    return best
-
+    text = str(text).lower()
+    toks = set()
+    for t in re.findall(r"[a-zA-Z][a-zA-Z0-9+#]{1,}", text):
+        norm = normalize(t)
+        if norm and norm not in STOP_WORDS and len(norm) > 1:
+            toks.add(norm)
+    return toks
 
 def match(cv_data: dict, opportunities: list) -> list:
-    # ── 1. Parse Skills ────────────────────────────────────────────────────────
-    cv_skills_raw = [s for s in cv_data.get("skills", []) if s]
-    cv_skills = {normalize(s) for s in cv_skills_raw} - STOP_WORDS
+    # ── 1. Candidate Skills ───────────────────────────────────────────────────
+    raw_skills = [str(s) for s in cv_data.get("skills", []) if s]
+    cv_skills = {normalize(s) for s in raw_skills} - STOP_WORDS
 
-    # Expand skills with domain synergies
-    cv_skills = expand_skills_with_domains(cv_skills)
+    # ── 2. Candidate Experience & Roles ───────────────────────────────────────
+    exp_data = cv_data.get("experience", {})
+    if isinstance(exp_data, dict):
+        cv_roles = exp_data.get("roles", [])
+        cv_descs = exp_data.get("descriptions", [])
+        exp_full = exp_data.get("text", "") or " ".join(cv_roles + cv_descs)
+    elif isinstance(exp_data, list):
+        cv_roles = exp_data
+        cv_descs = []
+        exp_full = " ".join(cv_roles)
+    else:
+        cv_roles = []
+        cv_descs = []
+        exp_full = str(exp_data)
 
-    # ── 2. Parse Languages ────────────────────────────────────────────────────
-    cv_lang_raw = cv_data.get("languages", [])
-    cv_languages = {normalize(l) for l in cv_lang_raw} - STOP_WORDS
+    cv_job_titles = cv_data.get("job_titles", [])
+    if not cv_job_titles and cv_roles:
+        cv_job_titles = [re.split(r"[-–—@|(]", r)[0].strip() for r in cv_roles if r]
+
+    # Incorporate job_titles and clean roles into cv_skills
+    for jt in cv_job_titles:
+        norm_jt = normalize(jt)
+        if norm_jt:
+            cv_skills.add(norm_jt)
+            for part in norm_jt.split():
+                if len(part) > 2 and part not in STOP_WORDS:
+                    cv_skills.add(part)
+
+    for r in cv_roles:
+        clean_r = re.split(r"[-–—@|(]", r)[0].strip()
+        norm_r = normalize(clean_r)
+        if norm_r:
+            cv_skills.add(norm_r)
+            for part in norm_r.split():
+                if len(part) > 2 and part not in STOP_WORDS:
+                    cv_skills.add(part)
+
+    # Domain Synonyms expansion
+    if cv_skills & {"php", "javascript", "html", "css", "react", "vue", "angular", "node", "sql", "symfony", "laravel", "mvc", "django"}:
+        cv_skills.update({"web", "developer", "web developer", "web development", "software developer", "software development"})
+
+    if cv_skills & {"figma", "photoshop", "illustrator", "design", "ui ux", "graphic design"}:
+        cv_skills.update({"graphic designer", "graphic design", "designer", "design", "ui ux"})
+
+    if cv_skills & {"teaching", "lesson planning", "classroom management", "pedagogy", "curriculum"}:
+        cv_skills.update({"teacher", "teaching", "educator", "instructor", "education"})
+
+    if cv_skills & {"sales", "seller", "customer service"}:
+        cv_skills.update({"sales", "seller", "sales representative", "customer service"})
+
+    if cv_skills & {"marketing", "social media", "seo"}:
+        cv_skills.update({"marketing", "digital marketing", "marketing specialist"})
+
+    # ── 3. Candidate Languages ────────────────────────────────────────────────
+    cv_languages = {normalize(l) for l in cv_data.get("languages", ["English"])} - STOP_WORDS
     if not cv_languages:
         cv_languages = {"english"}
 
-    # ── 3. Parse Experience ───────────────────────────────────────────────────
-    exp_data = cv_data.get("experience", {})
-    if isinstance(exp_data, dict):
-        cv_exp_roles = exp_data.get("roles", [])
-        cv_exp_descs = exp_data.get("descriptions", [])
-        cv_exp_text = exp_data.get("text", "") or " ".join(cv_exp_roles + cv_exp_descs)
-    elif isinstance(exp_data, list):
-        cv_exp_roles = exp_data
-        cv_exp_descs = []
-        cv_exp_text = " ".join(cv_exp_roles)
-    else:
-        cv_exp_roles = []
-        cv_exp_descs = []
-        cv_exp_text = str(exp_data)
-
-    cv_exp_tokens = tokenize(cv_exp_text)
-
-    # Feed experience roles into the skills pool
-    for r in cv_exp_roles:
-        r_clean = re.sub(r"^(?:intern\s*[-–]\s*|freelance\s*|junior\s*|senior\s*)", "", r, flags=re.IGNORECASE)
-        for tok in tokenize(r_clean):
-            cv_skills.add(tok)
-    # Re-expand after adding experience tokens
-    cv_skills = expand_skills_with_domains(cv_skills)
-
-    # ── 4. Parse Job Titles ────────────────────────────────────────────────────
-    cv_job_titles = cv_data.get("job_titles", [])
-    if not cv_job_titles and cv_exp_roles:
-        cv_job_titles = [re.split(r"[-–—@|(]", r)[0].strip() for r in cv_exp_roles if r]
-
-    for jt in cv_job_titles:
-        for tok in tokenize(jt):
-            cv_skills.add(tok)
-
-    # ── 5. Parse Projects ─────────────────────────────────────────────────────
+    # ── 4. Candidate Projects & Education ─────────────────────────────────────
     cv_projects = cv_data.get("projects", [])
-    cv_proj_text = " ".join(cv_projects) if isinstance(cv_projects, list) else str(cv_projects)
-    cv_proj_tokens = tokenize(cv_proj_text)
+    projects_text = " ".join(str(p) for p in cv_projects).lower()
+    projects_tokens = tokenize(projects_text)
 
-    # ── 6. Parse Education ────────────────────────────────────────────────────
-    cv_education = cv_data.get("education", [])
-    cv_edu_text = " ".join(cv_education) if isinstance(cv_education, list) else str(cv_education)
-    cv_edu_tokens = tokenize(cv_edu_text)
+    cv_edu = cv_data.get("education", [])
+    edu_text = " ".join(str(e) for e in cv_edu).lower()
+    edu_tokens = tokenize(edu_text)
 
-    # ── Strip GENERIC_TOKENS from cv_skills — prevents false-positive matches ──
-    # e.g. bare "developer" from role tokenization must NOT match "C# Developer"
-    # Compound phrases like "web developer", "graphic designer" are safe and stay.
-    cv_skills -= GENERIC_TOKENS
+    role_and_job_text = " ".join(cv_roles + cv_job_titles + [exp_full]).lower()
 
-    # ── All CV terms combined (for GV theme scoring & general overlap) ─────────
-    all_cv_terms = (
-        cv_skills | cv_languages | cv_exp_tokens
-        | cv_proj_tokens | cv_edu_tokens
-        | tokenize(cv_data.get("summary", ""))
-    )
+    # Identify candidate's primary domain strengths
+    domain_strengths = {}
+    for domain, dinfo in DOMAIN_PROFILES.items():
+        score = 0
+        overlap = cv_skills & dinfo["cv_skills"]
+        score += len(overlap) * 3
 
-    ranked = []
+        for kw in dinfo["title_keywords"]:
+            if re.search(r'\b' + re.escape(kw) + r'\b', role_and_job_text):
+                score += 5
+            elif re.search(r'\b' + re.escape(kw) + r'\b', projects_text):
+                score += 3
+            elif re.search(r'\b' + re.escape(kw) + r'\b', edu_text):
+                score += 2
+
+        domain_strengths[domain] = score
+
+    scored_opps = []
 
     for opp in opportunities:
-        opp_title = (opp.get("title", "") or "").strip()
-        opp_desc  = (opp.get("description", "") or "").strip()
-        opp_cat   = (opp.get("category", "") or "").strip()
+        title = (opp.get("title", "") or "").strip()
+        title_lower = title.lower()
+        desc = (opp.get("description", "") or "").strip()
+        desc_lower = desc.lower()
+        cat = (opp.get("category", "") or "GV").strip()
 
+        # Opportunity Skills
         opp_skills_raw = opp.get("skills", [])
         if isinstance(opp_skills_raw, str):
             try:
@@ -413,174 +264,200 @@ def match(cv_data: dict, opportunities: list) -> list:
             except Exception:
                 opp_skills_raw = [s.strip() for s in opp_skills_raw.split(",") if s.strip()]
 
-        opp_lang_raw = opp.get("languages", [])
-        if isinstance(opp_lang_raw, str):
-            try:
-                opp_lang_raw = json.loads(opp_lang_raw)
-            except Exception:
-                opp_lang_raw = [l.strip() for l in opp_lang_raw.split(",") if l.strip()]
+        clean_opp_skills = []
+        for s in opp_skills_raw:
+            ns = normalize(str(s))
+            if ns and ns not in STOP_WORDS and len(ns) > 2 and not re.match(r'^\d+\s*week', ns):
+                clean_opp_skills.append(ns)
+        clean_opp_skills = list(set(clean_opp_skills))
 
-        opp_bg_raw = opp.get("backgrounds", [])
-
-        opp_full_text = f"{opp_title} {opp_desc}"
+        opp_full_text = f"{title_lower} {desc_lower}"
         opp_tokens = tokenize(opp_full_text)
-        opp_title_tokens = tokenize(opp_title)
 
-        # Filter noise from opp skills
-        clean_opp_skills = [
-            s for s in opp_skills_raw
-            if normalize(str(s)) not in OPP_SKILL_NOISE
-            and normalize(str(s)) not in STOP_WORDS
-            and len(normalize(str(s))) > 2
-        ]
+        # ─── 1. SKILLS SCORE (0 to 35 points) ─────────────────────────────────
+        matched_skills = []
+        for os in clean_opp_skills:
+            if os in cv_skills:
+                matched_skills.append(os)
+            else:
+                for cs in cv_skills:
+                    if len(os) >= 4 and len(cs) >= 4 and (os in cs or cs in os):
+                        matched_skills.append(os)
+                        break
+        matched_skills = sorted(set(matched_skills))
 
-        # ── Dimension A: Skills Match (80% of the score) ──────────────────────
-        matched_skills = skill_overlap(cv_skills, clean_opp_skills)
+        for cs in cv_skills:
+            if len(cs) >= 3 and cs not in matched_skills:
+                if re.search(r'\b' + re.escape(cs) + r'\b', title_lower):
+                    matched_skills.append(cs)
+                elif re.search(r'\b' + re.escape(cs) + r'\b', desc_lower):
+                    if len(matched_skills) < 6:
+                        matched_skills.append(cs)
+        matched_skills = sorted(set(matched_skills))
 
         if clean_opp_skills:
-            # Skills are the primary signal and account for 80 points.
-            coverage = len(matched_skills) / len(clean_opp_skills)
-            skill_score = coverage * 80
+            coverage = len([s for s in matched_skills if s in clean_opp_skills]) / max(1, len(clean_opp_skills))
+            skill_score = min(35.0, (coverage * 25.0) + (len(matched_skills) * 3.0))
         else:
-            # Do not give opportunities without skill metadata a neutral score.
-            skill_hits = (cv_skills - GENERIC_TOKENS) & (opp_tokens - GENERIC_TOKENS)
-            skill_score = (
-                min(80.0, len(skill_hits) / max(1, len(cv_skills)) * 80.0)
-                if cv_skills else 0.0
-            )
+            skill_score = min(25.0, len(matched_skills) * 5.0)
 
-        # ── Dimension B: Work Experience Match (0–25 pts) ─────────────────────
-        matched_experience_items = []
-        exp_score = 0.0
-        # Use a cleaned version of exp_tokens (no generic words like "developer", "designer")
-        cv_exp_tokens_clean = cv_exp_tokens - GENERIC_TOKENS
-        opp_tokens_clean = opp_tokens - GENERIC_TOKENS
-        if cv_exp_roles:
-            for role in cv_exp_roles:
-                role_toks = tokenize(role) - GENERIC_TOKENS
-                # Match if role shares NON-GENERIC tokens with opp title or description
-                if role_toks and role_toks & (opp_title_tokens - GENERIC_TOKENS | opp_tokens_clean):
-                    matched_experience_items.append(role)
+        # ─── 2. DOMAIN & JOB ROLE RELEVANCE (0 to 30 points) ──────────────────
+        role_score = 0.0
+        best_domain_match = None
+        matched_roles = []
 
-            exp_keyword_hits = cv_exp_tokens_clean & opp_tokens_clean
-            if matched_experience_items:
-                exp_score = min(25.0, 12.0 + len(exp_keyword_hits) * 3.0)
-            else:
-                exp_score = min(18.0, len(exp_keyword_hits) * 3.0)
-
-        # Job titles are used only as experience evidence, not as a separate
-        # scoring dimension.
-        matched_job_roles = []
-        job_score = 0.0
-        for title in cv_job_titles:
-            title_toks = tokenize(title) - GENERIC_TOKENS
-            if not title_toks:
+        for domain, dinfo in DOMAIN_PROFILES.items():
+            if domain == "volunteer_impact" and cat != "GV":
                 continue
-            if title_toks & (opp_title_tokens - GENERIC_TOKENS):
-                matched_job_roles.append(title)
-            elif title_toks & opp_tokens_clean:
-                matched_job_roles.append(title)
+            is_opp_domain = False
+            for tkw in dinfo["title_keywords"]:
+                if re.search(r'\b' + re.escape(tkw) + r'\b', title_lower):
+                    is_opp_domain = True
+                    break
 
-        # Projects are displayed as supporting information but do not score.
-        matched_projects = []
+            if is_opp_domain:
+                candidate_strength = domain_strengths.get(domain, 0)
+                if candidate_strength > 0:
+                    d_score = min(30.0, 12.0 + candidate_strength * 2.0)
+                    if d_score > role_score:
+                        role_score = d_score
+                        best_domain_match = domain
+
+        for jt in cv_job_titles:
+            jt_clean = normalize(jt)
+            if jt_clean and len(jt_clean) > 3 and jt_clean in title_lower:
+                role_score = max(role_score, 28.0)
+                matched_roles.append(jt)
+            elif any(w in title_lower for w in jt_clean.split() if len(w) > 3):
+                role_score = max(role_score, 20.0)
+                matched_roles.append(jt)
+
+        matched_roles = list(set(matched_roles))
+
+        # ─── 3. PROJECTS & PORTFOLIO FIT (0 to 15 points) ─────────────────────
         proj_score = 0.0
+        matched_projects = []
         if cv_projects:
-            for p in (cv_projects if isinstance(cv_projects, list) else [cv_proj_text]):
-                p_toks = tokenize(str(p)) - GENERIC_TOKENS
-                if p_toks and p_toks & opp_tokens_clean:
-                    matched_projects.append(p)
-            proj_hits = (cv_proj_tokens - GENERIC_TOKENS) & opp_tokens_clean
-            proj_score = 0.0
+            for p in cv_projects:
+                p_str = str(p)
+                p_toks = tokenize(p_str)
+                common = p_toks & opp_tokens
+                if len(common) >= 2 or any(len(w) > 4 and w in title_lower for w in p_toks):
+                    matched_projects.append(p_str)
+            if matched_projects:
+                proj_score = min(15.0, 8.0 + len(matched_projects) * 3.5)
+            elif role_score >= 18.0:
+                proj_score = 6.0
 
-        # Languages are displayed as supporting information but do not score.
-        matched_languages = []
-        lang_score = 0.0
-        if opp_lang_raw:
-            matched_languages = skill_overlap(cv_languages, opp_lang_raw)
-            lang_score = 0.0
-        else:
-            # No language requirement listed — give partial credit if has english
-            matched_languages = list(cv_languages)[:2]
-            lang_score = 0.0
-
-        # Education/background are displayed elsewhere but do not score.
+        # ─── 4. EDUCATION & BACKGROUND (0 to 10 points) ───────────────────────
         edu_score = 0.0
-        if opp_bg_raw:
-            opp_bg_tokens = tokenize(" ".join(str(b) for b in opp_bg_raw))
-            if opp_bg_tokens & (cv_edu_tokens | cv_exp_tokens | cv_skills):
-                edu_score = 0.0
-        else:
-            edu_keywords = ["engineering", "business", "computer", "developer",
-                            "education", "teacher", "science", "design", "finance",
-                            "marketing", "management", "health", "law", "it"]
-            if any(kw in opp_full_text.lower() for kw in edu_keywords):
-                edu_score = 0.0
+        if "engineering" in edu_text or "computer" in edu_text or "informatique" in edu_text:
+            if any(w in title_lower for w in ["developer", "engineer", "software", "design", "tech", "web"]):
+                edu_score = 10.0
+            elif cat == "GTa":
+                edu_score = 7.0
+            elif cat == "GV":
+                edu_score = 5.0
+        elif "education" in edu_text or "literature" in edu_text or "teaching" in edu_text or "languages" in edu_text:
+            if any(w in title_lower for w in ["teacher", "teaching", "trainer", "instructor", "educator"]):
+                edu_score = 10.0
+            elif cat == "GTe":
+                edu_score = 8.0
+        elif "business" in edu_text or "management" in edu_text or "marketing" in edu_text or "finance" in edu_text:
+            if any(w in title_lower for w in ["sales", "marketing", "business", "finance", "hr", "management"]):
+                edu_score = 10.0
+            elif cat == "GTa":
+                edu_score = 7.0
 
-        # Programme themes do not add a separate score.
+        if edu_score == 0.0 and len(edu_tokens) > 0:
+            edu_score = 3.0
+
+        # ─── 5. LANGUAGES FIT (0 to 10 points) ────────────────────────────────
+        lang_score = 0.0
+        matched_languages = []
+        if "english" in cv_languages:
+            matched_languages.append("English")
+            lang_score = 7.0
+        if "french" in cv_languages:
+            matched_languages.append("French")
+            if "french" in opp_full_text:
+                lang_score = 10.0
+        if "arabic" in cv_languages and ("arabic" in opp_full_text or "egypt" in opp_full_text):
+            matched_languages.append("Arabic")
+            lang_score = min(10.0, lang_score + 2.0)
+
+        # ─── 6. GLOBAL VOLUNTEER (GV) PROGRAMME RELEVANCE (0 to 25 points) ────
         gv_score = 0.0
+        if cat == "GV":
+            for theme, tinfo in GV_THEMES.items():
+                if theme in title_lower:
+                    bonus_domain = tinfo["bonus_domain"]
+                    cand_strength = domain_strengths.get(bonus_domain, 0)
+                    gv_score = min(25.0, 14.0 + cand_strength * 1.5)
+                    break
+            if gv_score == 0.0:
+                gv_score = 14.0
 
-        # ── Total: skills 80%, experience 20% ────────────────────────────────
-        # exp_score is capped at 25, so scale it to a maximum of 20 points.
-        # Do not manufacture a positive match for unrelated opportunities.
-        # A score of zero is useful to the caller and keeps ranking evidence-based.
-        final_score = round(min(100.0, max(0.0, skill_score + exp_score * 0.8)), 1)
+        # ─── TOTAL SCORE COMPUTATION ──────────────────────────────────────────
+        if cat == "GV":
+            raw = (skill_score * 0.6) + (role_score * 0.5) + (proj_score * 0.7) + edu_score + lang_score + gv_score
+            final_score = round(min(82.0, max(28.0, raw * 82.0 / 75.0)), 1)
+        else:
+            raw = skill_score + role_score + proj_score + edu_score + lang_score
+            if role_score == 0 and not matched_skills:
+                final_score = round(min(22.0, max(10.0, (edu_score + lang_score) * 1.2)), 1)
+            else:
+                final_score = round(min(98.0, max(25.0, raw)), 1)
 
-        # Build human-readable reasons
+        # Reasons
         reasons = []
         if matched_skills:
             reasons.append(f"Compétences clés : {', '.join(matched_skills[:4])}")
-        if matched_experience_items:
-            reasons.append(f"Expérience validée : {', '.join(matched_experience_items[:2])}")
-        if matched_job_roles:
-            reasons.append(f"Poste en adéquation : {', '.join(matched_job_roles[:2])}")
+        if matched_roles:
+            reasons.append(f"Poste en adéquation : {', '.join(matched_roles[:2])}")
+        elif role_score >= 18.0:
+            reasons.append("Expérience en adéquation avec le profil recherché")
         if matched_projects:
             reasons.append(f"Projets applicables : {', '.join(matched_projects[:2])}")
         if matched_languages:
-            reasons.append(f"Langue confirmée : {', '.join(matched_languages[:2]).title()}")
-        if gv_score > 0:
-            reasons.append(f"Programme adapté à votre profil ({opp_title})")
+            reasons.append(f"Langue confirmée : {', '.join(matched_languages[:2])}")
+        if cat == "GV":
+            reasons.append("Projet Global Volunteer accessible à votre profil")
 
-        general_keywords = sorted(all_cv_terms & opp_tokens)
-
-        ranked.append({
+        scored_opps.append({
             **opp,
             "score": final_score,
             "matched_skills": matched_skills,
-            "matched_experience": matched_experience_items,
-            "matched_job_roles": matched_job_roles,
+            "matched_experience": matched_roles,
+            "matched_job_roles": matched_roles,
             "matched_projects": matched_projects,
             "matched_languages": matched_languages,
-            "matched_keywords": general_keywords[:8],
             "reasons": reasons,
         })
 
-    # ── Sort by score descending ───────────────────────────────────────────────
-    ranked.sort(key=lambda x: (-x["score"], x.get("title", "")))
+    # Sort strictly by score descending
+    scored_opps.sort(key=lambda x: (-x["score"], x.get("title", "")))
 
-    # ── Diversification: prevent identical titles from monopolizing Page 1 ─────
-    # Max 2 of the same title in the primary stream
-    title_counts: dict[str, int] = {}
+    # Smart diversification: ensure max 2 duplicate titles on Page 1
+    title_counts = {}
     primary = []
     deferred = []
-
-    for opp in ranked:
-        title_norm = re.sub(r"\s*[\[(].*?[\])]", "", (opp.get("title", "") or "")).lower().strip()
-        cnt = title_counts.get(title_norm, 0)
+    for opp in scored_opps:
+        tn = re.sub(r"\s*[\[(].*?[\])]", "", opp.get("title", "")).lower().strip()
+        cnt = title_counts.get(tn, 0)
         if cnt < 2:
             primary.append(opp)
-            title_counts[title_norm] = cnt + 1
+            title_counts[tn] = cnt + 1
         else:
             deferred.append(opp)
 
     return primary + deferred
-
 
 def load_input(argument: str):
     path = Path(argument)
     if path.exists():
         return json.loads(path.read_text(encoding="utf-8"))
     return json.loads(argument)
-
 
 def main():
     if len(sys.argv) < 3:
@@ -589,7 +466,6 @@ def main():
     cv_data = load_input(sys.argv[1])
     opportunities = load_input(sys.argv[2])
     print(json.dumps(match(cv_data, opportunities), ensure_ascii=False))
-
 
 if __name__ == "__main__":
     main()
