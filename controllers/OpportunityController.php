@@ -132,17 +132,26 @@ final class OpportunityController extends BaseController
         $filteredMatches = $allMatches;
 
         // 1. Programme Filter
-        if ($progFilter !== 'ALL' && $progFilter !== '') {
-            $filteredMatches = array_values(array_filter($filteredMatches, function($m) use ($progFilter) {
-                $cat = $m['category'] ?? '';
-                $title = $m['title'] ?? '';
-                $isTeacher = ($cat === 'GTe' || stripos($title, 'teach') !== false || stripos($title, 'instructor') !== false || stripos($title, 'educator') !== false);
-                $isVolunteer = ($cat === 'GV');
-                $isTalent = ($cat === 'GTa' && !$isTeacher);
+        $progUpper = strtoupper(trim($progFilter));
+        if ($progUpper !== 'ALL' && $progUpper !== '') {
+            $filteredMatches = array_values(array_filter($filteredMatches, function($m) use ($progUpper) {
+                $cat = strtoupper(trim($m['category'] ?? ''));
+                $title = strtolower($m['title'] ?? '');
+                $desc = strtolower($m['description'] ?? '');
 
-                if ($progFilter === 'GTe') return $isTeacher;
-                if ($progFilter === 'GTa') return $isTalent;
-                if ($progFilter === 'GV')  return $isVolunteer;
+                $isTeacher = ($cat === 'GTE' || str_contains($title, 'teach') || str_contains($title, 'instructor') || str_contains($title, 'educator') || str_contains($title, 'trainer') || str_contains($title, 'coach') || str_contains($desc, 'global teacher'));
+                $isVolunteer = ($cat === 'GV' || str_contains($desc, 'global volunteer'));
+                $isTalent = ($cat === 'GTA' || (!$isTeacher && !$isVolunteer));
+
+                if ($progUpper === 'GTE' || $progUpper === 'TEACHER' || $progUpper === 'GLOBAL-TEACHER') {
+                    return $isTeacher;
+                }
+                if ($progUpper === 'GTA' || $progUpper === 'GT' || $progUpper === 'TALENT' || $progUpper === 'GLOBAL-TALENT') {
+                    return $isTalent;
+                }
+                if ($progUpper === 'GV' || $progUpper === 'VOLUNTEER' || $progUpper === 'GLOBAL-VOLUNTEER') {
+                    return $isVolunteer;
+                }
                 return true;
             }));
         }

@@ -184,11 +184,23 @@ export default function ResultsPage() {
         progCode === "TE" ||
         opp.programmeSlug === "global-teacher" ||
         opp.programmeName === "Global Teacher" ||
-        /\b(?:teach|teacher|teaching|instructor|tutor|education)\b/i.test(opp.title + " " + opp.description);
+        /\b(?:teach|teacher|teaching|instructor|tutor|education|trainer|coach)\b/i.test(opp.title + " " + opp.description);
+
+      const isVolunteer =
+        progCode === "GV" ||
+        opp.programmeSlug === "global-volunteer" ||
+        opp.programmeName === "Global Volunteer";
+
+      const isTalent =
+        progCode === "GT" ||
+        progCode === "GTA" ||
+        opp.programmeSlug === "global-talent" ||
+        opp.programmeName === "Global Talent" ||
+        (!isTeacher && !isVolunteer);
 
       if (selectedProgramme === "GTE" && !isTeacher) return false;
-      if (selectedProgramme === "GV" && progCode !== "GV" && opp.programmeSlug !== "global-volunteer") return false;
-      if (selectedProgramme === "GT" && (isTeacher || (progCode !== "GT" && progCode !== "GTA" && opp.programmeSlug !== "global-talent"))) return false;
+      if (selectedProgramme === "GV" && !isVolunteer) return false;
+      if (selectedProgramme === "GT" && (!isTalent || isTeacher)) return false;
     }
 
     // 3. Duration filter (mirroring AIESEC.org: Short 6-12w, Medium 13-26w, Long 27-78w)

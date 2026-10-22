@@ -144,90 +144,35 @@ $offset = (($currentPage ?? 1) - 1) * ($perPage ?? 9);
     </div>
 </div>
 
-<!-- Results or No-Match page -->
-<?php if (empty($matches)): ?>
-
-    <div class="text-center py-5">
-        <div class="mb-4" style="font-size: 4.5rem; line-height: 1;">
-            <?= !empty($selectedCountry) ? '🌍' : '🔍' ?>
-        </div>
-
-        <?php if (!empty($selectedCountry)): ?>
-
-            <h2 class="h3 fw-bold mb-2">
-                No opportunities matched your CV in <span style="color: var(--color-accent, #6366f1);"><?= htmlspecialchars($selectedCountry) ?></span>
-            </h2>
-            <p class="text-secondary mb-4" style="max-width: 540px; margin: 0 auto;">
-                Your profile was compared against all available AIESEC opportunities in
-                <strong><?= htmlspecialchars($selectedCountry) ?></strong>.
-                No matching positions were found for your current skill set in this country.
-            </p>
-
-            <?php if (!empty($profile['skills'])): ?>
-                <div class="mb-4">
-                    <div class="small text-uppercase text-secondary fw-semibold mb-2">Skills searched from your CV</div>
-                    <?php foreach ($profile['skills'] as $skill): ?>
-                        <span class="badge text-bg-primary me-1 mb-1"><?= htmlspecialchars($skill) ?></span>
-                    <?php endforeach; ?>
-                </div>
-            <?php endif; ?>
-
-            <div class="d-flex flex-wrap justify-content-center gap-3 mb-4">
-                <a href="<?= htmlspecialchars(url_path('/upload')) ?>" class="btn btn-primary btn-lg px-5">
-                    🔄 Try without country filter
-                </a>
-                <a href="https://aiesec.org/search" target="_blank" class="btn btn-outline-light btn-lg px-4">
-                    Browse AIESEC opportunities
-                </a>
-            </div>
-
-            <div class="card hero-card p-4 mx-auto text-start" style="max-width: 440px;">
-                <div class="small fw-semibold mb-3">💡 What you can do next</div>
-                <ul class="mb-0 small text-secondary ps-3" style="line-height: 1.8;">
-                    <li>Try selecting a different country from the list</li>
-                    <li>Leave the country filter empty to see all opportunities</li>
-                    <li>Add more skills to your CV to increase match chances</li>
-                    <li>Check AIESEC.org directly for the latest listings</li>
-                </ul>
-            </div>
-
-        <?php else: ?>
-
-            <h2 class="h3 fw-bold mb-2">No matches found</h2>
-            <p class="text-secondary mb-4" style="max-width: 460px; margin: 0 auto;">
-                No AIESEC opportunities were found matching your profile.
-                Make sure the opportunity database has been synced from the admin panel, then try again.
-            </p>
-            <a href="<?= htmlspecialchars(url_path('/upload')) ?>" class="btn btn-primary btn-lg px-5">
-                Upload another CV
-            </a>
-
-        <?php endif; ?>
-    </div>
-
-<?php else: ?>
-
     <?php
         // Count per programme from ALL session matches (consistent with controller logic)
         $allSessionMatches = $_SESSION['last_matches'] ?? [];
         $countAll = count($allSessionMatches);
         $countGTe = count(array_filter($allSessionMatches, function($m) {
-            $cat = $m['category'] ?? '';
-            $title = $m['title'] ?? '';
-            return ($cat === 'GTe' || stripos($title, 'teach') !== false || stripos($title, 'instructor') !== false || stripos($title, 'educator') !== false);
+            $cat = strtoupper(trim($m['category'] ?? ''));
+            $title = strtolower($m['title'] ?? '');
+            $desc = strtolower($m['description'] ?? '');
+            return ($cat === 'GTE' || str_contains($title, 'teach') || str_contains($title, 'instructor') || str_contains($title, 'educator') || str_contains($title, 'trainer') || str_contains($title, 'coach') || str_contains($desc, 'global teacher'));
         }));
         $countGTa = count(array_filter($allSessionMatches, function($m) {
-            $cat = $m['category'] ?? '';
-            $title = $m['title'] ?? '';
-            $isTeacher = ($cat === 'GTe' || stripos($title, 'teach') !== false || stripos($title, 'instructor') !== false || stripos($title, 'educator') !== false);
-            return ($cat === 'GTa' && !$isTeacher);
+            $cat = strtoupper(trim($m['category'] ?? ''));
+            $title = strtolower($m['title'] ?? '');
+            $desc = strtolower($m['description'] ?? '');
+            $isTeacher = ($cat === 'GTE' || str_contains($title, 'teach') || str_contains($title, 'instructor') || str_contains($title, 'educator') || str_contains($title, 'trainer') || str_contains($title, 'coach') || str_contains($desc, 'global teacher'));
+            $isVolunteer = ($cat === 'GV' || str_contains($desc, 'global volunteer'));
+            return ($cat === 'GTA' || (!$isTeacher && !$isVolunteer));
         }));
-        $countGV  = count(array_filter($allSessionMatches, fn($m) => ($m['category'] ?? '') === 'GV'));
+        $countGV  = count(array_filter($allSessionMatches, function($m) {
+            $cat = strtoupper(trim($m['category'] ?? ''));
+            $desc = strtolower($m['description'] ?? '');
+            return ($cat === 'GV' || str_contains($desc, 'global volunteer'));
+        }));
 
-        $activeProg     = $progFilter ?? 'ALL';
-        $activeCountry  = $countryFilter ?? '';
-        $activeDuration = $durationFilter ?? '';
-        $activeQuery    = $searchQuery ?? '';
+        $activeProg      = $progFilter ?? 'ALL';
+        $activeProgUpper = strtoupper(trim($activeProg));
+        $activeCountry   = $countryFilter ?? '';
+        $activeDuration  = $durationFilter ?? '';
+        $activeQuery     = $searchQuery ?? '';
 
         // Helper to build URL with preserved query parameters
         $buildFilterUrl = function(array $overrides = []) use ($activeProg, $activeCountry, $activeDuration, $activeQuery): string {
@@ -250,7 +195,7 @@ $offset = (($currentPage ?? 1) - 1) * ($perPage ?? 9);
         };
     ?>
 
-    <!-- Modern Filter Toolbar -->
+    <!-- Modern Filter Toolbar (Always visible) -->
     <div class="card bg-dark bg-opacity-50 border border-secondary border-opacity-25 rounded-4 p-3 mb-4 shadow-sm">
         <form method="get" action="" class="row g-2 align-items-center">
 
@@ -265,7 +210,11 @@ $offset = (($currentPage ?? 1) - 1) * ($perPage ?? 9);
                     'GV'  => ['label' => '🌍 Global Volunteer',  'count' => $countGV],
                 ];
                 foreach ($tabs as $code => $tab):
-                    $isActive = ($activeProg === $code);
+                    $codeUpper = strtoupper($code);
+                    $isActive = ($activeProgUpper === $codeUpper || 
+                                ($codeUpper === 'GTA' && in_array($activeProgUpper, ['GT', 'TALENT', 'GLOBAL-TALENT'], true)) ||
+                                ($codeUpper === 'GTE' && in_array($activeProgUpper, ['GTE', 'TEACHER', 'GLOBAL-TEACHER'], true)) ||
+                                ($codeUpper === 'GV' && in_array($activeProgUpper, ['VOLUNTEER', 'GLOBAL-VOLUNTEER'], true)));
                     $url = $buildFilterUrl(['prog' => $code]);
                 ?>
                     <a href="<?= htmlspecialchars($url) ?>" class="btn btn-sm <?= $isActive ? 'btn-primary shadow-sm' : 'btn-outline-secondary' ?> rounded-pill px-3 py-1">
@@ -326,7 +275,27 @@ $offset = (($currentPage ?? 1) - 1) * ($perPage ?? 9);
         </form>
     </div>
 
-    <!-- Results summary bar -->
+<?php if (empty($matches)): ?>
+
+    <div class="text-center py-5">
+        <div class="mb-4" style="font-size: 4rem; line-height: 1;">🔍</div>
+        <h2 class="h4 fw-bold mb-2">No opportunities found for the selected filters</h2>
+        <p class="text-secondary mb-4" style="max-width: 500px; margin: 0 auto;">
+            Try relaxing your filter criteria (e.g. choose "All Programmes", clear the search query, or select another country).
+        </p>
+        <div class="d-flex justify-content-center gap-2">
+            <a href="?page=1" class="btn btn-primary px-4">
+                🔄 Clear All Filters
+            </a>
+            <a href="<?= htmlspecialchars(url_path('/upload')) ?>" class="btn btn-outline-light px-4">
+                Upload New CV
+            </a>
+        </div>
+    </div>
+
+<?php else: ?>
+
+<!-- Results summary bar -->
     <?php
         $goodMatches = count(array_filter($matches, fn($m) => ($m['score'] ?? 0) >= 30));
         $allGood     = count(array_filter(

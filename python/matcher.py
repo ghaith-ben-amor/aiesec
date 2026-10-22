@@ -108,16 +108,16 @@ DOMAIN_PROFILES = {
         "cv_skills": {"embedded systems", "arduino", "stm32", "c", "c++", "iot", "electronics"},
     },
     "teacher_educator": {
-        "title_keywords": ["teacher", "teaching", "trainer", "instructor", "educator", "tutor", "pedagogy", "school", "preschool", "classroom", "curriculum"],
-        "cv_skills": {"teaching", "lesson planning", "classroom management", "pedagogy", "education", "curriculum", "english", "french", "tutoring"},
+        "title_keywords": ["teacher", "teaching", "trainer", "instructor", "educator", "tutor", "pedagogy", "school", "preschool", "classroom", "curriculum", "montessori", "coach", "drama", "art instructor", "french", "english", "science teacher", "math teacher"],
+        "cv_skills": {"teaching", "lesson planning", "classroom management", "pedagogy", "education", "curriculum", "english", "french", "tutoring", "math", "science", "art", "communication"},
     },
     "sales_business": {
-        "title_keywords": ["sales", "seller", "commercial", "business developer", "business development", "account manager", "negotiation"],
-        "cv_skills": {"sales", "customer service", "business development", "negotiation", "crm", "commercial"},
+        "title_keywords": ["sales", "seller", "commercial", "business developer", "business development", "developement", "business", "account manager", "negotiation"],
+        "cv_skills": {"sales", "customer service", "business development", "negotiation", "crm", "commercial", "seller"},
     },
     "marketing_digital": {
-        "title_keywords": ["marketing", "digital marketing", "media buying", "social media", "content creator", "seo", "branding"],
-        "cv_skills": {"marketing", "social media marketing", "digital marketing", "content creation", "media buying", "seo"},
+        "title_keywords": ["marketing", "digital marketing", "media buying", "social media", "content creator", "seo", "branding", "marketer", "digital marketer", "e marketing", "associate", "content"],
+        "cv_skills": {"marketing", "social media marketing", "digital marketing", "content creation", "media buying", "seo", "content", "video", "branding"},
     },
     "hr_recruitment": {
         "title_keywords": ["hr", "human resources", "recruitment", "talent acquisition"],
@@ -236,6 +236,13 @@ def match(cv_data: dict, opportunities: list) -> list:
     if not cv_languages:
         cv_languages = {"english"}
 
+    for lang in cv_languages:
+        cv_skills.add(lang)
+        cv_skills.add(f"{lang} teacher")
+        cv_skills.add(f"{lang} teaching")
+        cv_skills.add(f"{lang} trainer")
+        cv_skills.add(f"{lang} instructor")
+
     # ── 4. Candidate Projects & Education ─────────────────────────────────────
     cv_projects = cv_data.get("projects") or []
     projects_text = (" ".join(str(p) for p in cv_projects) + " " + raw_text).lower()
@@ -246,6 +253,20 @@ def match(cv_data: dict, opportunities: list) -> list:
     edu_tokens = tokenize(edu_text)
 
     role_and_job_text = (" ".join(str(r) for r in cv_roles) + " " + " ".join(cv_job_titles) + " " + exp_full + " " + summary + " " + raw_text).lower()
+
+    # Education & role domain expansions
+    if any(m in edu_text for m in ["math", "mathematics", "baccalaur"]):
+        cv_skills.update({"math", "mathematics", "math teacher", "stem", "science"})
+    if any(e in edu_text for e in ["engineering", "computer", "informatique", "esprit"]):
+        cv_skills.update({"science", "science teacher", "stem", "technology", "coding", "robotics"})
+    if any(d in role_and_job_text for d in ["design", "graphic", "illustrator", "photoshop", "visual"]):
+        cv_skills.update({"art", "art instructor", "design instructor", "visual arts"})
+
+    if cv_skills & {"marketing", "social media", "seo"} or "marketing" in raw_text:
+        cv_skills.update({"marketing", "digital marketing", "digital marketer", "marketing specialist", "content creator", "social media"})
+
+    if cv_skills & {"sales", "seller", "customer service"} or "sales" in raw_text or "seller" in raw_text:
+        cv_skills.update({"sales", "seller", "sales representative", "customer service", "commercial", "business developement", "business development"})
 
     # Identify candidate's primary domain strengths
     domain_strengths = {}
@@ -349,6 +370,31 @@ def match(cv_data: dict, opportunities: list) -> list:
                 role_score = max(role_score, 25.0)
                 matched_roles.append(jt)
 
+        # Special Global Teacher (GTe) Role Recognition
+        if cat == "GTe":
+            is_lang_teach = False
+            if "english" in title_lower and "english" in cv_languages:
+                is_lang_teach = True
+                matched_roles.append("English Proficiency")
+            elif "french" in title_lower and "french" in cv_languages:
+                is_lang_teach = True
+                matched_roles.append("French Proficiency")
+            elif "math" in title_lower and any(w in edu_text for w in ["math", "mathematics", "baccalaur"]):
+                is_lang_teach = True
+                matched_roles.append("Mathematics Background")
+            elif "science" in title_lower and any(w in edu_text for w in ["engineering", "computer", "informatique", "science"]):
+                is_lang_teach = True
+                matched_roles.append("Engineering/Science Background")
+            elif ("art" in title_lower or "design" in title_lower) and any(w in role_and_job_text for w in ["design", "graphic", "art"]):
+                is_lang_teach = True
+                matched_roles.append("Graphic Design / Visual Arts")
+
+            if is_lang_teach:
+                role_score = max(role_score, 32.0)
+            elif role_score < 18.0 and len(cv_languages) >= 2:
+                role_score = 22.0
+                matched_roles.append("Multilingual Educator Profile")
+
         matched_roles = list(set(matched_roles))
 
         # ─── 3. PROJECTS & PORTFOLIO FIT (0 to 10 points) ─────────────────────
@@ -421,12 +467,18 @@ def match(cv_data: dict, opportunities: list) -> list:
         if cat == "GV":
             raw = (skill_score * 0.5) + (role_score * 0.4) + proj_score + edu_score + lang_score + gv_score
             final_score = round(min(85.0, max(35.0, raw * 85.0 / 72.0)), 1)
-        else:
+        elif cat == "GTe":
+            raw = skill_score + role_score + proj_score + edu_score + lang_score
+            if role_score >= 25.0 or matched_skills:
+                final_score = round(min(96.0, max(55.0, raw * 96.0 / 102.0)), 1)
+            else:
+                final_score = round(min(65.0, max(40.0, raw * 65.0 / 80.0)), 1)
+        else: # GTa
             raw = skill_score + role_score + proj_score + edu_score + lang_score
             if role_score == 0 and not matched_skills:
-                final_score = round(min(25.0, max(12.0, (edu_score + lang_score) * 1.2)), 1)
+                final_score = round(min(45.0, max(25.0, (edu_score + lang_score) * 2.0)), 1)
             else:
-                final_score = round(min(98.0, max(28.0, raw * 98.0 / 102.0)), 1)
+                final_score = round(min(98.0, max(30.0, raw * 98.0 / 102.0)), 1)
 
         # Reasons
         reasons = []

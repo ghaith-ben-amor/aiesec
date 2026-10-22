@@ -148,8 +148,14 @@ export function heuristicMatcher(
   opportunities: RealOpportunity[],
   preferences?: UserPreferences
 ): MatchResultItem[] {
-  const cvSkills = cv.skills || [];
   const cvLanguages = (cv.languages || ["English"]).map(l => l.toLowerCase());
+  const cvSkills = [...(cv.skills || [])];
+  cvLanguages.forEach(l => {
+    cvSkills.push(l);
+    cvSkills.push(`${l} teacher`);
+    cvSkills.push(`${l} trainer`);
+    cvSkills.push(`${l} instructor`);
+  });
   const cvField = (cv.fieldOfStudy || "").toLowerCase();
   const cvExperience = (cv.experience || []).join(" ").toLowerCase();
   const cvProjects = (cv.projects || []).join(" ").toLowerCase();
@@ -167,12 +173,29 @@ export function heuristicMatcher(
     cvSkills.join(" "),
   ].join(" ").toLowerCase();
 
+  // Education/subject expansions
+  if (/(math|mathematics|baccalaur)/i.test(cvEducation + " " + cvFullText)) {
+    cvSkills.push("math", "mathematics", "math teacher", "stem", "science");
+  }
+  if (/(engineering|computer|informatique|esprit)/i.test(cvEducation + " " + cvFullText)) {
+    cvSkills.push("science", "science teacher", "stem", "coding", "robotics");
+  }
+  if (/(design|graphic|illustrator|photoshop|visual)/i.test(cvExperience + " " + cvFullText)) {
+    cvSkills.push("art", "art instructor", "design instructor", "visual arts");
+  }
+
   return opportunities.map(opp => {
     const oppSkills = opp.skills || [];
     const oppTitle = opp.title.toLowerCase();
     const oppDesc = opp.description.toLowerCase();
     const oppBackgrounds = (opp.backgrounds || []).map(b => b.toLowerCase());
     const oppLanguages = (opp.languages || []).map(l => l.toLowerCase());
+
+    const isTeacher =
+      opp.programme?.short_name === "GTe" ||
+      opp.programmeSlug === "global-teacher" ||
+      (opp.programmeName || "").toLowerCase().includes("teacher") ||
+      /\b(?:teach|teacher|teaching|instructor|tutor|educator|trainer)\b/i.test(oppTitle);
 
     // ── 1. Skill match (CV skills vs opportunity required skills) ──────────
     const matchingSkills: string[] = [];
@@ -209,6 +232,19 @@ export function heuristicMatcher(
         experienceScore = 30;
       } else {
         experienceScore = Math.min(25, cvExpKeywordHits.length * 5);
+      }
+    }
+    if (isTeacher) {
+      if (
+        (oppTitle.includes("english") && cvLanguages.includes("english")) ||
+        (oppTitle.includes("french") && cvLanguages.includes("french")) ||
+        (oppTitle.includes("math") && /(math|baccalaur|engineer)/i.test(cvFullText)) ||
+        (oppTitle.includes("science") && /(engineer|computer|informatique|science)/i.test(cvFullText)) ||
+        (oppTitle.includes("art") && /(design|graphic|illustrator|photoshop)/i.test(cvFullText))
+      ) {
+        experienceScore = Math.max(experienceScore, 30);
+      } else if (cvLanguages.length >= 2) {
+        experienceScore = Math.max(experienceScore, 20);
       }
     }
 
@@ -324,12 +360,19 @@ export function heuristicMatcher(
     if (isGv) {
       const rawGv = (skillScore * 0.5) + (experienceScore * 0.4) + projectScore + backgroundScore + langScore + preferenceBonus + 16;
       totalScore = Math.min(85, Math.max(35, Math.round((rawGv * 85) / 72)));
+    } else if (isTeacher) {
+      const rawScore = skillScore + experienceScore + projectScore + backgroundScore + langScore + preferenceBonus;
+      if (experienceScore >= 25 || matchingSkills.length > 0) {
+        totalScore = Math.min(96, Math.max(55, Math.round((rawScore * 96) / 102)));
+      } else {
+        totalScore = Math.min(65, Math.max(40, Math.round((rawScore * 65) / 80)));
+      }
     } else {
       const rawScore = skillScore + experienceScore + projectScore + backgroundScore + langScore + preferenceBonus;
       if (experienceScore === 0 && matchingSkills.length === 0) {
-        totalScore = Math.min(25, Math.max(12, Math.round((backgroundScore + langScore) * 1.2)));
+        totalScore = Math.min(45, Math.max(25, Math.round((backgroundScore + langScore) * 2.0)));
       } else {
-        totalScore = Math.min(98, Math.max(28, Math.round((rawScore * 98) / 102)));
+        totalScore = Math.min(98, Math.max(30, Math.round((rawScore * 98) / 102)));
       }
     }
 
