@@ -212,26 +212,29 @@ export function heuristicMatcher(
     });
 
     let skillScore = 0;
+    let skillMatchRatio = 0;
     const realOppSkillsCount = matchingSkills.length + missingSkills.length;
     if (realOppSkillsCount > 0) {
-      const coverage = matchingSkills.length / realOppSkillsCount;
-      skillScore = Math.min(45, coverage * 32 + matchingSkills.length * 4);
+      skillMatchRatio = matchingSkills.length / realOppSkillsCount;
+      skillScore = Math.round(skillMatchRatio * 100);
     } else {
       const cvSkillHits = cvSkills.filter(skill =>
         containsTerm(`${oppTitle} ${oppDesc}`, skill)
       );
-      skillScore = Math.min(32, cvSkillHits.length * 6);
+      skillMatchRatio = Math.min(1, cvSkillHits.length / 5);
+      skillScore = Math.round(skillMatchRatio * 100);
     }
 
     // ── 2. Experience match (CV experience text vs opportunity title+description) ──
     let experienceScore = 0;
+    let experienceMatchRatio = 0;
     const experienceKeywords = extractKeywords(oppTitle + " " + oppDesc);
     const cvExpKeywordHits = experienceKeywords.filter(kw => containsTerm(cvExperience, kw));
     if (cvExperience.length > 5 || cvFullText.length > 50) {
       if (containsTerm(cvFullText, oppTitle) || containsTerm(cvExperience, oppTitle)) {
-        experienceScore = 30;
+        experienceMatchRatio = 1;
       } else {
-        experienceScore = Math.min(25, cvExpKeywordHits.length * 5);
+        experienceMatchRatio = Math.min(1, cvExpKeywordHits.length / 5);
       }
     }
     if (isTeacher) {
@@ -242,11 +245,12 @@ export function heuristicMatcher(
         (oppTitle.includes("science") && /(engineer|computer|informatique|science)/i.test(cvFullText)) ||
         (oppTitle.includes("art") && /(design|graphic|illustrator|photoshop)/i.test(cvFullText))
       ) {
-        experienceScore = Math.max(experienceScore, 30);
+        experienceMatchRatio = Math.max(experienceMatchRatio, 1);
       } else if (cvLanguages.length >= 2) {
-        experienceScore = Math.max(experienceScore, 20);
+        experienceMatchRatio = Math.max(experienceMatchRatio, 0.66);
       }
     }
+    experienceScore = Math.round(experienceMatchRatio * 100);
 
     // ── 3. Projects match (CV projects text vs opportunity title+description) ──
     let projectScore = 0;
@@ -353,28 +357,8 @@ export function heuristicMatcher(
     }
 
     // ── Compute total score ────────────────────────────────────────────────
-    const isGv = opp.programme?.short_name === "GV" ||
-      opp.programmeSlug === "global-volunteer" ||
-      (opp.programmeName || "").toLowerCase().includes("volunteer");
-    let totalScore = 0;
-    if (isGv) {
-      const rawGv = (skillScore * 0.5) + (experienceScore * 0.4) + projectScore + backgroundScore + langScore + preferenceBonus + 16;
-      totalScore = Math.min(85, Math.max(35, Math.round((rawGv * 85) / 72)));
-    } else if (isTeacher) {
-      const rawScore = skillScore + experienceScore + projectScore + backgroundScore + langScore + preferenceBonus;
-      if (experienceScore >= 25 || matchingSkills.length > 0) {
-        totalScore = Math.min(96, Math.max(55, Math.round((rawScore * 96) / 102)));
-      } else {
-        totalScore = Math.min(65, Math.max(40, Math.round((rawScore * 65) / 80)));
-      }
-    } else {
-      const rawScore = skillScore + experienceScore + projectScore + backgroundScore + langScore + preferenceBonus;
-      if (experienceScore === 0 && matchingSkills.length === 0) {
-        totalScore = Math.min(45, Math.max(25, Math.round((backgroundScore + langScore) * 2.0)));
-      } else {
-        totalScore = Math.min(98, Math.max(30, Math.round((rawScore * 98) / 102)));
-      }
-    }
+    const weightedCoreScore = (skillScore * 0.8) + (experienceScore * 0.2);
+    const totalScore = Math.min(100, Math.max(0, Math.round(weightedCoreScore + preferenceBonus)));
 
     // ── Build human-readable reasons ──────────────────────────────────────
     const reasons: string[] = [...preferenceReasons];
@@ -503,13 +487,10 @@ Only return a valid JSON array, no extra markdown or explanations.`;
     return opportunities.map(opp => {
       const rating = ratings.find(r => r.id === opp.id);
       const fallback = heuristicMatcher(cvParsed, [opp], preferences)[0];
-      const heuristicScore = fallback.score;
-      const aiScore = rating?.score != null ? Math.min(99, Math.max(15, rating.score)) : null;
-      const finalScore = aiScore != null ? Math.round(heuristicScore * 0.65 + aiScore * 0.35) : heuristicScore;
 
       return {
         opportunity: opp,
-        score: finalScore,
+        score: fallback.score,
         reasons: rating?.reasons?.length ? rating.reasons : fallback.reasons,
         matchingSkills: fallback.matchingSkills,
         missingSkills: fallback.missingSkills,
