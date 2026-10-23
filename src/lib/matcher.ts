@@ -33,9 +33,13 @@ export interface UserPreferences {
 
 function normalizeSkill(s: string): string {
   return s
+    .normalize("NFD")
+    .replace(/[\u0300-\u036f]/g, "")
     .toLowerCase()
     .trim()
+    .replace(/([a-z])\1{2,}/g, "$1$1")
     .replace(/[._/-]+/g, " ")
+    .replace(/[^\w\s+#]/g, " ")
     .replace(/\s+/g, " ");
 }
 
@@ -54,7 +58,10 @@ function extractKeywords(text: string): string[] {
   return Array.from(
     new Set(
       text
+        .normalize("NFD")
+        .replace(/[\u0300-\u036f]/g, "")
         .toLowerCase()
+        .replace(/([a-z])\1{2,}/g, "$1$1")
         .replace(/[^a-z\s]/g, " ")
         .split(/\s+/)
         .filter(w => w.length > 3 && !stopWords.has(w))
