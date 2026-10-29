@@ -49,7 +49,7 @@ export async function POST(req: Request) {
       keywords: parsedCv.searchKeywords,
       fieldOfStudy: parsedCv.fieldOfStudy,
       preferredCountry: preferences.country,
-      limit: 75,
+      limit: 300,
       customToken: customToken || undefined,
     });
 

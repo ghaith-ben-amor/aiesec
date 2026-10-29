@@ -195,6 +195,16 @@ $offset = (($currentPage ?? 1) - 1) * ($perPage ?? 9);
         };
     ?>
 
+    <?php if (!empty($countryMismatch) && !empty($activeCountry)): ?>
+        <div class="alert alert-info bg-dark bg-opacity-75 border-info border-opacity-50 text-white d-flex align-items-center justify-content-between p-3 rounded-3 mb-4">
+            <div>
+                <strong>Notice:</strong> No opportunities currently open in <strong><?= htmlspecialchars($activeCountry) ?></strong>.
+                Showing all matching opportunities worldwide!
+            </div>
+            <a href="<?= htmlspecialchars($buildFilterUrl(['country' => null])) ?>" class="btn btn-sm btn-outline-info">Clear country filter</a>
+        </div>
+    <?php endif; ?>
+
     <!-- Modern Filter Toolbar (Always visible) -->
     <div class="card bg-dark bg-opacity-50 border border-secondary border-opacity-25 rounded-4 p-3 mb-4 shadow-sm">
         <form method="get" action="" class="row g-2 align-items-center">

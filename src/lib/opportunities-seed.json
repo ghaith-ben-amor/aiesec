@@ -1,0 +1,6283 @@
+[
+  {
+    "id": 1174,
+    "gisId": "1174",
+    "title": "English Teacher",
+    "description": "Product: Global Teacher. MC: Egypt. LC: Menofia. Openings: 1",
+    "skills": [
+      "english",
+      "english teacher"
+    ],
+    "backgrounds": [
+      "Any Background"
+    ],
+    "languages": [
+      "English"
+    ],
+    "location": "Menofia, Egypt",
+    "country": "Egypt",
+    "city": "Menofia",
+    "organisation": "AIESEC Egypt",
+    "programme": {
+      "id": "8",
+      "short_name": "GTe"
+    },
+    "programmeName": "Global Teacher",
+    "programmeSlug": "global-teacher",
+    "sourceUrl": "https://aiesec.org/opportunity/global-teacher/1336260",
+    "coverPhoto": null,
+    "status": "open",
+    "duration": 12,
+    "durationBracket": "short",
+    "earliestStartDate": "2026-06-01",
+    "latestEndDate": "2026-12-01",
+    "slots": []
+  },
+  {
+    "id": 1175,
+    "gisId": "1175",
+    "title": "On the Map [6 weeks]",
+    "description": "Product: Global Volunteer. MC: Egypt. LC: Cairo University. Openings: 2",
+    "skills": [
+      "map",
+      "map 6",
+      "6",
+      "6 weeks"
+    ],
+    "backgrounds": [
+      "Any Background"
+    ],
+    "languages": [
+      "English"
+    ],
+    "location": "Cairo University, Egypt",
+    "country": "Egypt",
+    "city": "Cairo",
+    "organisation": "AIESEC Egypt",
+    "programme": {
+      "id": "6",
+      "short_name": "GV"
+    },
+    "programmeName": "Global Volunteer",
+    "programmeSlug": "global-volunteer",
+    "sourceUrl": "https://aiesec.org/opportunity/global-volunteer/1336232",
+    "coverPhoto": null,
+    "status": "open",
+    "duration": 12,
+    "durationBracket": "short",
+    "earliestStartDate": "2026-06-01",
+    "latestEndDate": "2026-12-01",
+    "slots": []
+  },
+  {
+    "id": 1176,
+    "gisId": "1176",
+    "title": "Global Classroom [4 weeks]",
+    "description": "Product: Global Volunteer. MC: Egypt. LC: Mansoura. Openings: 5",
+    "skills": [
+      "classroom",
+      "classroom 4",
+      "4",
+      "4 weeks"
+    ],
+    "backgrounds": [
+      "Any Background"
+    ],
+    "languages": [
+      "English"
+    ],
+    "location": "Mansoura, Egypt",
+    "country": "Egypt",
+    "city": "Mansoura",
+    "organisation": "AIESEC Egypt",
+    "programme": {
+      "id": "6",
+      "short_name": "GV"
+    },
+    "programmeName": "Global Volunteer",
+    "programmeSlug": "global-volunteer",
+    "sourceUrl": "https://aiesec.org/opportunity/global-volunteer/1336216",
+    "coverPhoto": null,
+    "status": "open",
+    "duration": 12,
+    "durationBracket": "short",
+    "earliestStartDate": "2026-06-01",
+    "latestEndDate": "2026-12-01",
+    "slots": []
+  },
+  {
+    "id": 1177,
+    "gisId": "1177",
+    "title": "Fingerprint [6 weeks]",
+    "description": "Product: Global Volunteer. MC: Egypt. LC: MUST. Openings: 1",
+    "skills": [
+      "fingerprint",
+      "fingerprint 6",
+      "6",
+      "6 weeks"
+    ],
+    "backgrounds": [
+      "Any Background"
+    ],
+    "languages": [
+      "English"
+    ],
+    "location": "MUST, Egypt",
+    "country": "Egypt",
+    "city": "MUST",
+    "organisation": "AIESEC Egypt",
+    "programme": {
+      "id": "6",
+      "short_name": "GV"
+    },
+    "programmeName": "Global Volunteer",
+    "programmeSlug": "global-volunteer",
+    "sourceUrl": "https://aiesec.org/opportunity/global-volunteer/1336159",
+    "coverPhoto": null,
+    "status": "open",
+    "duration": 12,
+    "durationBracket": "short",
+    "earliestStartDate": "2026-06-01",
+    "latestEndDate": "2026-12-01",
+    "slots": []
+  },
+  {
+    "id": 1178,
+    "gisId": "1178",
+    "title": "Sales",
+    "description": "Product: Global Talent. MC: Egypt. LC: MUST. Openings: 1",
+    "skills": [
+      "sales",
+      "talent"
+    ],
+    "backgrounds": [
+      "Any Background"
+    ],
+    "languages": [
+      "English"
+    ],
+    "location": "MUST, Egypt",
+    "country": "Egypt",
+    "city": "MUST",
+    "organisation": "AIESEC Egypt",
+    "programme": {
+      "id": "7",
+      "short_name": "GTa"
+    },
+    "programmeName": "Global Talent",
+    "programmeSlug": "global-talent",
+    "sourceUrl": "https://aiesec.org/opportunity/global-talent/1336135",
+    "coverPhoto": null,
+    "status": "open",
+    "duration": 12,
+    "durationBracket": "short",
+    "earliestStartDate": "2026-06-01",
+    "latestEndDate": "2026-12-01",
+    "slots": []
+  },
+  {
+    "id": 1179,
+    "gisId": "1179",
+    "title": "HR",
+    "description": "Product: Global Talent. MC: Egypt. LC: MUST. Openings: 2",
+    "skills": [
+      "hr",
+      "talent"
+    ],
+    "backgrounds": [
+      "Any Background"
+    ],
+    "languages": [
+      "English"
+    ],
+    "location": "MUST, Egypt",
+    "country": "Egypt",
+    "city": "MUST",
+    "organisation": "AIESEC Egypt",
+    "programme": {
+      "id": "7",
+      "short_name": "GTa"
+    },
+    "programmeName": "Global Talent",
+    "programmeSlug": "global-talent",
+    "sourceUrl": "https://aiesec.org/opportunity/global-talent/1336134",
+    "coverPhoto": null,
+    "status": "open",
+    "duration": 12,
+    "durationBracket": "short",
+    "earliestStartDate": "2026-06-01",
+    "latestEndDate": "2026-12-01",
+    "slots": []
+  },
+  {
+    "id": 1180,
+    "gisId": "1180",
+    "title": "C# Developer",
+    "description": "Product: Global Talent. MC: Egypt. LC: Alexandria. Openings: 1",
+    "skills": [
+      "c#",
+      "c# developer",
+      "developer",
+      "talent"
+    ],
+    "backgrounds": [
+      "Any Background"
+    ],
+    "languages": [
+      "English"
+    ],
+    "location": "Alexandria, Egypt",
+    "country": "Egypt",
+    "city": "Alexandria",
+    "organisation": "AIESEC Egypt",
+    "programme": {
+      "id": "7",
+      "short_name": "GTa"
+    },
+    "programmeName": "Global Talent",
+    "programmeSlug": "global-talent",
+    "sourceUrl": "https://aiesec.org/opportunity/global-talent/1336054",
+    "coverPhoto": null,
+    "status": "open",
+    "duration": 12,
+    "durationBracket": "short",
+    "earliestStartDate": "2026-06-01",
+    "latestEndDate": "2026-12-01",
+    "slots": []
+  },
+  {
+    "id": 1181,
+    "gisId": "1181",
+    "title": "Scale Up! [4 weeks]",
+    "description": "Product: Global Volunteer. MC: Egypt. LC: 6th October University. Openings: 3",
+    "skills": [
+      "scale",
+      "scale up",
+      "up",
+      "up 4",
+      "4",
+      "4 weeks"
+    ],
+    "backgrounds": [
+      "Any Background"
+    ],
+    "languages": [
+      "English"
+    ],
+    "location": "6th October University, Egypt",
+    "country": "Egypt",
+    "city": "6th October University",
+    "organisation": "AIESEC Egypt",
+    "programme": {
+      "id": "6",
+      "short_name": "GV"
+    },
+    "programmeName": "Global Volunteer",
+    "programmeSlug": "global-volunteer",
+    "sourceUrl": "https://aiesec.org/opportunity/global-volunteer/1336052",
+    "coverPhoto": null,
+    "status": "open",
+    "duration": 12,
+    "durationBracket": "short",
+    "earliestStartDate": "2026-06-01",
+    "latestEndDate": "2026-12-01",
+    "slots": []
+  },
+  {
+    "id": 1182,
+    "gisId": "1182",
+    "title": "Scale Up! [4 weeks]",
+    "description": "Product: Global Volunteer. MC: Egypt. LC: 6th October University. Openings: 3",
+    "skills": [
+      "scale",
+      "scale up",
+      "up",
+      "up 4",
+      "4",
+      "4 weeks"
+    ],
+    "backgrounds": [
+      "Any Background"
+    ],
+    "languages": [
+      "English"
+    ],
+    "location": "6th October University, Egypt",
+    "country": "Egypt",
+    "city": "6th October University",
+    "organisation": "AIESEC Egypt",
+    "programme": {
+      "id": "6",
+      "short_name": "GV"
+    },
+    "programmeName": "Global Volunteer",
+    "programmeSlug": "global-volunteer",
+    "sourceUrl": "https://aiesec.org/opportunity/global-volunteer/1336051",
+    "coverPhoto": null,
+    "status": "open",
+    "duration": 12,
+    "durationBracket": "short",
+    "earliestStartDate": "2026-06-01",
+    "latestEndDate": "2026-12-01",
+    "slots": []
+  },
+  {
+    "id": 1183,
+    "gisId": "1183",
+    "title": "Drama and Theater instructor (6 weeks)",
+    "description": "Product: Global Teacher. MC: Egypt. LC: Ain Shams University. Openings: 1",
+    "skills": [
+      "drama",
+      "drama and",
+      "theater",
+      "theater instructor",
+      "instructor",
+      "instructor 6",
+      "6",
+      "6 weeks"
+    ],
+    "backgrounds": [
+      "Any Background"
+    ],
+    "languages": [
+      "English"
+    ],
+    "location": "Ain Shams University, Egypt",
+    "country": "Egypt",
+    "city": "Ain Shams University",
+    "organisation": "AIESEC Egypt",
+    "programme": {
+      "id": "8",
+      "short_name": "GTe"
+    },
+    "programmeName": "Global Teacher",
+    "programmeSlug": "global-teacher",
+    "sourceUrl": "https://aiesec.org/opportunity/global-teacher/1336050",
+    "coverPhoto": null,
+    "status": "open",
+    "duration": 12,
+    "durationBracket": "short",
+    "earliestStartDate": "2026-06-01",
+    "latestEndDate": "2026-12-01",
+    "slots": []
+  },
+  {
+    "id": 1184,
+    "gisId": "1184",
+    "title": "Sports and PE teacher (6 weeks)",
+    "description": "Product: Global Teacher. MC: Egypt. LC: Ain Shams University. Openings: 1",
+    "skills": [
+      "sports",
+      "sports and",
+      "pe",
+      "pe teacher",
+      "6",
+      "6 weeks"
+    ],
+    "backgrounds": [
+      "Any Background"
+    ],
+    "languages": [
+      "English"
+    ],
+    "location": "Ain Shams University, Egypt",
+    "country": "Egypt",
+    "city": "Ain Shams University",
+    "organisation": "AIESEC Egypt",
+    "programme": {
+      "id": "8",
+      "short_name": "GTe"
+    },
+    "programmeName": "Global Teacher",
+    "programmeSlug": "global-teacher",
+    "sourceUrl": "https://aiesec.org/opportunity/global-teacher/1336049",
+    "coverPhoto": null,
+    "status": "open",
+    "duration": 12,
+    "durationBracket": "short",
+    "earliestStartDate": "2026-06-01",
+    "latestEndDate": "2026-12-01",
+    "slots": []
+  },
+  {
+    "id": 1185,
+    "gisId": "1185",
+    "title": "Art Instructor (6 weeks)",
+    "description": "Product: Global Teacher. MC: Egypt. LC: Ain Shams University. Openings: 1",
+    "skills": [
+      "art",
+      "art instructor",
+      "instructor",
+      "instructor 6",
+      "6",
+      "6 weeks"
+    ],
+    "backgrounds": [
+      "Any Background"
+    ],
+    "languages": [
+      "English"
+    ],
+    "location": "Ain Shams University, Egypt",
+    "country": "Egypt",
+    "city": "Ain Shams University",
+    "organisation": "AIESEC Egypt",
+    "programme": {
+      "id": "8",
+      "short_name": "GTe"
+    },
+    "programmeName": "Global Teacher",
+    "programmeSlug": "global-teacher",
+    "sourceUrl": "https://aiesec.org/opportunity/global-teacher/1336048",
+    "coverPhoto": null,
+    "status": "open",
+    "duration": 12,
+    "durationBracket": "short",
+    "earliestStartDate": "2026-06-01",
+    "latestEndDate": "2026-12-01",
+    "slots": []
+  },
+  {
+    "id": 1186,
+    "gisId": "1186",
+    "title": "Customer Service",
+    "description": "Product: Global Talent. MC: Egypt. LC: MIU. Openings: 1",
+    "skills": [
+      "customer",
+      "customer service",
+      "service",
+      "talent"
+    ],
+    "backgrounds": [
+      "Any Background"
+    ],
+    "languages": [
+      "English"
+    ],
+    "location": "MIU, Egypt",
+    "country": "Egypt",
+    "city": "MIU",
+    "organisation": "AIESEC Egypt",
+    "programme": {
+      "id": "7",
+      "short_name": "GTa"
+    },
+    "programmeName": "Global Talent",
+    "programmeSlug": "global-talent",
+    "sourceUrl": "https://aiesec.org/opportunity/global-talent/1336047",
+    "coverPhoto": null,
+    "status": "open",
+    "duration": 12,
+    "durationBracket": "short",
+    "earliestStartDate": "2026-06-01",
+    "latestEndDate": "2026-12-01",
+    "slots": []
+  },
+  {
+    "id": 1187,
+    "gisId": "1187",
+    "title": "Motion Graphics Designer",
+    "description": "Product: Global Talent. MC: Egypt. LC: MIU. Openings: 1",
+    "skills": [
+      "motion",
+      "motion graphics",
+      "graphics",
+      "graphics designer",
+      "designer",
+      "talent"
+    ],
+    "backgrounds": [
+      "Any Background"
+    ],
+    "languages": [
+      "English"
+    ],
+    "location": "MIU, Egypt",
+    "country": "Egypt",
+    "city": "MIU",
+    "organisation": "AIESEC Egypt",
+    "programme": {
+      "id": "7",
+      "short_name": "GTa"
+    },
+    "programmeName": "Global Talent",
+    "programmeSlug": "global-talent",
+    "sourceUrl": "https://aiesec.org/opportunity/global-talent/1336045",
+    "coverPhoto": null,
+    "status": "open",
+    "duration": 12,
+    "durationBracket": "short",
+    "earliestStartDate": "2026-06-01",
+    "latestEndDate": "2026-12-01",
+    "slots": []
+  },
+  {
+    "id": 1188,
+    "gisId": "1188",
+    "title": "Digital Marketing & Media Buying Specialist",
+    "description": "Product: Global Talent. MC: Egypt. LC: MIU. Openings: 1",
+    "skills": [
+      "digital",
+      "digital marketing",
+      "marketing",
+      "marketing media",
+      "media",
+      "media buying",
+      "buying",
+      "buying specialist",
+      "specialist",
+      "talent"
+    ],
+    "backgrounds": [
+      "Any Background"
+    ],
+    "languages": [
+      "English"
+    ],
+    "location": "MIU, Egypt",
+    "country": "Egypt",
+    "city": "MIU",
+    "organisation": "AIESEC Egypt",
+    "programme": {
+      "id": "7",
+      "short_name": "GTa"
+    },
+    "programmeName": "Global Talent",
+    "programmeSlug": "global-talent",
+    "sourceUrl": "https://aiesec.org/opportunity/global-talent/1336043",
+    "coverPhoto": null,
+    "status": "open",
+    "duration": 12,
+    "durationBracket": "short",
+    "earliestStartDate": "2026-06-01",
+    "latestEndDate": "2026-12-01",
+    "slots": []
+  },
+  {
+    "id": 1189,
+    "gisId": "1189",
+    "title": "English Teacher",
+    "description": "Product: Global Teacher. MC: Egypt. LC: Ain Shams University. Openings: 1",
+    "skills": [
+      "english",
+      "english teacher"
+    ],
+    "backgrounds": [
+      "Any Background"
+    ],
+    "languages": [
+      "English"
+    ],
+    "location": "Ain Shams University, Egypt",
+    "country": "Egypt",
+    "city": "Ain Shams University",
+    "organisation": "AIESEC Egypt",
+    "programme": {
+      "id": "8",
+      "short_name": "GTe"
+    },
+    "programmeName": "Global Teacher",
+    "programmeSlug": "global-teacher",
+    "sourceUrl": "https://aiesec.org/opportunity/global-teacher/1336042",
+    "coverPhoto": null,
+    "status": "open",
+    "duration": 12,
+    "durationBracket": "short",
+    "earliestStartDate": "2026-06-01",
+    "latestEndDate": "2026-12-01",
+    "slots": []
+  },
+  {
+    "id": 1190,
+    "gisId": "1190",
+    "title": "Administrative, Marketing & E-Marketing (Fairs, Events &  Customer Follow-up)",
+    "description": "Product: Global Talent. MC: Egypt. LC: Ain Shams University. Openings: 1",
+    "skills": [
+      "administrative",
+      "administrative marketing",
+      "marketing",
+      "marketing e",
+      "e",
+      "e marketing",
+      "marketing fairs",
+      "fairs",
+      "fairs events",
+      "events",
+      "events customer",
+      "customer",
+      "customer follow",
+      "follow",
+      "follow up",
+      "up",
+      "talent"
+    ],
+    "backgrounds": [
+      "Any Background"
+    ],
+    "languages": [
+      "English"
+    ],
+    "location": "Ain Shams University, Egypt",
+    "country": "Egypt",
+    "city": "Ain Shams University",
+    "organisation": "AIESEC Egypt",
+    "programme": {
+      "id": "7",
+      "short_name": "GTa"
+    },
+    "programmeName": "Global Talent",
+    "programmeSlug": "global-talent",
+    "sourceUrl": "https://aiesec.org/opportunity/global-talent/1336041",
+    "coverPhoto": null,
+    "status": "open",
+    "duration": 12,
+    "durationBracket": "short",
+    "earliestStartDate": "2026-06-01",
+    "latestEndDate": "2026-12-01",
+    "slots": []
+  },
+  {
+    "id": 1191,
+    "gisId": "1191",
+    "title": "Aviation Engineer",
+    "description": "Product: Global Talent. MC: Egypt. LC: Ain Shams University. Openings: 1",
+    "skills": [
+      "aviation",
+      "aviation engineer",
+      "engineer",
+      "talent"
+    ],
+    "backgrounds": [
+      "Any Background"
+    ],
+    "languages": [
+      "English"
+    ],
+    "location": "Ain Shams University, Egypt",
+    "country": "Egypt",
+    "city": "Ain Shams University",
+    "organisation": "AIESEC Egypt",
+    "programme": {
+      "id": "7",
+      "short_name": "GTa"
+    },
+    "programmeName": "Global Talent",
+    "programmeSlug": "global-talent",
+    "sourceUrl": "https://aiesec.org/opportunity/global-talent/1336040",
+    "coverPhoto": null,
+    "status": "open",
+    "duration": 12,
+    "durationBracket": "short",
+    "earliestStartDate": "2026-06-01",
+    "latestEndDate": "2026-12-01",
+    "slots": []
+  },
+  {
+    "id": 1192,
+    "gisId": "1192",
+    "title": "Fingerprint [4 weeks]",
+    "description": "Product: Global Volunteer. MC: Egypt. LC: Cairo University. Openings: 2",
+    "skills": [
+      "fingerprint",
+      "fingerprint 4",
+      "4",
+      "4 weeks"
+    ],
+    "backgrounds": [
+      "Any Background"
+    ],
+    "languages": [
+      "English"
+    ],
+    "location": "Cairo University, Egypt",
+    "country": "Egypt",
+    "city": "Cairo",
+    "organisation": "AIESEC Egypt",
+    "programme": {
+      "id": "6",
+      "short_name": "GV"
+    },
+    "programmeName": "Global Volunteer",
+    "programmeSlug": "global-volunteer",
+    "sourceUrl": "https://aiesec.org/opportunity/global-volunteer/1336026",
+    "coverPhoto": null,
+    "status": "open",
+    "duration": 12,
+    "durationBracket": "short",
+    "earliestStartDate": "2026-06-01",
+    "latestEndDate": "2026-12-01",
+    "slots": []
+  },
+  {
+    "id": 1193,
+    "gisId": "1193",
+    "title": "English Class teacher - British curriculum",
+    "description": "Product: Global Teacher. MC: Egypt. LC: Cairo University. Openings: 1",
+    "skills": [
+      "english",
+      "english class",
+      "class",
+      "class teacher",
+      "british",
+      "british curriculum",
+      "curriculum"
+    ],
+    "backgrounds": [
+      "Any Background"
+    ],
+    "languages": [
+      "English"
+    ],
+    "location": "Cairo University, Egypt",
+    "country": "Egypt",
+    "city": "Cairo",
+    "organisation": "AIESEC Egypt",
+    "programme": {
+      "id": "8",
+      "short_name": "GTe"
+    },
+    "programmeName": "Global Teacher",
+    "programmeSlug": "global-teacher",
+    "sourceUrl": "https://aiesec.org/opportunity/global-teacher/1336020",
+    "coverPhoto": null,
+    "status": "open",
+    "duration": 12,
+    "durationBracket": "short",
+    "earliestStartDate": "2026-06-01",
+    "latestEndDate": "2026-12-01",
+    "slots": []
+  },
+  {
+    "id": 1194,
+    "gisId": "1194",
+    "title": "Global Classroom [4 weeks]",
+    "description": "Product: Global Volunteer. MC: Egypt. LC: Cairo University. Openings: 1",
+    "skills": [
+      "classroom",
+      "classroom 4",
+      "4",
+      "4 weeks"
+    ],
+    "backgrounds": [
+      "Any Background"
+    ],
+    "languages": [
+      "English"
+    ],
+    "location": "Cairo University, Egypt",
+    "country": "Egypt",
+    "city": "Cairo",
+    "organisation": "AIESEC Egypt",
+    "programme": {
+      "id": "6",
+      "short_name": "GV"
+    },
+    "programmeName": "Global Volunteer",
+    "programmeSlug": "global-volunteer",
+    "sourceUrl": "https://aiesec.org/opportunity/global-volunteer/1336018",
+    "coverPhoto": null,
+    "status": "open",
+    "duration": 12,
+    "durationBracket": "short",
+    "earliestStartDate": "2026-06-01",
+    "latestEndDate": "2026-12-01",
+    "slots": []
+  },
+  {
+    "id": 1195,
+    "gisId": "1195",
+    "title": "Global Classroom [4 weeks]",
+    "description": "Product: Global Volunteer. MC: Egypt. LC: Cairo University. Openings: 1",
+    "skills": [
+      "classroom",
+      "classroom 4",
+      "4",
+      "4 weeks"
+    ],
+    "backgrounds": [
+      "Any Background"
+    ],
+    "languages": [
+      "English"
+    ],
+    "location": "Cairo University, Egypt",
+    "country": "Egypt",
+    "city": "Cairo",
+    "organisation": "AIESEC Egypt",
+    "programme": {
+      "id": "6",
+      "short_name": "GV"
+    },
+    "programmeName": "Global Volunteer",
+    "programmeSlug": "global-volunteer",
+    "sourceUrl": "https://aiesec.org/opportunity/global-volunteer/1336017",
+    "coverPhoto": null,
+    "status": "open",
+    "duration": 12,
+    "durationBracket": "short",
+    "earliestStartDate": "2026-06-01",
+    "latestEndDate": "2026-12-01",
+    "slots": []
+  },
+  {
+    "id": 1196,
+    "gisId": "1196",
+    "title": "Content Creator",
+    "description": "Product: Global Talent. MC: Egypt. LC: Cairo University. Openings: 2",
+    "skills": [
+      "content creation",
+      "content creator",
+      "creator",
+      "talent"
+    ],
+    "backgrounds": [
+      "Any Background"
+    ],
+    "languages": [
+      "English"
+    ],
+    "location": "Cairo University, Egypt",
+    "country": "Egypt",
+    "city": "Cairo",
+    "organisation": "AIESEC Egypt",
+    "programme": {
+      "id": "7",
+      "short_name": "GTa"
+    },
+    "programmeName": "Global Talent",
+    "programmeSlug": "global-talent",
+    "sourceUrl": "https://aiesec.org/opportunity/global-talent/1336012",
+    "coverPhoto": null,
+    "status": "open",
+    "duration": 12,
+    "durationBracket": "short",
+    "earliestStartDate": "2026-06-01",
+    "latestEndDate": "2026-12-01",
+    "slots": []
+  },
+  {
+    "id": 1197,
+    "gisId": "1197",
+    "title": "Scale Up! [6 weeks]",
+    "description": "Product: Global Volunteer. MC: Egypt. LC: Alexandria. Openings: 1",
+    "skills": [
+      "scale",
+      "scale up",
+      "up",
+      "up 6",
+      "6",
+      "6 weeks"
+    ],
+    "backgrounds": [
+      "Any Background"
+    ],
+    "languages": [
+      "English"
+    ],
+    "location": "Alexandria, Egypt",
+    "country": "Egypt",
+    "city": "Alexandria",
+    "organisation": "AIESEC Egypt",
+    "programme": {
+      "id": "6",
+      "short_name": "GV"
+    },
+    "programmeName": "Global Volunteer",
+    "programmeSlug": "global-volunteer",
+    "sourceUrl": "https://aiesec.org/opportunity/global-volunteer/1336011",
+    "coverPhoto": null,
+    "status": "open",
+    "duration": 12,
+    "durationBracket": "short",
+    "earliestStartDate": "2026-06-01",
+    "latestEndDate": "2026-12-01",
+    "slots": []
+  },
+  {
+    "id": 1198,
+    "gisId": "1198",
+    "title": "graphic design",
+    "description": "Product: Global Talent. MC: Egypt. LC: Mansoura. Openings: 3",
+    "skills": [
+      "graphic",
+      "graphic design",
+      "design",
+      "talent"
+    ],
+    "backgrounds": [
+      "Any Background"
+    ],
+    "languages": [
+      "English"
+    ],
+    "location": "Mansoura, Egypt",
+    "country": "Egypt",
+    "city": "Mansoura",
+    "organisation": "AIESEC Egypt",
+    "programme": {
+      "id": "7",
+      "short_name": "GTa"
+    },
+    "programmeName": "Global Talent",
+    "programmeSlug": "global-talent",
+    "sourceUrl": "https://aiesec.org/opportunity/global-talent/1336007",
+    "coverPhoto": null,
+    "status": "open",
+    "duration": 12,
+    "durationBracket": "short",
+    "earliestStartDate": "2026-06-01",
+    "latestEndDate": "2026-12-01",
+    "slots": []
+  },
+  {
+    "id": 1199,
+    "gisId": "1199",
+    "title": "Business developement",
+    "description": "Product: Global Talent. MC: Egypt. LC: Mansoura. Openings: 3",
+    "skills": [
+      "business",
+      "business developement",
+      "developement",
+      "talent"
+    ],
+    "backgrounds": [
+      "Any Background"
+    ],
+    "languages": [
+      "English"
+    ],
+    "location": "Mansoura, Egypt",
+    "country": "Egypt",
+    "city": "Mansoura",
+    "organisation": "AIESEC Egypt",
+    "programme": {
+      "id": "7",
+      "short_name": "GTa"
+    },
+    "programmeName": "Global Talent",
+    "programmeSlug": "global-talent",
+    "sourceUrl": "https://aiesec.org/opportunity/global-talent/1335994",
+    "coverPhoto": null,
+    "status": "open",
+    "duration": 12,
+    "durationBracket": "short",
+    "earliestStartDate": "2026-06-01",
+    "latestEndDate": "2026-12-01",
+    "slots": []
+  },
+  {
+    "id": 1200,
+    "gisId": "1200",
+    "title": "Global Classroom [6 weeks]",
+    "description": "Product: Global Volunteer. MC: Egypt. LC: Ain Shams University. Openings: 1",
+    "skills": [
+      "classroom",
+      "classroom 6",
+      "6",
+      "6 weeks"
+    ],
+    "backgrounds": [
+      "Any Background"
+    ],
+    "languages": [
+      "English"
+    ],
+    "location": "Ain Shams University, Egypt",
+    "country": "Egypt",
+    "city": "Ain Shams University",
+    "organisation": "AIESEC Egypt",
+    "programme": {
+      "id": "6",
+      "short_name": "GV"
+    },
+    "programmeName": "Global Volunteer",
+    "programmeSlug": "global-volunteer",
+    "sourceUrl": "https://aiesec.org/opportunity/global-volunteer/1335982",
+    "coverPhoto": null,
+    "status": "open",
+    "duration": 12,
+    "durationBracket": "short",
+    "earliestStartDate": "2026-06-01",
+    "latestEndDate": "2026-12-01",
+    "slots": []
+  },
+  {
+    "id": 1201,
+    "gisId": "1201",
+    "title": "Marketing Specialist",
+    "description": "Product: Global Talent. MC: Egypt. LC: MIU. Openings: 1",
+    "skills": [
+      "marketing",
+      "marketing specialist",
+      "specialist",
+      "talent"
+    ],
+    "backgrounds": [
+      "Any Background"
+    ],
+    "languages": [
+      "English"
+    ],
+    "location": "MIU, Egypt",
+    "country": "Egypt",
+    "city": "MIU",
+    "organisation": "AIESEC Egypt",
+    "programme": {
+      "id": "7",
+      "short_name": "GTa"
+    },
+    "programmeName": "Global Talent",
+    "programmeSlug": "global-talent",
+    "sourceUrl": "https://aiesec.org/opportunity/global-talent/1335952",
+    "coverPhoto": null,
+    "status": "open",
+    "duration": 12,
+    "durationBracket": "short",
+    "earliestStartDate": "2026-06-01",
+    "latestEndDate": "2026-12-01",
+    "slots": []
+  },
+  {
+    "id": 1202,
+    "gisId": "1202",
+    "title": "Scale Up! [4 weeks]",
+    "description": "Product: Global Volunteer. MC: Egypt. LC: AAST In CAIRO. Openings: 3",
+    "skills": [
+      "scale",
+      "scale up",
+      "up",
+      "up 4",
+      "4",
+      "4 weeks"
+    ],
+    "backgrounds": [
+      "Any Background"
+    ],
+    "languages": [
+      "English"
+    ],
+    "location": "AAST In CAIRO, Egypt",
+    "country": "Egypt",
+    "city": "AAST In CAIRO",
+    "organisation": "AIESEC Egypt",
+    "programme": {
+      "id": "6",
+      "short_name": "GV"
+    },
+    "programmeName": "Global Volunteer",
+    "programmeSlug": "global-volunteer",
+    "sourceUrl": "https://aiesec.org/opportunity/global-volunteer/1335948",
+    "coverPhoto": null,
+    "status": "open",
+    "duration": 12,
+    "durationBracket": "short",
+    "earliestStartDate": "2026-06-01",
+    "latestEndDate": "2026-12-01",
+    "slots": []
+  },
+  {
+    "id": 1203,
+    "gisId": "1203",
+    "title": "Social Media Specialist",
+    "description": "Product: Global Talent. MC: Egypt. LC: Helwan. Openings: 1",
+    "skills": [
+      "social",
+      "social media",
+      "media",
+      "media specialist",
+      "specialist",
+      "talent"
+    ],
+    "backgrounds": [
+      "Any Background"
+    ],
+    "languages": [
+      "English"
+    ],
+    "location": "Helwan, Egypt",
+    "country": "Egypt",
+    "city": "Helwan",
+    "organisation": "AIESEC Egypt",
+    "programme": {
+      "id": "7",
+      "short_name": "GTa"
+    },
+    "programmeName": "Global Talent",
+    "programmeSlug": "global-talent",
+    "sourceUrl": "https://aiesec.org/opportunity/global-talent/1335943",
+    "coverPhoto": null,
+    "status": "open",
+    "duration": 12,
+    "durationBracket": "short",
+    "earliestStartDate": "2026-06-01",
+    "latestEndDate": "2026-12-01",
+    "slots": []
+  },
+  {
+    "id": 1204,
+    "gisId": "1204",
+    "title": "Sales Representative",
+    "description": "Product: Global Talent. MC: Egypt. LC: Helwan. Openings: 1",
+    "skills": [
+      "sales",
+      "sales representative",
+      "representative",
+      "talent"
+    ],
+    "backgrounds": [
+      "Any Background"
+    ],
+    "languages": [
+      "English"
+    ],
+    "location": "Helwan, Egypt",
+    "country": "Egypt",
+    "city": "Helwan",
+    "organisation": "AIESEC Egypt",
+    "programme": {
+      "id": "7",
+      "short_name": "GTa"
+    },
+    "programmeName": "Global Talent",
+    "programmeSlug": "global-talent",
+    "sourceUrl": "https://aiesec.org/opportunity/global-talent/1335942",
+    "coverPhoto": null,
+    "status": "open",
+    "duration": 12,
+    "durationBracket": "short",
+    "earliestStartDate": "2026-06-01",
+    "latestEndDate": "2026-12-01",
+    "slots": []
+  },
+  {
+    "id": 1205,
+    "gisId": "1205",
+    "title": "English Teacher",
+    "description": "Product: Global Teacher. MC: Egypt. LC: MUST. Openings: 3",
+    "skills": [
+      "english",
+      "english teacher"
+    ],
+    "backgrounds": [
+      "Any Background"
+    ],
+    "languages": [
+      "English"
+    ],
+    "location": "MUST, Egypt",
+    "country": "Egypt",
+    "city": "MUST",
+    "organisation": "AIESEC Egypt",
+    "programme": {
+      "id": "8",
+      "short_name": "GTe"
+    },
+    "programmeName": "Global Teacher",
+    "programmeSlug": "global-teacher",
+    "sourceUrl": "https://aiesec.org/opportunity/global-teacher/1335941",
+    "coverPhoto": null,
+    "status": "open",
+    "duration": 12,
+    "durationBracket": "short",
+    "earliestStartDate": "2026-06-01",
+    "latestEndDate": "2026-12-01",
+    "slots": []
+  },
+  {
+    "id": 1206,
+    "gisId": "1206",
+    "title": "Web Developer",
+    "description": "Product: Global Talent. MC: Egypt. LC: MIU. Openings: 1",
+    "skills": [
+      "web",
+      "web developer",
+      "developer",
+      "talent"
+    ],
+    "backgrounds": [
+      "Any Background"
+    ],
+    "languages": [
+      "English"
+    ],
+    "location": "MIU, Egypt",
+    "country": "Egypt",
+    "city": "MIU",
+    "organisation": "AIESEC Egypt",
+    "programme": {
+      "id": "7",
+      "short_name": "GTa"
+    },
+    "programmeName": "Global Talent",
+    "programmeSlug": "global-talent",
+    "sourceUrl": "https://aiesec.org/opportunity/global-talent/1335929",
+    "coverPhoto": null,
+    "status": "open",
+    "duration": 12,
+    "durationBracket": "short",
+    "earliestStartDate": "2026-06-01",
+    "latestEndDate": "2026-12-01",
+    "slots": []
+  },
+  {
+    "id": 1207,
+    "gisId": "1207",
+    "title": "Resident Football Coach",
+    "description": "Product: Global Teacher. MC: Egypt. LC: Ain Shams University. Openings: 1",
+    "skills": [
+      "resident",
+      "resident football",
+      "football",
+      "football coach",
+      "coach"
+    ],
+    "backgrounds": [
+      "Any Background"
+    ],
+    "languages": [
+      "English"
+    ],
+    "location": "Ain Shams University, Egypt",
+    "country": "Egypt",
+    "city": "Ain Shams University",
+    "organisation": "AIESEC Egypt",
+    "programme": {
+      "id": "8",
+      "short_name": "GTe"
+    },
+    "programmeName": "Global Teacher",
+    "programmeSlug": "global-teacher",
+    "sourceUrl": "https://aiesec.org/opportunity/global-teacher/1335909",
+    "coverPhoto": null,
+    "status": "open",
+    "duration": 12,
+    "durationBracket": "short",
+    "earliestStartDate": "2026-06-01",
+    "latestEndDate": "2026-12-01",
+    "slots": []
+  },
+  {
+    "id": 1208,
+    "gisId": "1208",
+    "title": "Basketball Coach (6 weeks)",
+    "description": "Product: Global Teacher. MC: Egypt. LC: Ain Shams University. Openings: 1",
+    "skills": [
+      "basketball",
+      "basketball coach",
+      "coach",
+      "coach 6",
+      "6",
+      "6 weeks"
+    ],
+    "backgrounds": [
+      "Any Background"
+    ],
+    "languages": [
+      "English"
+    ],
+    "location": "Ain Shams University, Egypt",
+    "country": "Egypt",
+    "city": "Ain Shams University",
+    "organisation": "AIESEC Egypt",
+    "programme": {
+      "id": "8",
+      "short_name": "GTe"
+    },
+    "programmeName": "Global Teacher",
+    "programmeSlug": "global-teacher",
+    "sourceUrl": "https://aiesec.org/opportunity/global-teacher/1335907",
+    "coverPhoto": null,
+    "status": "open",
+    "duration": 12,
+    "durationBracket": "short",
+    "earliestStartDate": "2026-06-01",
+    "latestEndDate": "2026-12-01",
+    "slots": []
+  },
+  {
+    "id": 1209,
+    "gisId": "1209",
+    "title": "Football Coach (6 weeks)",
+    "description": "Product: Global Teacher. MC: Egypt. LC: Ain Shams University. Openings: 1",
+    "skills": [
+      "football",
+      "football coach",
+      "coach",
+      "coach 6",
+      "6",
+      "6 weeks"
+    ],
+    "backgrounds": [
+      "Any Background"
+    ],
+    "languages": [
+      "English"
+    ],
+    "location": "Ain Shams University, Egypt",
+    "country": "Egypt",
+    "city": "Ain Shams University",
+    "organisation": "AIESEC Egypt",
+    "programme": {
+      "id": "8",
+      "short_name": "GTe"
+    },
+    "programmeName": "Global Teacher",
+    "programmeSlug": "global-teacher",
+    "sourceUrl": "https://aiesec.org/opportunity/global-teacher/1335892",
+    "coverPhoto": null,
+    "status": "open",
+    "duration": 12,
+    "durationBracket": "short",
+    "earliestStartDate": "2026-06-01",
+    "latestEndDate": "2026-12-01",
+    "slots": []
+  },
+  {
+    "id": 1210,
+    "gisId": "1210",
+    "title": "English Trainer",
+    "description": "Product: Global Teacher. MC: Egypt. LC: Tanta. Openings: 1",
+    "skills": [
+      "english",
+      "english trainer",
+      "trainer"
+    ],
+    "backgrounds": [
+      "Any Background"
+    ],
+    "languages": [
+      "English"
+    ],
+    "location": "Tanta, Egypt",
+    "country": "Egypt",
+    "city": "Tanta",
+    "organisation": "AIESEC Egypt",
+    "programme": {
+      "id": "8",
+      "short_name": "GTe"
+    },
+    "programmeName": "Global Teacher",
+    "programmeSlug": "global-teacher",
+    "sourceUrl": "https://aiesec.org/opportunity/global-teacher/1335884",
+    "coverPhoto": null,
+    "status": "open",
+    "duration": 12,
+    "durationBracket": "short",
+    "earliestStartDate": "2026-06-01",
+    "latestEndDate": "2026-12-01",
+    "slots": []
+  },
+  {
+    "id": 1211,
+    "gisId": "1211",
+    "title": "Content Creator",
+    "description": "Product: Global Talent. MC: Egypt. LC: Helwan. Openings: 1",
+    "skills": [
+      "content creation",
+      "content creator",
+      "creator",
+      "talent"
+    ],
+    "backgrounds": [
+      "Any Background"
+    ],
+    "languages": [
+      "English"
+    ],
+    "location": "Helwan, Egypt",
+    "country": "Egypt",
+    "city": "Helwan",
+    "organisation": "AIESEC Egypt",
+    "programme": {
+      "id": "7",
+      "short_name": "GTa"
+    },
+    "programmeName": "Global Talent",
+    "programmeSlug": "global-talent",
+    "sourceUrl": "https://aiesec.org/opportunity/global-talent/1335868",
+    "coverPhoto": null,
+    "status": "open",
+    "duration": 12,
+    "durationBracket": "short",
+    "earliestStartDate": "2026-06-01",
+    "latestEndDate": "2026-12-01",
+    "slots": []
+  },
+  {
+    "id": 1212,
+    "gisId": "1212",
+    "title": "English Teacher [ 9 weeks ]",
+    "description": "Product: Global Teacher. MC: Egypt. LC: Helwan. Openings: 2",
+    "skills": [
+      "english",
+      "english teacher",
+      "9",
+      "9 weeks"
+    ],
+    "backgrounds": [
+      "Any Background"
+    ],
+    "languages": [
+      "English"
+    ],
+    "location": "Helwan, Egypt",
+    "country": "Egypt",
+    "city": "Helwan",
+    "organisation": "AIESEC Egypt",
+    "programme": {
+      "id": "8",
+      "short_name": "GTe"
+    },
+    "programmeName": "Global Teacher",
+    "programmeSlug": "global-teacher",
+    "sourceUrl": "https://aiesec.org/opportunity/global-teacher/1335858",
+    "coverPhoto": null,
+    "status": "open",
+    "duration": 12,
+    "durationBracket": "short",
+    "earliestStartDate": "2026-06-01",
+    "latestEndDate": "2026-12-01",
+    "slots": []
+  },
+  {
+    "id": 1213,
+    "gisId": "1213",
+    "title": "Fingerprint [4 weeks]",
+    "description": "Product: Global Volunteer. MC: Egypt. LC: Cairo University. Openings: 1",
+    "skills": [
+      "fingerprint",
+      "fingerprint 4",
+      "4",
+      "4 weeks"
+    ],
+    "backgrounds": [
+      "Any Background"
+    ],
+    "languages": [
+      "English"
+    ],
+    "location": "Cairo University, Egypt",
+    "country": "Egypt",
+    "city": "Cairo",
+    "organisation": "AIESEC Egypt",
+    "programme": {
+      "id": "6",
+      "short_name": "GV"
+    },
+    "programmeName": "Global Volunteer",
+    "programmeSlug": "global-volunteer",
+    "sourceUrl": "https://aiesec.org/opportunity/global-volunteer/1335761",
+    "coverPhoto": null,
+    "status": "open",
+    "duration": 12,
+    "durationBracket": "short",
+    "earliestStartDate": "2026-06-01",
+    "latestEndDate": "2026-12-01",
+    "slots": []
+  },
+  {
+    "id": 1214,
+    "gisId": "1214",
+    "title": "Skill Up! [6 weeks]",
+    "description": "Product: Global Volunteer. MC: Egypt. LC: Cairo University. Openings: 2",
+    "skills": [
+      "skill",
+      "skill up",
+      "up",
+      "up 6",
+      "6",
+      "6 weeks"
+    ],
+    "backgrounds": [
+      "Any Background"
+    ],
+    "languages": [
+      "English"
+    ],
+    "location": "Cairo University, Egypt",
+    "country": "Egypt",
+    "city": "Cairo",
+    "organisation": "AIESEC Egypt",
+    "programme": {
+      "id": "6",
+      "short_name": "GV"
+    },
+    "programmeName": "Global Volunteer",
+    "programmeSlug": "global-volunteer",
+    "sourceUrl": "https://aiesec.org/opportunity/global-volunteer/1335760",
+    "coverPhoto": null,
+    "status": "open",
+    "duration": 12,
+    "durationBracket": "short",
+    "earliestStartDate": "2026-06-01",
+    "latestEndDate": "2026-12-01",
+    "slots": []
+  },
+  {
+    "id": 1215,
+    "gisId": "1215",
+    "title": "Global Classroom [4 weeks]",
+    "description": "Product: Global Volunteer. MC: Egypt. LC: Cairo University. Openings: 1",
+    "skills": [
+      "classroom",
+      "classroom 4",
+      "4",
+      "4 weeks"
+    ],
+    "backgrounds": [
+      "Any Background"
+    ],
+    "languages": [
+      "English"
+    ],
+    "location": "Cairo University, Egypt",
+    "country": "Egypt",
+    "city": "Cairo",
+    "organisation": "AIESEC Egypt",
+    "programme": {
+      "id": "6",
+      "short_name": "GV"
+    },
+    "programmeName": "Global Volunteer",
+    "programmeSlug": "global-volunteer",
+    "sourceUrl": "https://aiesec.org/opportunity/global-volunteer/1335758",
+    "coverPhoto": null,
+    "status": "open",
+    "duration": 12,
+    "durationBracket": "short",
+    "earliestStartDate": "2026-06-01",
+    "latestEndDate": "2026-12-01",
+    "slots": []
+  },
+  {
+    "id": 1216,
+    "gisId": "1216",
+    "title": "Social media specialist",
+    "description": "Product: Global Talent. MC: Egypt. LC: Zagazig. Openings: 1",
+    "skills": [
+      "social",
+      "social media",
+      "media",
+      "media specialist",
+      "specialist",
+      "talent"
+    ],
+    "backgrounds": [
+      "Any Background"
+    ],
+    "languages": [
+      "English"
+    ],
+    "location": "Zagazig, Egypt",
+    "country": "Egypt",
+    "city": "Zagazig",
+    "organisation": "AIESEC Egypt",
+    "programme": {
+      "id": "7",
+      "short_name": "GTa"
+    },
+    "programmeName": "Global Talent",
+    "programmeSlug": "global-talent",
+    "sourceUrl": "https://aiesec.org/opportunity/global-talent/1335755",
+    "coverPhoto": null,
+    "status": "open",
+    "duration": 12,
+    "durationBracket": "short",
+    "earliestStartDate": "2026-06-01",
+    "latestEndDate": "2026-12-01",
+    "slots": []
+  },
+  {
+    "id": 1217,
+    "gisId": "1217",
+    "title": "Global Classroom [4 weeks]",
+    "description": "Product: Global Volunteer. MC: Egypt. LC: Cairo University. Openings: 2",
+    "skills": [
+      "classroom",
+      "classroom 4",
+      "4",
+      "4 weeks"
+    ],
+    "backgrounds": [
+      "Any Background"
+    ],
+    "languages": [
+      "English"
+    ],
+    "location": "Cairo University, Egypt",
+    "country": "Egypt",
+    "city": "Cairo",
+    "organisation": "AIESEC Egypt",
+    "programme": {
+      "id": "6",
+      "short_name": "GV"
+    },
+    "programmeName": "Global Volunteer",
+    "programmeSlug": "global-volunteer",
+    "sourceUrl": "https://aiesec.org/opportunity/global-volunteer/1335754",
+    "coverPhoto": null,
+    "status": "open",
+    "duration": 12,
+    "durationBracket": "short",
+    "earliestStartDate": "2026-06-01",
+    "latestEndDate": "2026-12-01",
+    "slots": []
+  },
+  {
+    "id": 1218,
+    "gisId": "1218",
+    "title": "Finance specialist",
+    "description": "Product: Global Talent. MC: Egypt. LC: Zagazig. Openings: 1",
+    "skills": [
+      "finance",
+      "finance specialist",
+      "specialist",
+      "talent"
+    ],
+    "backgrounds": [
+      "Any Background"
+    ],
+    "languages": [
+      "English"
+    ],
+    "location": "Zagazig, Egypt",
+    "country": "Egypt",
+    "city": "Zagazig",
+    "organisation": "AIESEC Egypt",
+    "programme": {
+      "id": "7",
+      "short_name": "GTa"
+    },
+    "programmeName": "Global Talent",
+    "programmeSlug": "global-talent",
+    "sourceUrl": "https://aiesec.org/opportunity/global-talent/1335752",
+    "coverPhoto": null,
+    "status": "open",
+    "duration": 12,
+    "durationBracket": "short",
+    "earliestStartDate": "2026-06-01",
+    "latestEndDate": "2026-12-01",
+    "slots": []
+  },
+  {
+    "id": 1219,
+    "gisId": "1219",
+    "title": "HR specialist",
+    "description": "Product: Global Talent. MC: Egypt. LC: Zagazig. Openings: 1",
+    "skills": [
+      "hr",
+      "hr specialist",
+      "specialist",
+      "talent"
+    ],
+    "backgrounds": [
+      "Any Background"
+    ],
+    "languages": [
+      "English"
+    ],
+    "location": "Zagazig, Egypt",
+    "country": "Egypt",
+    "city": "Zagazig",
+    "organisation": "AIESEC Egypt",
+    "programme": {
+      "id": "7",
+      "short_name": "GTa"
+    },
+    "programmeName": "Global Talent",
+    "programmeSlug": "global-talent",
+    "sourceUrl": "https://aiesec.org/opportunity/global-talent/1335747",
+    "coverPhoto": null,
+    "status": "open",
+    "duration": 12,
+    "durationBracket": "short",
+    "earliestStartDate": "2026-06-01",
+    "latestEndDate": "2026-12-01",
+    "slots": []
+  },
+  {
+    "id": 1220,
+    "gisId": "1220",
+    "title": "English Teacher",
+    "description": "Product: Global Teacher. MC: Egypt. LC: 6th October University. Openings: 1",
+    "skills": [
+      "english",
+      "english teacher"
+    ],
+    "backgrounds": [
+      "Any Background"
+    ],
+    "languages": [
+      "English"
+    ],
+    "location": "6th October University, Egypt",
+    "country": "Egypt",
+    "city": "6th October University",
+    "organisation": "AIESEC Egypt",
+    "programme": {
+      "id": "8",
+      "short_name": "GTe"
+    },
+    "programmeName": "Global Teacher",
+    "programmeSlug": "global-teacher",
+    "sourceUrl": "https://aiesec.org/opportunity/global-teacher/1335691",
+    "coverPhoto": null,
+    "status": "open",
+    "duration": 12,
+    "durationBracket": "short",
+    "earliestStartDate": "2026-06-01",
+    "latestEndDate": "2026-12-01",
+    "slots": []
+  },
+  {
+    "id": 1221,
+    "gisId": "1221",
+    "title": "English Teacher",
+    "description": "Product: Global Teacher. MC: Egypt. LC: 6th October University. Openings: 1",
+    "skills": [
+      "english",
+      "english teacher"
+    ],
+    "backgrounds": [
+      "Any Background"
+    ],
+    "languages": [
+      "English"
+    ],
+    "location": "6th October University, Egypt",
+    "country": "Egypt",
+    "city": "6th October University",
+    "organisation": "AIESEC Egypt",
+    "programme": {
+      "id": "8",
+      "short_name": "GTe"
+    },
+    "programmeName": "Global Teacher",
+    "programmeSlug": "global-teacher",
+    "sourceUrl": "https://aiesec.org/opportunity/global-teacher/1335690",
+    "coverPhoto": null,
+    "status": "open",
+    "duration": 12,
+    "durationBracket": "short",
+    "earliestStartDate": "2026-06-01",
+    "latestEndDate": "2026-12-01",
+    "slots": []
+  },
+  {
+    "id": 1222,
+    "gisId": "1222",
+    "title": "Heartbeat [4 weeks]",
+    "description": "Product: Global Volunteer. MC: Egypt. LC: MIU. Openings: 1",
+    "skills": [
+      "heartbeat",
+      "heartbeat 4",
+      "4",
+      "4 weeks"
+    ],
+    "backgrounds": [
+      "Any Background"
+    ],
+    "languages": [
+      "English"
+    ],
+    "location": "MIU, Egypt",
+    "country": "Egypt",
+    "city": "MIU",
+    "organisation": "AIESEC Egypt",
+    "programme": {
+      "id": "6",
+      "short_name": "GV"
+    },
+    "programmeName": "Global Volunteer",
+    "programmeSlug": "global-volunteer",
+    "sourceUrl": "https://aiesec.org/opportunity/global-volunteer/1335662",
+    "coverPhoto": null,
+    "status": "open",
+    "duration": 12,
+    "durationBracket": "short",
+    "earliestStartDate": "2026-06-01",
+    "latestEndDate": "2026-12-01",
+    "slots": []
+  },
+  {
+    "id": 1223,
+    "gisId": "1223",
+    "title": "Global Classroom [4 weeks]",
+    "description": "Product: Global Volunteer. MC: Egypt. LC: MIU. Openings: 1",
+    "skills": [
+      "classroom",
+      "classroom 4",
+      "4",
+      "4 weeks"
+    ],
+    "backgrounds": [
+      "Any Background"
+    ],
+    "languages": [
+      "English"
+    ],
+    "location": "MIU, Egypt",
+    "country": "Egypt",
+    "city": "MIU",
+    "organisation": "AIESEC Egypt",
+    "programme": {
+      "id": "6",
+      "short_name": "GV"
+    },
+    "programmeName": "Global Volunteer",
+    "programmeSlug": "global-volunteer",
+    "sourceUrl": "https://aiesec.org/opportunity/global-volunteer/1335660",
+    "coverPhoto": null,
+    "status": "open",
+    "duration": 12,
+    "durationBracket": "short",
+    "earliestStartDate": "2026-06-01",
+    "latestEndDate": "2026-12-01",
+    "slots": []
+  },
+  {
+    "id": 1224,
+    "gisId": "1224",
+    "title": "Discover [4 weeks]",
+    "description": "Product: Global Volunteer. MC: Egypt. LC: MIU. Openings: 1",
+    "skills": [
+      "discover",
+      "discover 4",
+      "4",
+      "4 weeks"
+    ],
+    "backgrounds": [
+      "Any Background"
+    ],
+    "languages": [
+      "English"
+    ],
+    "location": "MIU, Egypt",
+    "country": "Egypt",
+    "city": "MIU",
+    "organisation": "AIESEC Egypt",
+    "programme": {
+      "id": "6",
+      "short_name": "GV"
+    },
+    "programmeName": "Global Volunteer",
+    "programmeSlug": "global-volunteer",
+    "sourceUrl": "https://aiesec.org/opportunity/global-volunteer/1335657",
+    "coverPhoto": null,
+    "status": "open",
+    "duration": 12,
+    "durationBracket": "short",
+    "earliestStartDate": "2026-06-01",
+    "latestEndDate": "2026-12-01",
+    "slots": []
+  },
+  {
+    "id": 1225,
+    "gisId": "1225",
+    "title": "Heartbeat [4 weeks]",
+    "description": "Product: Global Volunteer. MC: Egypt. LC: Ain Shams University. Openings: 1",
+    "skills": [
+      "heartbeat",
+      "heartbeat 4",
+      "4",
+      "4 weeks"
+    ],
+    "backgrounds": [
+      "Any Background"
+    ],
+    "languages": [
+      "English"
+    ],
+    "location": "Ain Shams University, Egypt",
+    "country": "Egypt",
+    "city": "Ain Shams University",
+    "organisation": "AIESEC Egypt",
+    "programme": {
+      "id": "6",
+      "short_name": "GV"
+    },
+    "programmeName": "Global Volunteer",
+    "programmeSlug": "global-volunteer",
+    "sourceUrl": "https://aiesec.org/opportunity/global-volunteer/1335647",
+    "coverPhoto": null,
+    "status": "open",
+    "duration": 12,
+    "durationBracket": "short",
+    "earliestStartDate": "2026-06-01",
+    "latestEndDate": "2026-12-01",
+    "slots": []
+  },
+  {
+    "id": 1226,
+    "gisId": "1226",
+    "title": "Aquatica [4 week]",
+    "description": "Product: Global Volunteer. MC: Egypt. LC: Ain Shams University. Openings: 11",
+    "skills": [
+      "aquatica",
+      "aquatica 4",
+      "4",
+      "4 week"
+    ],
+    "backgrounds": [
+      "Any Background"
+    ],
+    "languages": [
+      "English"
+    ],
+    "location": "Ain Shams University, Egypt",
+    "country": "Egypt",
+    "city": "Ain Shams University",
+    "organisation": "AIESEC Egypt",
+    "programme": {
+      "id": "6",
+      "short_name": "GV"
+    },
+    "programmeName": "Global Volunteer",
+    "programmeSlug": "global-volunteer",
+    "sourceUrl": "https://aiesec.org/opportunity/global-volunteer/1335644",
+    "coverPhoto": null,
+    "status": "open",
+    "duration": 12,
+    "durationBracket": "short",
+    "earliestStartDate": "2026-06-01",
+    "latestEndDate": "2026-12-01",
+    "slots": []
+  },
+  {
+    "id": 1227,
+    "gisId": "1227",
+    "title": "On the Map [4 week]",
+    "description": "Product: Global Volunteer. MC: Egypt. LC: Ain Shams University. Openings: 11",
+    "skills": [
+      "map",
+      "map 4",
+      "4",
+      "4 week"
+    ],
+    "backgrounds": [
+      "Any Background"
+    ],
+    "languages": [
+      "English"
+    ],
+    "location": "Ain Shams University, Egypt",
+    "country": "Egypt",
+    "city": "Ain Shams University",
+    "organisation": "AIESEC Egypt",
+    "programme": {
+      "id": "6",
+      "short_name": "GV"
+    },
+    "programmeName": "Global Volunteer",
+    "programmeSlug": "global-volunteer",
+    "sourceUrl": "https://aiesec.org/opportunity/global-volunteer/1335643",
+    "coverPhoto": null,
+    "status": "open",
+    "duration": 12,
+    "durationBracket": "short",
+    "earliestStartDate": "2026-06-01",
+    "latestEndDate": "2026-12-01",
+    "slots": []
+  },
+  {
+    "id": 1228,
+    "gisId": "1228",
+    "title": "Heartbeat [4 weeks]",
+    "description": "Product: Global Volunteer. MC: Egypt. LC: Helwan. Openings: 1",
+    "skills": [
+      "heartbeat",
+      "heartbeat 4",
+      "4",
+      "4 weeks"
+    ],
+    "backgrounds": [
+      "Any Background"
+    ],
+    "languages": [
+      "English"
+    ],
+    "location": "Helwan, Egypt",
+    "country": "Egypt",
+    "city": "Helwan",
+    "organisation": "AIESEC Egypt",
+    "programme": {
+      "id": "6",
+      "short_name": "GV"
+    },
+    "programmeName": "Global Volunteer",
+    "programmeSlug": "global-volunteer",
+    "sourceUrl": "https://aiesec.org/opportunity/global-volunteer/1335623",
+    "coverPhoto": null,
+    "status": "open",
+    "duration": 12,
+    "durationBracket": "short",
+    "earliestStartDate": "2026-06-01",
+    "latestEndDate": "2026-12-01",
+    "slots": []
+  },
+  {
+    "id": 1229,
+    "gisId": "1229",
+    "title": "Global Classroom [4 weeks]",
+    "description": "Product: Global Volunteer. MC: Egypt. LC: Helwan. Openings: 1",
+    "skills": [
+      "classroom",
+      "classroom 4",
+      "4",
+      "4 weeks"
+    ],
+    "backgrounds": [
+      "Any Background"
+    ],
+    "languages": [
+      "English"
+    ],
+    "location": "Helwan, Egypt",
+    "country": "Egypt",
+    "city": "Helwan",
+    "organisation": "AIESEC Egypt",
+    "programme": {
+      "id": "6",
+      "short_name": "GV"
+    },
+    "programmeName": "Global Volunteer",
+    "programmeSlug": "global-volunteer",
+    "sourceUrl": "https://aiesec.org/opportunity/global-volunteer/1335622",
+    "coverPhoto": null,
+    "status": "open",
+    "duration": 12,
+    "durationBracket": "short",
+    "earliestStartDate": "2026-06-01",
+    "latestEndDate": "2026-12-01",
+    "slots": []
+  },
+  {
+    "id": 1230,
+    "gisId": "1230",
+    "title": "Global Classroom [4 weeks]",
+    "description": "Product: Global Volunteer. MC: Egypt. LC: Ain Shams University. Openings: 1",
+    "skills": [
+      "classroom",
+      "classroom 4",
+      "4",
+      "4 weeks"
+    ],
+    "backgrounds": [
+      "Any Background"
+    ],
+    "languages": [
+      "English"
+    ],
+    "location": "Ain Shams University, Egypt",
+    "country": "Egypt",
+    "city": "Ain Shams University",
+    "organisation": "AIESEC Egypt",
+    "programme": {
+      "id": "6",
+      "short_name": "GV"
+    },
+    "programmeName": "Global Volunteer",
+    "programmeSlug": "global-volunteer",
+    "sourceUrl": "https://aiesec.org/opportunity/global-volunteer/1335586",
+    "coverPhoto": null,
+    "status": "open",
+    "duration": 12,
+    "durationBracket": "short",
+    "earliestStartDate": "2026-06-01",
+    "latestEndDate": "2026-12-01",
+    "slots": []
+  },
+  {
+    "id": 1231,
+    "gisId": "1231",
+    "title": "Global Classroom [4 weeks]",
+    "description": "Product: Global Volunteer. MC: Egypt. LC: 6th October University. Openings: 2",
+    "skills": [
+      "classroom",
+      "classroom 4",
+      "4",
+      "4 weeks"
+    ],
+    "backgrounds": [
+      "Any Background"
+    ],
+    "languages": [
+      "English"
+    ],
+    "location": "6th October University, Egypt",
+    "country": "Egypt",
+    "city": "6th October University",
+    "organisation": "AIESEC Egypt",
+    "programme": {
+      "id": "6",
+      "short_name": "GV"
+    },
+    "programmeName": "Global Volunteer",
+    "programmeSlug": "global-volunteer",
+    "sourceUrl": "https://aiesec.org/opportunity/global-volunteer/1335573",
+    "coverPhoto": null,
+    "status": "open",
+    "duration": 12,
+    "durationBracket": "short",
+    "earliestStartDate": "2026-06-01",
+    "latestEndDate": "2026-12-01",
+    "slots": []
+  },
+  {
+    "id": 1232,
+    "gisId": "1232",
+    "title": "English Teacher",
+    "description": "Product: Global Teacher. MC: Egypt. LC: 6th October University. Openings: 1",
+    "skills": [
+      "english",
+      "english teacher"
+    ],
+    "backgrounds": [
+      "Any Background"
+    ],
+    "languages": [
+      "English"
+    ],
+    "location": "6th October University, Egypt",
+    "country": "Egypt",
+    "city": "6th October University",
+    "organisation": "AIESEC Egypt",
+    "programme": {
+      "id": "8",
+      "short_name": "GTe"
+    },
+    "programmeName": "Global Teacher",
+    "programmeSlug": "global-teacher",
+    "sourceUrl": "https://aiesec.org/opportunity/global-teacher/1335572",
+    "coverPhoto": null,
+    "status": "open",
+    "duration": 12,
+    "durationBracket": "short",
+    "earliestStartDate": "2026-06-01",
+    "latestEndDate": "2026-12-01",
+    "slots": []
+  },
+  {
+    "id": 1233,
+    "gisId": "1233",
+    "title": "PE/Sports Teacher",
+    "description": "Product: Global Teacher. MC: Egypt. LC: Mansoura. Openings: 1",
+    "skills": [
+      "pe",
+      "pe sports",
+      "sports",
+      "sports teacher"
+    ],
+    "backgrounds": [
+      "Any Background"
+    ],
+    "languages": [
+      "English"
+    ],
+    "location": "Mansoura, Egypt",
+    "country": "Egypt",
+    "city": "Mansoura",
+    "organisation": "AIESEC Egypt",
+    "programme": {
+      "id": "8",
+      "short_name": "GTe"
+    },
+    "programmeName": "Global Teacher",
+    "programmeSlug": "global-teacher",
+    "sourceUrl": "https://aiesec.org/opportunity/global-teacher/1335565",
+    "coverPhoto": null,
+    "status": "open",
+    "duration": 12,
+    "durationBracket": "short",
+    "earliestStartDate": "2026-06-01",
+    "latestEndDate": "2026-12-01",
+    "slots": []
+  },
+  {
+    "id": 1234,
+    "gisId": "1234",
+    "title": "English Teacher ( 6 weeks )",
+    "description": "Product: Global Teacher. MC: Egypt. LC: Menofia. Openings: 1",
+    "skills": [
+      "english",
+      "english teacher",
+      "6",
+      "6 weeks"
+    ],
+    "backgrounds": [
+      "Any Background"
+    ],
+    "languages": [
+      "English"
+    ],
+    "location": "Menofia, Egypt",
+    "country": "Egypt",
+    "city": "Menofia",
+    "organisation": "AIESEC Egypt",
+    "programme": {
+      "id": "8",
+      "short_name": "GTe"
+    },
+    "programmeName": "Global Teacher",
+    "programmeSlug": "global-teacher",
+    "sourceUrl": "https://aiesec.org/opportunity/global-teacher/1335555",
+    "coverPhoto": null,
+    "status": "open",
+    "duration": 12,
+    "durationBracket": "short",
+    "earliestStartDate": "2026-06-01",
+    "latestEndDate": "2026-12-01",
+    "slots": []
+  },
+  {
+    "id": 1235,
+    "gisId": "1235",
+    "title": "English Teacher ( 6 weeks )",
+    "description": "Product: Global Teacher. MC: Egypt. LC: Menofia. Openings: 1",
+    "skills": [
+      "english",
+      "english teacher",
+      "6",
+      "6 weeks"
+    ],
+    "backgrounds": [
+      "Any Background"
+    ],
+    "languages": [
+      "English"
+    ],
+    "location": "Menofia, Egypt",
+    "country": "Egypt",
+    "city": "Menofia",
+    "organisation": "AIESEC Egypt",
+    "programme": {
+      "id": "8",
+      "short_name": "GTe"
+    },
+    "programmeName": "Global Teacher",
+    "programmeSlug": "global-teacher",
+    "sourceUrl": "https://aiesec.org/opportunity/global-teacher/1335554",
+    "coverPhoto": null,
+    "status": "open",
+    "duration": 12,
+    "durationBracket": "short",
+    "earliestStartDate": "2026-06-01",
+    "latestEndDate": "2026-12-01",
+    "slots": []
+  },
+  {
+    "id": 1236,
+    "gisId": "1236",
+    "title": "Scale Up! [6 weeks]",
+    "description": "Product: Global Volunteer. MC: Egypt. LC: MUST. Openings: 1",
+    "skills": [
+      "scale",
+      "scale up",
+      "up",
+      "up 6",
+      "6",
+      "6 weeks"
+    ],
+    "backgrounds": [
+      "Any Background"
+    ],
+    "languages": [
+      "English"
+    ],
+    "location": "MUST, Egypt",
+    "country": "Egypt",
+    "city": "MUST",
+    "organisation": "AIESEC Egypt",
+    "programme": {
+      "id": "6",
+      "short_name": "GV"
+    },
+    "programmeName": "Global Volunteer",
+    "programmeSlug": "global-volunteer",
+    "sourceUrl": "https://aiesec.org/opportunity/global-volunteer/1335552",
+    "coverPhoto": null,
+    "status": "open",
+    "duration": 12,
+    "durationBracket": "short",
+    "earliestStartDate": "2026-06-01",
+    "latestEndDate": "2026-12-01",
+    "slots": []
+  },
+  {
+    "id": 1237,
+    "gisId": "1237",
+    "title": "Heartbeat [4 weeks]",
+    "description": "Product: Global Volunteer. MC: Egypt. LC: GUC. Openings: 2",
+    "skills": [
+      "heartbeat",
+      "heartbeat 4",
+      "4",
+      "4 weeks"
+    ],
+    "backgrounds": [
+      "Any Background"
+    ],
+    "languages": [
+      "English"
+    ],
+    "location": "GUC, Egypt",
+    "country": "Egypt",
+    "city": "GUC",
+    "organisation": "AIESEC Egypt",
+    "programme": {
+      "id": "6",
+      "short_name": "GV"
+    },
+    "programmeName": "Global Volunteer",
+    "programmeSlug": "global-volunteer",
+    "sourceUrl": "https://aiesec.org/opportunity/global-volunteer/1335551",
+    "coverPhoto": null,
+    "status": "open",
+    "duration": 12,
+    "durationBracket": "short",
+    "earliestStartDate": "2026-06-01",
+    "latestEndDate": "2026-12-01",
+    "slots": []
+  },
+  {
+    "id": 1238,
+    "gisId": "1238",
+    "title": "Sales",
+    "description": "Product: Global Talent. MC: Egypt. LC: Mansoura. Openings: 2",
+    "skills": [
+      "sales",
+      "talent"
+    ],
+    "backgrounds": [
+      "Any Background"
+    ],
+    "languages": [
+      "English"
+    ],
+    "location": "Mansoura, Egypt",
+    "country": "Egypt",
+    "city": "Mansoura",
+    "organisation": "AIESEC Egypt",
+    "programme": {
+      "id": "7",
+      "short_name": "GTa"
+    },
+    "programmeName": "Global Talent",
+    "programmeSlug": "global-talent",
+    "sourceUrl": "https://aiesec.org/opportunity/global-talent/1335549",
+    "coverPhoto": null,
+    "status": "open",
+    "duration": 12,
+    "durationBracket": "short",
+    "earliestStartDate": "2026-06-01",
+    "latestEndDate": "2026-12-01",
+    "slots": []
+  },
+  {
+    "id": 1239,
+    "gisId": "1239",
+    "title": "Global Classroom [4 weeks]",
+    "description": "Product: Global Volunteer. MC: Egypt. LC: Mansoura. Openings: 4",
+    "skills": [
+      "classroom",
+      "classroom 4",
+      "4",
+      "4 weeks"
+    ],
+    "backgrounds": [
+      "Any Background"
+    ],
+    "languages": [
+      "English"
+    ],
+    "location": "Mansoura, Egypt",
+    "country": "Egypt",
+    "city": "Mansoura",
+    "organisation": "AIESEC Egypt",
+    "programme": {
+      "id": "6",
+      "short_name": "GV"
+    },
+    "programmeName": "Global Volunteer",
+    "programmeSlug": "global-volunteer",
+    "sourceUrl": "https://aiesec.org/opportunity/global-volunteer/1335548",
+    "coverPhoto": null,
+    "status": "open",
+    "duration": 12,
+    "durationBracket": "short",
+    "earliestStartDate": "2026-06-01",
+    "latestEndDate": "2026-12-01",
+    "slots": []
+  },
+  {
+    "id": 1240,
+    "gisId": "1240",
+    "title": "Digital Marketer",
+    "description": "Product: Global Talent. MC: Egypt. LC: Mansoura. Openings: 1",
+    "skills": [
+      "digital",
+      "digital marketer",
+      "marketer",
+      "talent"
+    ],
+    "backgrounds": [
+      "Any Background"
+    ],
+    "languages": [
+      "English"
+    ],
+    "location": "Mansoura, Egypt",
+    "country": "Egypt",
+    "city": "Mansoura",
+    "organisation": "AIESEC Egypt",
+    "programme": {
+      "id": "7",
+      "short_name": "GTa"
+    },
+    "programmeName": "Global Talent",
+    "programmeSlug": "global-talent",
+    "sourceUrl": "https://aiesec.org/opportunity/global-talent/1335547",
+    "coverPhoto": null,
+    "status": "open",
+    "duration": 12,
+    "durationBracket": "short",
+    "earliestStartDate": "2026-06-01",
+    "latestEndDate": "2026-12-01",
+    "slots": []
+  },
+  {
+    "id": 1241,
+    "gisId": "1241",
+    "title": "Graphic Designer",
+    "description": "Product: Global Talent. MC: Egypt. LC: Mansoura. Openings: 1",
+    "skills": [
+      "graphic",
+      "graphic designer",
+      "designer",
+      "talent"
+    ],
+    "backgrounds": [
+      "Any Background"
+    ],
+    "languages": [
+      "English"
+    ],
+    "location": "Mansoura, Egypt",
+    "country": "Egypt",
+    "city": "Mansoura",
+    "organisation": "AIESEC Egypt",
+    "programme": {
+      "id": "7",
+      "short_name": "GTa"
+    },
+    "programmeName": "Global Talent",
+    "programmeSlug": "global-talent",
+    "sourceUrl": "https://aiesec.org/opportunity/global-talent/1335546",
+    "coverPhoto": null,
+    "status": "open",
+    "duration": 12,
+    "durationBracket": "short",
+    "earliestStartDate": "2026-06-01",
+    "latestEndDate": "2026-12-01",
+    "slots": []
+  },
+  {
+    "id": 1242,
+    "gisId": "1242",
+    "title": "Marketing Specialists",
+    "description": "Product: Global Talent. MC: Egypt. LC: Mansoura. Openings: 1",
+    "skills": [
+      "marketing",
+      "marketing specialists",
+      "specialists",
+      "talent"
+    ],
+    "backgrounds": [
+      "Any Background"
+    ],
+    "languages": [
+      "English"
+    ],
+    "location": "Mansoura, Egypt",
+    "country": "Egypt",
+    "city": "Mansoura",
+    "organisation": "AIESEC Egypt",
+    "programme": {
+      "id": "7",
+      "short_name": "GTa"
+    },
+    "programmeName": "Global Talent",
+    "programmeSlug": "global-talent",
+    "sourceUrl": "https://aiesec.org/opportunity/global-talent/1335545",
+    "coverPhoto": null,
+    "status": "open",
+    "duration": 12,
+    "durationBracket": "short",
+    "earliestStartDate": "2026-06-01",
+    "latestEndDate": "2026-12-01",
+    "slots": []
+  },
+  {
+    "id": 1243,
+    "gisId": "1243",
+    "title": "Heartbeat [4 weeks]",
+    "description": "Product: Global Volunteer. MC: Egypt. LC: Cairo University. Openings: 3",
+    "skills": [
+      "heartbeat",
+      "heartbeat 4",
+      "4",
+      "4 weeks"
+    ],
+    "backgrounds": [
+      "Any Background"
+    ],
+    "languages": [
+      "English"
+    ],
+    "location": "Cairo University, Egypt",
+    "country": "Egypt",
+    "city": "Cairo",
+    "organisation": "AIESEC Egypt",
+    "programme": {
+      "id": "6",
+      "short_name": "GV"
+    },
+    "programmeName": "Global Volunteer",
+    "programmeSlug": "global-volunteer",
+    "sourceUrl": "https://aiesec.org/opportunity/global-volunteer/1335543",
+    "coverPhoto": null,
+    "status": "open",
+    "duration": 12,
+    "durationBracket": "short",
+    "earliestStartDate": "2026-06-01",
+    "latestEndDate": "2026-12-01",
+    "slots": []
+  },
+  {
+    "id": 1244,
+    "gisId": "1244",
+    "title": "Marketing Specialists",
+    "description": "Product: Global Talent. MC: Egypt. LC: Mansoura. Openings: 2",
+    "skills": [
+      "marketing",
+      "marketing specialists",
+      "specialists",
+      "talent"
+    ],
+    "backgrounds": [
+      "Any Background"
+    ],
+    "languages": [
+      "English"
+    ],
+    "location": "Mansoura, Egypt",
+    "country": "Egypt",
+    "city": "Mansoura",
+    "organisation": "AIESEC Egypt",
+    "programme": {
+      "id": "7",
+      "short_name": "GTa"
+    },
+    "programmeName": "Global Talent",
+    "programmeSlug": "global-talent",
+    "sourceUrl": "https://aiesec.org/opportunity/global-talent/1335542",
+    "coverPhoto": null,
+    "status": "open",
+    "duration": 12,
+    "durationBracket": "short",
+    "earliestStartDate": "2026-06-01",
+    "latestEndDate": "2026-12-01",
+    "slots": []
+  },
+  {
+    "id": 1245,
+    "gisId": "1245",
+    "title": "Sales",
+    "description": "Product: Global Talent. MC: Egypt. LC: Mansoura. Openings: 2",
+    "skills": [
+      "sales",
+      "talent"
+    ],
+    "backgrounds": [
+      "Any Background"
+    ],
+    "languages": [
+      "English"
+    ],
+    "location": "Mansoura, Egypt",
+    "country": "Egypt",
+    "city": "Mansoura",
+    "organisation": "AIESEC Egypt",
+    "programme": {
+      "id": "7",
+      "short_name": "GTa"
+    },
+    "programmeName": "Global Talent",
+    "programmeSlug": "global-talent",
+    "sourceUrl": "https://aiesec.org/opportunity/global-talent/1335541",
+    "coverPhoto": null,
+    "status": "open",
+    "duration": 12,
+    "durationBracket": "short",
+    "earliestStartDate": "2026-06-01",
+    "latestEndDate": "2026-12-01",
+    "slots": []
+  },
+  {
+    "id": 1246,
+    "gisId": "1246",
+    "title": "Heartbeat [4 weeks]",
+    "description": "Product: Global Volunteer. MC: Egypt. LC: 6th October University. Openings: 5",
+    "skills": [
+      "heartbeat",
+      "heartbeat 4",
+      "4",
+      "4 weeks"
+    ],
+    "backgrounds": [
+      "Any Background"
+    ],
+    "languages": [
+      "English"
+    ],
+    "location": "6th October University, Egypt",
+    "country": "Egypt",
+    "city": "6th October University",
+    "organisation": "AIESEC Egypt",
+    "programme": {
+      "id": "6",
+      "short_name": "GV"
+    },
+    "programmeName": "Global Volunteer",
+    "programmeSlug": "global-volunteer",
+    "sourceUrl": "https://aiesec.org/opportunity/global-volunteer/1335539",
+    "coverPhoto": null,
+    "status": "open",
+    "duration": 12,
+    "durationBracket": "short",
+    "earliestStartDate": "2026-06-01",
+    "latestEndDate": "2026-12-01",
+    "slots": []
+  },
+  {
+    "id": 1247,
+    "gisId": "1247",
+    "title": "Global Classroom [4 weeks]",
+    "description": "Product: Global Volunteer. MC: Egypt. LC: 6th October University. Openings: 1",
+    "skills": [
+      "classroom",
+      "classroom 4",
+      "4",
+      "4 weeks"
+    ],
+    "backgrounds": [
+      "Any Background"
+    ],
+    "languages": [
+      "English"
+    ],
+    "location": "6th October University, Egypt",
+    "country": "Egypt",
+    "city": "6th October University",
+    "organisation": "AIESEC Egypt",
+    "programme": {
+      "id": "6",
+      "short_name": "GV"
+    },
+    "programmeName": "Global Volunteer",
+    "programmeSlug": "global-volunteer",
+    "sourceUrl": "https://aiesec.org/opportunity/global-volunteer/1335538",
+    "coverPhoto": null,
+    "status": "open",
+    "duration": 12,
+    "durationBracket": "short",
+    "earliestStartDate": "2026-06-01",
+    "latestEndDate": "2026-12-01",
+    "slots": []
+  },
+  {
+    "id": 1248,
+    "gisId": "1248",
+    "title": "Scale Up! [6 weeks]",
+    "description": "Product: Global Volunteer. MC: Egypt. LC: MUST. Openings: 1",
+    "skills": [
+      "scale",
+      "scale up",
+      "up",
+      "up 6",
+      "6",
+      "6 weeks"
+    ],
+    "backgrounds": [
+      "Any Background"
+    ],
+    "languages": [
+      "English"
+    ],
+    "location": "MUST, Egypt",
+    "country": "Egypt",
+    "city": "MUST",
+    "organisation": "AIESEC Egypt",
+    "programme": {
+      "id": "6",
+      "short_name": "GV"
+    },
+    "programmeName": "Global Volunteer",
+    "programmeSlug": "global-volunteer",
+    "sourceUrl": "https://aiesec.org/opportunity/global-volunteer/1335535",
+    "coverPhoto": null,
+    "status": "open",
+    "duration": 12,
+    "durationBracket": "short",
+    "earliestStartDate": "2026-06-01",
+    "latestEndDate": "2026-12-01",
+    "slots": []
+  },
+  {
+    "id": 1249,
+    "gisId": "1249",
+    "title": "Discover [4 weeks]",
+    "description": "Product: Global Volunteer. MC: Egypt. LC: GUC. Openings: 1",
+    "skills": [
+      "discover",
+      "discover 4",
+      "4",
+      "4 weeks"
+    ],
+    "backgrounds": [
+      "Any Background"
+    ],
+    "languages": [
+      "English"
+    ],
+    "location": "GUC, Egypt",
+    "country": "Egypt",
+    "city": "GUC",
+    "organisation": "AIESEC Egypt",
+    "programme": {
+      "id": "6",
+      "short_name": "GV"
+    },
+    "programmeName": "Global Volunteer",
+    "programmeSlug": "global-volunteer",
+    "sourceUrl": "https://aiesec.org/opportunity/global-volunteer/1335528",
+    "coverPhoto": null,
+    "status": "open",
+    "duration": 12,
+    "durationBracket": "short",
+    "earliestStartDate": "2026-06-01",
+    "latestEndDate": "2026-12-01",
+    "slots": []
+  },
+  {
+    "id": 1250,
+    "gisId": "1250",
+    "title": "Discover [4 weeks]",
+    "description": "Product: Global Volunteer. MC: Egypt. LC: 6th October University. Openings: 4",
+    "skills": [
+      "discover",
+      "discover 4",
+      "4",
+      "4 weeks"
+    ],
+    "backgrounds": [
+      "Any Background"
+    ],
+    "languages": [
+      "English"
+    ],
+    "location": "6th October University, Egypt",
+    "country": "Egypt",
+    "city": "6th October University",
+    "organisation": "AIESEC Egypt",
+    "programme": {
+      "id": "6",
+      "short_name": "GV"
+    },
+    "programmeName": "Global Volunteer",
+    "programmeSlug": "global-volunteer",
+    "sourceUrl": "https://aiesec.org/opportunity/global-volunteer/1335527",
+    "coverPhoto": null,
+    "status": "open",
+    "duration": 12,
+    "durationBracket": "short",
+    "earliestStartDate": "2026-06-01",
+    "latestEndDate": "2026-12-01",
+    "slots": []
+  },
+  {
+    "id": 1251,
+    "gisId": "1251",
+    "title": "Skill Up! [6 weeks]",
+    "description": "Product: Global Volunteer. MC: Egypt. LC: Cairo University. Openings: 2",
+    "skills": [
+      "skill",
+      "skill up",
+      "up",
+      "up 6",
+      "6",
+      "6 weeks"
+    ],
+    "backgrounds": [
+      "Any Background"
+    ],
+    "languages": [
+      "English"
+    ],
+    "location": "Cairo University, Egypt",
+    "country": "Egypt",
+    "city": "Cairo",
+    "organisation": "AIESEC Egypt",
+    "programme": {
+      "id": "6",
+      "short_name": "GV"
+    },
+    "programmeName": "Global Volunteer",
+    "programmeSlug": "global-volunteer",
+    "sourceUrl": "https://aiesec.org/opportunity/global-volunteer/1335525",
+    "coverPhoto": null,
+    "status": "open",
+    "duration": 12,
+    "durationBracket": "short",
+    "earliestStartDate": "2026-06-01",
+    "latestEndDate": "2026-12-01",
+    "slots": []
+  },
+  {
+    "id": 1252,
+    "gisId": "1252",
+    "title": "Content Creator",
+    "description": "Product: Global Talent. MC: Egypt. LC: Cairo University. Openings: 1",
+    "skills": [
+      "content creation",
+      "content creator",
+      "creator",
+      "talent"
+    ],
+    "backgrounds": [
+      "Any Background"
+    ],
+    "languages": [
+      "English"
+    ],
+    "location": "Cairo University, Egypt",
+    "country": "Egypt",
+    "city": "Cairo",
+    "organisation": "AIESEC Egypt",
+    "programme": {
+      "id": "7",
+      "short_name": "GTa"
+    },
+    "programmeName": "Global Talent",
+    "programmeSlug": "global-talent",
+    "sourceUrl": "https://aiesec.org/opportunity/global-talent/1335524",
+    "coverPhoto": null,
+    "status": "open",
+    "duration": 12,
+    "durationBracket": "short",
+    "earliestStartDate": "2026-06-01",
+    "latestEndDate": "2026-12-01",
+    "slots": []
+  },
+  {
+    "id": 1253,
+    "gisId": "1253",
+    "title": "Fingerprint [4 weeks]",
+    "description": "Product: Global Volunteer. MC: Egypt. LC: 6th October University. Openings: 4",
+    "skills": [
+      "fingerprint",
+      "fingerprint 4",
+      "4",
+      "4 weeks"
+    ],
+    "backgrounds": [
+      "Any Background"
+    ],
+    "languages": [
+      "English"
+    ],
+    "location": "6th October University, Egypt",
+    "country": "Egypt",
+    "city": "6th October University",
+    "organisation": "AIESEC Egypt",
+    "programme": {
+      "id": "6",
+      "short_name": "GV"
+    },
+    "programmeName": "Global Volunteer",
+    "programmeSlug": "global-volunteer",
+    "sourceUrl": "https://aiesec.org/opportunity/global-volunteer/1335512",
+    "coverPhoto": null,
+    "status": "open",
+    "duration": 12,
+    "durationBracket": "short",
+    "earliestStartDate": "2026-06-01",
+    "latestEndDate": "2026-12-01",
+    "slots": []
+  },
+  {
+    "id": 1254,
+    "gisId": "1254",
+    "title": "Heartbeat [4 weeks]",
+    "description": "Product: Global Volunteer. MC: Egypt. LC: Cairo University. Openings: 3",
+    "skills": [
+      "heartbeat",
+      "heartbeat 4",
+      "4",
+      "4 weeks"
+    ],
+    "backgrounds": [
+      "Any Background"
+    ],
+    "languages": [
+      "English"
+    ],
+    "location": "Cairo University, Egypt",
+    "country": "Egypt",
+    "city": "Cairo",
+    "organisation": "AIESEC Egypt",
+    "programme": {
+      "id": "6",
+      "short_name": "GV"
+    },
+    "programmeName": "Global Volunteer",
+    "programmeSlug": "global-volunteer",
+    "sourceUrl": "https://aiesec.org/opportunity/global-volunteer/1335511",
+    "coverPhoto": null,
+    "status": "open",
+    "duration": 12,
+    "durationBracket": "short",
+    "earliestStartDate": "2026-06-01",
+    "latestEndDate": "2026-12-01",
+    "slots": []
+  },
+  {
+    "id": 1255,
+    "gisId": "1255",
+    "title": "Fingerprint [4 weeks]",
+    "description": "Product: Global Volunteer. MC: Egypt. LC: Zagazig. Openings: 1",
+    "skills": [
+      "fingerprint",
+      "fingerprint 4",
+      "4",
+      "4 weeks"
+    ],
+    "backgrounds": [
+      "Any Background"
+    ],
+    "languages": [
+      "English"
+    ],
+    "location": "Zagazig, Egypt",
+    "country": "Egypt",
+    "city": "Zagazig",
+    "organisation": "AIESEC Egypt",
+    "programme": {
+      "id": "6",
+      "short_name": "GV"
+    },
+    "programmeName": "Global Volunteer",
+    "programmeSlug": "global-volunteer",
+    "sourceUrl": "https://aiesec.org/opportunity/global-volunteer/1335509",
+    "coverPhoto": null,
+    "status": "open",
+    "duration": 12,
+    "durationBracket": "short",
+    "earliestStartDate": "2026-06-01",
+    "latestEndDate": "2026-12-01",
+    "slots": []
+  },
+  {
+    "id": 1256,
+    "gisId": "1256",
+    "title": "Global Classroom [4 weeks]",
+    "description": "Product: Global Volunteer. MC: Egypt. LC: Zagazig. Openings: 1",
+    "skills": [
+      "classroom",
+      "classroom 4",
+      "4",
+      "4 weeks"
+    ],
+    "backgrounds": [
+      "Any Background"
+    ],
+    "languages": [
+      "English"
+    ],
+    "location": "Zagazig, Egypt",
+    "country": "Egypt",
+    "city": "Zagazig",
+    "organisation": "AIESEC Egypt",
+    "programme": {
+      "id": "6",
+      "short_name": "GV"
+    },
+    "programmeName": "Global Volunteer",
+    "programmeSlug": "global-volunteer",
+    "sourceUrl": "https://aiesec.org/opportunity/global-volunteer/1335508",
+    "coverPhoto": null,
+    "status": "open",
+    "duration": 12,
+    "durationBracket": "short",
+    "earliestStartDate": "2026-06-01",
+    "latestEndDate": "2026-12-01",
+    "slots": []
+  },
+  {
+    "id": 1257,
+    "gisId": "1257",
+    "title": "On the Map [4 week]",
+    "description": "Product: Global Volunteer. MC: Egypt. LC: Cairo University. Openings: 7",
+    "skills": [
+      "map",
+      "map 4",
+      "4",
+      "4 week"
+    ],
+    "backgrounds": [
+      "Any Background"
+    ],
+    "languages": [
+      "English"
+    ],
+    "location": "Cairo University, Egypt",
+    "country": "Egypt",
+    "city": "Cairo",
+    "organisation": "AIESEC Egypt",
+    "programme": {
+      "id": "6",
+      "short_name": "GV"
+    },
+    "programmeName": "Global Volunteer",
+    "programmeSlug": "global-volunteer",
+    "sourceUrl": "https://aiesec.org/opportunity/global-volunteer/1335498",
+    "coverPhoto": null,
+    "status": "open",
+    "duration": 12,
+    "durationBracket": "short",
+    "earliestStartDate": "2026-06-01",
+    "latestEndDate": "2026-12-01",
+    "slots": []
+  },
+  {
+    "id": 1258,
+    "gisId": "1258",
+    "title": "Scale Up! [6 weeks]",
+    "description": "Product: Global Volunteer. MC: Egypt. LC: Ain Shams University. Openings: 3",
+    "skills": [
+      "scale",
+      "scale up",
+      "up",
+      "up 6",
+      "6",
+      "6 weeks"
+    ],
+    "backgrounds": [
+      "Any Background"
+    ],
+    "languages": [
+      "English"
+    ],
+    "location": "Ain Shams University, Egypt",
+    "country": "Egypt",
+    "city": "Ain Shams University",
+    "organisation": "AIESEC Egypt",
+    "programme": {
+      "id": "6",
+      "short_name": "GV"
+    },
+    "programmeName": "Global Volunteer",
+    "programmeSlug": "global-volunteer",
+    "sourceUrl": "https://aiesec.org/opportunity/global-volunteer/1335497",
+    "coverPhoto": null,
+    "status": "open",
+    "duration": 12,
+    "durationBracket": "short",
+    "earliestStartDate": "2026-06-01",
+    "latestEndDate": "2026-12-01",
+    "slots": []
+  },
+  {
+    "id": 1259,
+    "gisId": "1259",
+    "title": "Science Teacher",
+    "description": "Product: Global Teacher. MC: Egypt. LC: Zagazig. Openings: 1",
+    "skills": [
+      "science",
+      "science teacher"
+    ],
+    "backgrounds": [
+      "Any Background"
+    ],
+    "languages": [
+      "English"
+    ],
+    "location": "Zagazig, Egypt",
+    "country": "Egypt",
+    "city": "Zagazig",
+    "organisation": "AIESEC Egypt",
+    "programme": {
+      "id": "8",
+      "short_name": "GTe"
+    },
+    "programmeName": "Global Teacher",
+    "programmeSlug": "global-teacher",
+    "sourceUrl": "https://aiesec.org/opportunity/global-teacher/1335494",
+    "coverPhoto": null,
+    "status": "open",
+    "duration": 12,
+    "durationBracket": "short",
+    "earliestStartDate": "2026-06-01",
+    "latestEndDate": "2026-12-01",
+    "slots": []
+  },
+  {
+    "id": 1260,
+    "gisId": "1260",
+    "title": "English Teacher",
+    "description": "Product: Global Teacher. MC: Egypt. LC: Mansoura. Openings: 1",
+    "skills": [
+      "english",
+      "english teacher"
+    ],
+    "backgrounds": [
+      "Any Background"
+    ],
+    "languages": [
+      "English"
+    ],
+    "location": "Mansoura, Egypt",
+    "country": "Egypt",
+    "city": "Mansoura",
+    "organisation": "AIESEC Egypt",
+    "programme": {
+      "id": "8",
+      "short_name": "GTe"
+    },
+    "programmeName": "Global Teacher",
+    "programmeSlug": "global-teacher",
+    "sourceUrl": "https://aiesec.org/opportunity/global-teacher/1335493",
+    "coverPhoto": null,
+    "status": "open",
+    "duration": 12,
+    "durationBracket": "short",
+    "earliestStartDate": "2026-06-01",
+    "latestEndDate": "2026-12-01",
+    "slots": []
+  },
+  {
+    "id": 1261,
+    "gisId": "1261",
+    "title": "Math Teacher",
+    "description": "Product: Global Teacher. MC: Egypt. LC: Zagazig. Openings: 1",
+    "skills": [
+      "math",
+      "math teacher"
+    ],
+    "backgrounds": [
+      "Any Background"
+    ],
+    "languages": [
+      "English"
+    ],
+    "location": "Zagazig, Egypt",
+    "country": "Egypt",
+    "city": "Zagazig",
+    "organisation": "AIESEC Egypt",
+    "programme": {
+      "id": "8",
+      "short_name": "GTe"
+    },
+    "programmeName": "Global Teacher",
+    "programmeSlug": "global-teacher",
+    "sourceUrl": "https://aiesec.org/opportunity/global-teacher/1335492",
+    "coverPhoto": null,
+    "status": "open",
+    "duration": 12,
+    "durationBracket": "short",
+    "earliestStartDate": "2026-06-01",
+    "latestEndDate": "2026-12-01",
+    "slots": []
+  },
+  {
+    "id": 1262,
+    "gisId": "1262",
+    "title": "German Teacher",
+    "description": "Product: Global Teacher. MC: Egypt. LC: Zagazig. Openings: 1",
+    "skills": [
+      "german",
+      "german teacher"
+    ],
+    "backgrounds": [
+      "Any Background"
+    ],
+    "languages": [
+      "English"
+    ],
+    "location": "Zagazig, Egypt",
+    "country": "Egypt",
+    "city": "Zagazig",
+    "organisation": "AIESEC Egypt",
+    "programme": {
+      "id": "8",
+      "short_name": "GTe"
+    },
+    "programmeName": "Global Teacher",
+    "programmeSlug": "global-teacher",
+    "sourceUrl": "https://aiesec.org/opportunity/global-teacher/1335491",
+    "coverPhoto": null,
+    "status": "open",
+    "duration": 12,
+    "durationBracket": "short",
+    "earliestStartDate": "2026-06-01",
+    "latestEndDate": "2026-12-01",
+    "slots": []
+  },
+  {
+    "id": 1263,
+    "gisId": "1263",
+    "title": "French",
+    "description": "Product: Global Teacher. MC: Egypt. LC: Zagazig. Openings: 1",
+    "skills": [
+      "french"
+    ],
+    "backgrounds": [
+      "Any Background"
+    ],
+    "languages": [
+      "English"
+    ],
+    "location": "Zagazig, Egypt",
+    "country": "Egypt",
+    "city": "Zagazig",
+    "organisation": "AIESEC Egypt",
+    "programme": {
+      "id": "8",
+      "short_name": "GTe"
+    },
+    "programmeName": "Global Teacher",
+    "programmeSlug": "global-teacher",
+    "sourceUrl": "https://aiesec.org/opportunity/global-teacher/1335490",
+    "coverPhoto": null,
+    "status": "open",
+    "duration": 12,
+    "durationBracket": "short",
+    "earliestStartDate": "2026-06-01",
+    "latestEndDate": "2026-12-01",
+    "slots": []
+  },
+  {
+    "id": 1264,
+    "gisId": "1264",
+    "title": "English teacher",
+    "description": "Product: Global Teacher. MC: Egypt. LC: Zagazig. Openings: 1",
+    "skills": [
+      "english",
+      "english teacher"
+    ],
+    "backgrounds": [
+      "Any Background"
+    ],
+    "languages": [
+      "English"
+    ],
+    "location": "Zagazig, Egypt",
+    "country": "Egypt",
+    "city": "Zagazig",
+    "organisation": "AIESEC Egypt",
+    "programme": {
+      "id": "8",
+      "short_name": "GTe"
+    },
+    "programmeName": "Global Teacher",
+    "programmeSlug": "global-teacher",
+    "sourceUrl": "https://aiesec.org/opportunity/global-teacher/1335489",
+    "coverPhoto": null,
+    "status": "open",
+    "duration": 12,
+    "durationBracket": "short",
+    "earliestStartDate": "2026-06-01",
+    "latestEndDate": "2026-12-01",
+    "slots": []
+  },
+  {
+    "id": 1265,
+    "gisId": "1265",
+    "title": "Global Classroom [6 weeks]",
+    "description": "Product: Global Volunteer. MC: Egypt. LC: Helwan. Openings: 2",
+    "skills": [
+      "classroom",
+      "classroom 6",
+      "6",
+      "6 weeks"
+    ],
+    "backgrounds": [
+      "Any Background"
+    ],
+    "languages": [
+      "English"
+    ],
+    "location": "Helwan, Egypt",
+    "country": "Egypt",
+    "city": "Helwan",
+    "organisation": "AIESEC Egypt",
+    "programme": {
+      "id": "6",
+      "short_name": "GV"
+    },
+    "programmeName": "Global Volunteer",
+    "programmeSlug": "global-volunteer",
+    "sourceUrl": "https://aiesec.org/opportunity/global-volunteer/1335485",
+    "coverPhoto": null,
+    "status": "open",
+    "duration": 12,
+    "durationBracket": "short",
+    "earliestStartDate": "2026-06-01",
+    "latestEndDate": "2026-12-01",
+    "slots": []
+  },
+  {
+    "id": 1266,
+    "gisId": "1266",
+    "title": "Fingerprint [4 weeks]",
+    "description": "Product: Global Volunteer. MC: Egypt. LC: Zagazig. Openings: 7",
+    "skills": [
+      "fingerprint",
+      "fingerprint 4",
+      "4",
+      "4 weeks"
+    ],
+    "backgrounds": [
+      "Any Background"
+    ],
+    "languages": [
+      "English"
+    ],
+    "location": "Zagazig, Egypt",
+    "country": "Egypt",
+    "city": "Zagazig",
+    "organisation": "AIESEC Egypt",
+    "programme": {
+      "id": "6",
+      "short_name": "GV"
+    },
+    "programmeName": "Global Volunteer",
+    "programmeSlug": "global-volunteer",
+    "sourceUrl": "https://aiesec.org/opportunity/global-volunteer/1335469",
+    "coverPhoto": null,
+    "status": "open",
+    "duration": 12,
+    "durationBracket": "short",
+    "earliestStartDate": "2026-06-01",
+    "latestEndDate": "2026-12-01",
+    "slots": []
+  },
+  {
+    "id": 1267,
+    "gisId": "1267",
+    "title": "Global Classroom [4 weeks]",
+    "description": "Product: Global Volunteer. MC: Egypt. LC: Zagazig. Openings: 8",
+    "skills": [
+      "classroom",
+      "classroom 4",
+      "4",
+      "4 weeks"
+    ],
+    "backgrounds": [
+      "Any Background"
+    ],
+    "languages": [
+      "English"
+    ],
+    "location": "Zagazig, Egypt",
+    "country": "Egypt",
+    "city": "Zagazig",
+    "organisation": "AIESEC Egypt",
+    "programme": {
+      "id": "6",
+      "short_name": "GV"
+    },
+    "programmeName": "Global Volunteer",
+    "programmeSlug": "global-volunteer",
+    "sourceUrl": "https://aiesec.org/opportunity/global-volunteer/1335468",
+    "coverPhoto": null,
+    "status": "open",
+    "duration": 12,
+    "durationBracket": "short",
+    "earliestStartDate": "2026-06-01",
+    "latestEndDate": "2026-12-01",
+    "slots": []
+  },
+  {
+    "id": 1268,
+    "gisId": "1268",
+    "title": "On the Map [4 week]",
+    "description": "Product: Global Volunteer. MC: Egypt. LC: Alexandria. Openings: 15",
+    "skills": [
+      "map",
+      "map 4",
+      "4",
+      "4 week"
+    ],
+    "backgrounds": [
+      "Any Background"
+    ],
+    "languages": [
+      "English"
+    ],
+    "location": "Alexandria, Egypt",
+    "country": "Egypt",
+    "city": "Alexandria",
+    "organisation": "AIESEC Egypt",
+    "programme": {
+      "id": "6",
+      "short_name": "GV"
+    },
+    "programmeName": "Global Volunteer",
+    "programmeSlug": "global-volunteer",
+    "sourceUrl": "https://aiesec.org/opportunity/global-volunteer/1335461",
+    "coverPhoto": null,
+    "status": "open",
+    "duration": 12,
+    "durationBracket": "short",
+    "earliestStartDate": "2026-06-01",
+    "latestEndDate": "2026-12-01",
+    "slots": []
+  },
+  {
+    "id": 1269,
+    "gisId": "1269",
+    "title": "Skill Up! [6 weeks]",
+    "description": "Product: Global Volunteer. MC: Egypt. LC: Cairo University. Openings: 1",
+    "skills": [
+      "skill",
+      "skill up",
+      "up",
+      "up 6",
+      "6",
+      "6 weeks"
+    ],
+    "backgrounds": [
+      "Any Background"
+    ],
+    "languages": [
+      "English"
+    ],
+    "location": "Cairo University, Egypt",
+    "country": "Egypt",
+    "city": "Cairo",
+    "organisation": "AIESEC Egypt",
+    "programme": {
+      "id": "6",
+      "short_name": "GV"
+    },
+    "programmeName": "Global Volunteer",
+    "programmeSlug": "global-volunteer",
+    "sourceUrl": "https://aiesec.org/opportunity/global-volunteer/1335453",
+    "coverPhoto": null,
+    "status": "open",
+    "duration": 12,
+    "durationBracket": "short",
+    "earliestStartDate": "2026-06-01",
+    "latestEndDate": "2026-12-01",
+    "slots": []
+  },
+  {
+    "id": 1270,
+    "gisId": "1270",
+    "title": "Spanish Instructor",
+    "description": "Product: Global Teacher. MC: Egypt. LC: Tanta. Openings: 1",
+    "skills": [
+      "spanish",
+      "spanish instructor",
+      "instructor"
+    ],
+    "backgrounds": [
+      "Any Background"
+    ],
+    "languages": [
+      "English"
+    ],
+    "location": "Tanta, Egypt",
+    "country": "Egypt",
+    "city": "Tanta",
+    "organisation": "AIESEC Egypt",
+    "programme": {
+      "id": "8",
+      "short_name": "GTe"
+    },
+    "programmeName": "Global Teacher",
+    "programmeSlug": "global-teacher",
+    "sourceUrl": "https://aiesec.org/opportunity/global-teacher/1335443",
+    "coverPhoto": null,
+    "status": "open",
+    "duration": 12,
+    "durationBracket": "short",
+    "earliestStartDate": "2026-06-01",
+    "latestEndDate": "2026-12-01",
+    "slots": []
+  },
+  {
+    "id": 1271,
+    "gisId": "1271",
+    "title": "Fingerprint [4 weeks]",
+    "description": "Product: Global Volunteer. MC: Egypt. LC: Mansoura. Openings: 4",
+    "skills": [
+      "fingerprint",
+      "fingerprint 4",
+      "4",
+      "4 weeks"
+    ],
+    "backgrounds": [
+      "Any Background"
+    ],
+    "languages": [
+      "English"
+    ],
+    "location": "Mansoura, Egypt",
+    "country": "Egypt",
+    "city": "Mansoura",
+    "organisation": "AIESEC Egypt",
+    "programme": {
+      "id": "6",
+      "short_name": "GV"
+    },
+    "programmeName": "Global Volunteer",
+    "programmeSlug": "global-volunteer",
+    "sourceUrl": "https://aiesec.org/opportunity/global-volunteer/1335439",
+    "coverPhoto": null,
+    "status": "open",
+    "duration": 12,
+    "durationBracket": "short",
+    "earliestStartDate": "2026-06-01",
+    "latestEndDate": "2026-12-01",
+    "slots": []
+  },
+  {
+    "id": 1272,
+    "gisId": "1272",
+    "title": "Heartbeat [4 weeks]",
+    "description": "Product: Global Volunteer. MC: Egypt. LC: GUC. Openings: 4",
+    "skills": [
+      "heartbeat",
+      "heartbeat 4",
+      "4",
+      "4 weeks"
+    ],
+    "backgrounds": [
+      "Any Background"
+    ],
+    "languages": [
+      "English"
+    ],
+    "location": "GUC, Egypt",
+    "country": "Egypt",
+    "city": "GUC",
+    "organisation": "AIESEC Egypt",
+    "programme": {
+      "id": "6",
+      "short_name": "GV"
+    },
+    "programmeName": "Global Volunteer",
+    "programmeSlug": "global-volunteer",
+    "sourceUrl": "https://aiesec.org/opportunity/global-volunteer/1335438",
+    "coverPhoto": null,
+    "status": "open",
+    "duration": 12,
+    "durationBracket": "short",
+    "earliestStartDate": "2026-06-01",
+    "latestEndDate": "2026-12-01",
+    "slots": []
+  },
+  {
+    "id": 1273,
+    "gisId": "1273",
+    "title": "Fingerprint [4 weeks]",
+    "description": "Product: Global Volunteer. MC: Egypt. LC: GUC. Openings: 4",
+    "skills": [
+      "fingerprint",
+      "fingerprint 4",
+      "4",
+      "4 weeks"
+    ],
+    "backgrounds": [
+      "Any Background"
+    ],
+    "languages": [
+      "English"
+    ],
+    "location": "GUC, Egypt",
+    "country": "Egypt",
+    "city": "GUC",
+    "organisation": "AIESEC Egypt",
+    "programme": {
+      "id": "6",
+      "short_name": "GV"
+    },
+    "programmeName": "Global Volunteer",
+    "programmeSlug": "global-volunteer",
+    "sourceUrl": "https://aiesec.org/opportunity/global-volunteer/1335437",
+    "coverPhoto": null,
+    "status": "open",
+    "duration": 12,
+    "durationBracket": "short",
+    "earliestStartDate": "2026-06-01",
+    "latestEndDate": "2026-12-01",
+    "slots": []
+  },
+  {
+    "id": 1274,
+    "gisId": "1274",
+    "title": "English Teacher",
+    "description": "Product: Global Teacher. MC: Egypt. LC: Mansoura. Openings: 1",
+    "skills": [
+      "english",
+      "english teacher"
+    ],
+    "backgrounds": [
+      "Any Background"
+    ],
+    "languages": [
+      "English"
+    ],
+    "location": "Mansoura, Egypt",
+    "country": "Egypt",
+    "city": "Mansoura",
+    "organisation": "AIESEC Egypt",
+    "programme": {
+      "id": "8",
+      "short_name": "GTe"
+    },
+    "programmeName": "Global Teacher",
+    "programmeSlug": "global-teacher",
+    "sourceUrl": "https://aiesec.org/opportunity/global-teacher/1335421",
+    "coverPhoto": null,
+    "status": "open",
+    "duration": 12,
+    "durationBracket": "short",
+    "earliestStartDate": "2026-06-01",
+    "latestEndDate": "2026-12-01",
+    "slots": []
+  },
+  {
+    "id": 1275,
+    "gisId": "1275",
+    "title": "Heartbeat [4 weeks]",
+    "description": "Product: Global Volunteer. MC: Egypt. LC: Helwan. Openings: 1",
+    "skills": [
+      "heartbeat",
+      "heartbeat 4",
+      "4",
+      "4 weeks"
+    ],
+    "backgrounds": [
+      "Any Background"
+    ],
+    "languages": [
+      "English"
+    ],
+    "location": "Helwan, Egypt",
+    "country": "Egypt",
+    "city": "Helwan",
+    "organisation": "AIESEC Egypt",
+    "programme": {
+      "id": "6",
+      "short_name": "GV"
+    },
+    "programmeName": "Global Volunteer",
+    "programmeSlug": "global-volunteer",
+    "sourceUrl": "https://aiesec.org/opportunity/global-volunteer/1335412",
+    "coverPhoto": null,
+    "status": "open",
+    "duration": 12,
+    "durationBracket": "short",
+    "earliestStartDate": "2026-06-01",
+    "latestEndDate": "2026-12-01",
+    "slots": []
+  },
+  {
+    "id": 1276,
+    "gisId": "1276",
+    "title": "Fingerprint [4 weeks]",
+    "description": "Product: Global Volunteer. MC: Egypt. LC: Helwan. Openings: 3",
+    "skills": [
+      "fingerprint",
+      "fingerprint 4",
+      "4",
+      "4 weeks"
+    ],
+    "backgrounds": [
+      "Any Background"
+    ],
+    "languages": [
+      "English"
+    ],
+    "location": "Helwan, Egypt",
+    "country": "Egypt",
+    "city": "Helwan",
+    "organisation": "AIESEC Egypt",
+    "programme": {
+      "id": "6",
+      "short_name": "GV"
+    },
+    "programmeName": "Global Volunteer",
+    "programmeSlug": "global-volunteer",
+    "sourceUrl": "https://aiesec.org/opportunity/global-volunteer/1335411",
+    "coverPhoto": null,
+    "status": "open",
+    "duration": 12,
+    "durationBracket": "short",
+    "earliestStartDate": "2026-06-01",
+    "latestEndDate": "2026-12-01",
+    "slots": []
+  },
+  {
+    "id": 1277,
+    "gisId": "1277",
+    "title": "French Teacher",
+    "description": "Product: Global Teacher. MC: Egypt. LC: Cairo University. Openings: 1",
+    "skills": [
+      "french",
+      "french teacher"
+    ],
+    "backgrounds": [
+      "Any Background"
+    ],
+    "languages": [
+      "English"
+    ],
+    "location": "Cairo University, Egypt",
+    "country": "Egypt",
+    "city": "Cairo",
+    "organisation": "AIESEC Egypt",
+    "programme": {
+      "id": "8",
+      "short_name": "GTe"
+    },
+    "programmeName": "Global Teacher",
+    "programmeSlug": "global-teacher",
+    "sourceUrl": "https://aiesec.org/opportunity/global-teacher/1335406",
+    "coverPhoto": null,
+    "status": "open",
+    "duration": 12,
+    "durationBracket": "short",
+    "earliestStartDate": "2026-06-01",
+    "latestEndDate": "2026-12-01",
+    "slots": []
+  },
+  {
+    "id": 1278,
+    "gisId": "1278",
+    "title": "Equify [6 weeks]",
+    "description": "Product: Global Volunteer. MC: Egypt. LC: Menofia. Openings: 2",
+    "skills": [
+      "equify",
+      "equify 6",
+      "6",
+      "6 weeks"
+    ],
+    "backgrounds": [
+      "Any Background"
+    ],
+    "languages": [
+      "English"
+    ],
+    "location": "Menofia, Egypt",
+    "country": "Egypt",
+    "city": "Menofia",
+    "organisation": "AIESEC Egypt",
+    "programme": {
+      "id": "6",
+      "short_name": "GV"
+    },
+    "programmeName": "Global Volunteer",
+    "programmeSlug": "global-volunteer",
+    "sourceUrl": "https://aiesec.org/opportunity/global-volunteer/1335402",
+    "coverPhoto": null,
+    "status": "open",
+    "duration": 12,
+    "durationBracket": "short",
+    "earliestStartDate": "2026-06-01",
+    "latestEndDate": "2026-12-01",
+    "slots": []
+  },
+  {
+    "id": 1279,
+    "gisId": "1279",
+    "title": "English Teacher",
+    "description": "Product: Global Teacher. MC: Egypt. LC: Mansoura. Openings: 2",
+    "skills": [
+      "english",
+      "english teacher"
+    ],
+    "backgrounds": [
+      "Any Background"
+    ],
+    "languages": [
+      "English"
+    ],
+    "location": "Mansoura, Egypt",
+    "country": "Egypt",
+    "city": "Mansoura",
+    "organisation": "AIESEC Egypt",
+    "programme": {
+      "id": "8",
+      "short_name": "GTe"
+    },
+    "programmeName": "Global Teacher",
+    "programmeSlug": "global-teacher",
+    "sourceUrl": "https://aiesec.org/opportunity/global-teacher/1335401",
+    "coverPhoto": null,
+    "status": "open",
+    "duration": 12,
+    "durationBracket": "short",
+    "earliestStartDate": "2026-06-01",
+    "latestEndDate": "2026-12-01",
+    "slots": []
+  },
+  {
+    "id": 1280,
+    "gisId": "1280",
+    "title": "English Teacher",
+    "description": "Product: Global Teacher. MC: Egypt. LC: Cairo University. Openings: 1",
+    "skills": [
+      "english",
+      "english teacher"
+    ],
+    "backgrounds": [
+      "Any Background"
+    ],
+    "languages": [
+      "English"
+    ],
+    "location": "Cairo University, Egypt",
+    "country": "Egypt",
+    "city": "Cairo",
+    "organisation": "AIESEC Egypt",
+    "programme": {
+      "id": "8",
+      "short_name": "GTe"
+    },
+    "programmeName": "Global Teacher",
+    "programmeSlug": "global-teacher",
+    "sourceUrl": "https://aiesec.org/opportunity/global-teacher/1335398",
+    "coverPhoto": null,
+    "status": "open",
+    "duration": 12,
+    "durationBracket": "short",
+    "earliestStartDate": "2026-06-01",
+    "latestEndDate": "2026-12-01",
+    "slots": []
+  },
+  {
+    "id": 1281,
+    "gisId": "1281",
+    "title": "Fingerprint [4 weeks]",
+    "description": "Product: Global Volunteer. MC: Egypt. LC: MIU. Openings: 1",
+    "skills": [
+      "fingerprint",
+      "fingerprint 4",
+      "4",
+      "4 weeks"
+    ],
+    "backgrounds": [
+      "Any Background"
+    ],
+    "languages": [
+      "English"
+    ],
+    "location": "MIU, Egypt",
+    "country": "Egypt",
+    "city": "MIU",
+    "organisation": "AIESEC Egypt",
+    "programme": {
+      "id": "6",
+      "short_name": "GV"
+    },
+    "programmeName": "Global Volunteer",
+    "programmeSlug": "global-volunteer",
+    "sourceUrl": "https://aiesec.org/opportunity/global-volunteer/1335390",
+    "coverPhoto": null,
+    "status": "open",
+    "duration": 12,
+    "durationBracket": "short",
+    "earliestStartDate": "2026-06-01",
+    "latestEndDate": "2026-12-01",
+    "slots": []
+  },
+  {
+    "id": 1282,
+    "gisId": "1282",
+    "title": "Fingerprint [4 weeks]",
+    "description": "Product: Global Volunteer. MC: Egypt. LC: 6th October University. Openings: 4",
+    "skills": [
+      "fingerprint",
+      "fingerprint 4",
+      "4",
+      "4 weeks"
+    ],
+    "backgrounds": [
+      "Any Background"
+    ],
+    "languages": [
+      "English"
+    ],
+    "location": "6th October University, Egypt",
+    "country": "Egypt",
+    "city": "6th October University",
+    "organisation": "AIESEC Egypt",
+    "programme": {
+      "id": "6",
+      "short_name": "GV"
+    },
+    "programmeName": "Global Volunteer",
+    "programmeSlug": "global-volunteer",
+    "sourceUrl": "https://aiesec.org/opportunity/global-volunteer/1335381",
+    "coverPhoto": null,
+    "status": "open",
+    "duration": 12,
+    "durationBracket": "short",
+    "earliestStartDate": "2026-06-01",
+    "latestEndDate": "2026-12-01",
+    "slots": []
+  },
+  {
+    "id": 1283,
+    "gisId": "1283",
+    "title": "Heartbeat [4 weeks]",
+    "description": "Product: Global Volunteer. MC: Egypt. LC: Ain Shams University. Openings: 4",
+    "skills": [
+      "heartbeat",
+      "heartbeat 4",
+      "4",
+      "4 weeks"
+    ],
+    "backgrounds": [
+      "Any Background"
+    ],
+    "languages": [
+      "English"
+    ],
+    "location": "Ain Shams University, Egypt",
+    "country": "Egypt",
+    "city": "Ain Shams University",
+    "organisation": "AIESEC Egypt",
+    "programme": {
+      "id": "6",
+      "short_name": "GV"
+    },
+    "programmeName": "Global Volunteer",
+    "programmeSlug": "global-volunteer",
+    "sourceUrl": "https://aiesec.org/opportunity/global-volunteer/1335365",
+    "coverPhoto": null,
+    "status": "open",
+    "duration": 12,
+    "durationBracket": "short",
+    "earliestStartDate": "2026-06-01",
+    "latestEndDate": "2026-12-01",
+    "slots": []
+  },
+  {
+    "id": 1284,
+    "gisId": "1284",
+    "title": "Fingerprint [4 weeks]",
+    "description": "Product: Global Volunteer. MC: Egypt. LC: Ain Shams University. Openings: 4",
+    "skills": [
+      "fingerprint",
+      "fingerprint 4",
+      "4",
+      "4 weeks"
+    ],
+    "backgrounds": [
+      "Any Background"
+    ],
+    "languages": [
+      "English"
+    ],
+    "location": "Ain Shams University, Egypt",
+    "country": "Egypt",
+    "city": "Ain Shams University",
+    "organisation": "AIESEC Egypt",
+    "programme": {
+      "id": "6",
+      "short_name": "GV"
+    },
+    "programmeName": "Global Volunteer",
+    "programmeSlug": "global-volunteer",
+    "sourceUrl": "https://aiesec.org/opportunity/global-volunteer/1335364",
+    "coverPhoto": null,
+    "status": "open",
+    "duration": 12,
+    "durationBracket": "short",
+    "earliestStartDate": "2026-06-01",
+    "latestEndDate": "2026-12-01",
+    "slots": []
+  },
+  {
+    "id": 1285,
+    "gisId": "1285",
+    "title": "Scale Up! [6 weeks]",
+    "description": "Product: Global Volunteer. MC: Egypt. LC: MIU. Openings: 1",
+    "skills": [
+      "scale",
+      "scale up",
+      "up",
+      "up 6",
+      "6",
+      "6 weeks"
+    ],
+    "backgrounds": [
+      "Any Background"
+    ],
+    "languages": [
+      "English"
+    ],
+    "location": "MIU, Egypt",
+    "country": "Egypt",
+    "city": "MIU",
+    "organisation": "AIESEC Egypt",
+    "programme": {
+      "id": "6",
+      "short_name": "GV"
+    },
+    "programmeName": "Global Volunteer",
+    "programmeSlug": "global-volunteer",
+    "sourceUrl": "https://aiesec.org/opportunity/global-volunteer/1335337",
+    "coverPhoto": null,
+    "status": "open",
+    "duration": 12,
+    "durationBracket": "short",
+    "earliestStartDate": "2026-06-01",
+    "latestEndDate": "2026-12-01",
+    "slots": []
+  },
+  {
+    "id": 1286,
+    "gisId": "1286",
+    "title": "Scale Up! [6 weeks]",
+    "description": "Product: Global Volunteer. MC: Egypt. LC: MIU. Openings: 1",
+    "skills": [
+      "scale",
+      "scale up",
+      "up",
+      "up 6",
+      "6",
+      "6 weeks"
+    ],
+    "backgrounds": [
+      "Any Background"
+    ],
+    "languages": [
+      "English"
+    ],
+    "location": "MIU, Egypt",
+    "country": "Egypt",
+    "city": "MIU",
+    "organisation": "AIESEC Egypt",
+    "programme": {
+      "id": "6",
+      "short_name": "GV"
+    },
+    "programmeName": "Global Volunteer",
+    "programmeSlug": "global-volunteer",
+    "sourceUrl": "https://aiesec.org/opportunity/global-volunteer/1335336",
+    "coverPhoto": null,
+    "status": "open",
+    "duration": 12,
+    "durationBracket": "short",
+    "earliestStartDate": "2026-06-01",
+    "latestEndDate": "2026-12-01",
+    "slots": []
+  },
+  {
+    "id": 1287,
+    "gisId": "1287",
+    "title": "Scale Up! [6 weeks]",
+    "description": "Product: Global Volunteer. MC: Egypt. LC: MIU. Openings: 1",
+    "skills": [
+      "scale",
+      "scale up",
+      "up",
+      "up 6",
+      "6",
+      "6 weeks"
+    ],
+    "backgrounds": [
+      "Any Background"
+    ],
+    "languages": [
+      "English"
+    ],
+    "location": "MIU, Egypt",
+    "country": "Egypt",
+    "city": "MIU",
+    "organisation": "AIESEC Egypt",
+    "programme": {
+      "id": "6",
+      "short_name": "GV"
+    },
+    "programmeName": "Global Volunteer",
+    "programmeSlug": "global-volunteer",
+    "sourceUrl": "https://aiesec.org/opportunity/global-volunteer/1335335",
+    "coverPhoto": null,
+    "status": "open",
+    "duration": 12,
+    "durationBracket": "short",
+    "earliestStartDate": "2026-06-01",
+    "latestEndDate": "2026-12-01",
+    "slots": []
+  },
+  {
+    "id": 1288,
+    "gisId": "1288",
+    "title": "Scale Up! [4 weeks]",
+    "description": "Product: Global Volunteer. MC: Egypt. LC: 6th October University. Openings: 1",
+    "skills": [
+      "scale",
+      "scale up",
+      "up",
+      "up 4",
+      "4",
+      "4 weeks"
+    ],
+    "backgrounds": [
+      "Any Background"
+    ],
+    "languages": [
+      "English"
+    ],
+    "location": "6th October University, Egypt",
+    "country": "Egypt",
+    "city": "6th October University",
+    "organisation": "AIESEC Egypt",
+    "programme": {
+      "id": "6",
+      "short_name": "GV"
+    },
+    "programmeName": "Global Volunteer",
+    "programmeSlug": "global-volunteer",
+    "sourceUrl": "https://aiesec.org/opportunity/global-volunteer/1335329",
+    "coverPhoto": null,
+    "status": "open",
+    "duration": 12,
+    "durationBracket": "short",
+    "earliestStartDate": "2026-06-01",
+    "latestEndDate": "2026-12-01",
+    "slots": []
+  },
+  {
+    "id": 1289,
+    "gisId": "1289",
+    "title": "On the Map [4 week]",
+    "description": "Product: Global Volunteer. MC: Egypt. LC: 6th October University. Openings: 14",
+    "skills": [
+      "map",
+      "map 4",
+      "4",
+      "4 week"
+    ],
+    "backgrounds": [
+      "Any Background"
+    ],
+    "languages": [
+      "English"
+    ],
+    "location": "6th October University, Egypt",
+    "country": "Egypt",
+    "city": "6th October University",
+    "organisation": "AIESEC Egypt",
+    "programme": {
+      "id": "6",
+      "short_name": "GV"
+    },
+    "programmeName": "Global Volunteer",
+    "programmeSlug": "global-volunteer",
+    "sourceUrl": "https://aiesec.org/opportunity/global-volunteer/1335322",
+    "coverPhoto": null,
+    "status": "open",
+    "duration": 12,
+    "durationBracket": "short",
+    "earliestStartDate": "2026-06-01",
+    "latestEndDate": "2026-12-01",
+    "slots": []
+  },
+  {
+    "id": 1290,
+    "gisId": "1290",
+    "title": "Aquatica [4 week]",
+    "description": "Product: Global Volunteer. MC: Egypt. LC: AAST In CAIRO. Openings: 5",
+    "skills": [
+      "aquatica",
+      "aquatica 4",
+      "4",
+      "4 week"
+    ],
+    "backgrounds": [
+      "Any Background"
+    ],
+    "languages": [
+      "English"
+    ],
+    "location": "AAST In CAIRO, Egypt",
+    "country": "Egypt",
+    "city": "AAST In CAIRO",
+    "organisation": "AIESEC Egypt",
+    "programme": {
+      "id": "6",
+      "short_name": "GV"
+    },
+    "programmeName": "Global Volunteer",
+    "programmeSlug": "global-volunteer",
+    "sourceUrl": "https://aiesec.org/opportunity/global-volunteer/1335292",
+    "coverPhoto": null,
+    "status": "open",
+    "duration": 12,
+    "durationBracket": "short",
+    "earliestStartDate": "2026-06-01",
+    "latestEndDate": "2026-12-01",
+    "slots": []
+  },
+  {
+    "id": 1291,
+    "gisId": "1291",
+    "title": "On the Map [6 weeks]",
+    "description": "Product: Global Volunteer. MC: Egypt. LC: AAST In CAIRO. Openings: 11",
+    "skills": [
+      "map",
+      "map 6",
+      "6",
+      "6 weeks"
+    ],
+    "backgrounds": [
+      "Any Background"
+    ],
+    "languages": [
+      "English"
+    ],
+    "location": "AAST In CAIRO, Egypt",
+    "country": "Egypt",
+    "city": "AAST In CAIRO",
+    "organisation": "AIESEC Egypt",
+    "programme": {
+      "id": "6",
+      "short_name": "GV"
+    },
+    "programmeName": "Global Volunteer",
+    "programmeSlug": "global-volunteer",
+    "sourceUrl": "https://aiesec.org/opportunity/global-volunteer/1335285",
+    "coverPhoto": null,
+    "status": "open",
+    "duration": 12,
+    "durationBracket": "short",
+    "earliestStartDate": "2026-06-01",
+    "latestEndDate": "2026-12-01",
+    "slots": []
+  },
+  {
+    "id": 1292,
+    "gisId": "1292",
+    "title": "On the Map [4 week]",
+    "description": "Product: Global Volunteer. MC: Egypt. LC: AAST In CAIRO. Openings: 8",
+    "skills": [
+      "map",
+      "map 4",
+      "4",
+      "4 week"
+    ],
+    "backgrounds": [
+      "Any Background"
+    ],
+    "languages": [
+      "English"
+    ],
+    "location": "AAST In CAIRO, Egypt",
+    "country": "Egypt",
+    "city": "AAST In CAIRO",
+    "organisation": "AIESEC Egypt",
+    "programme": {
+      "id": "6",
+      "short_name": "GV"
+    },
+    "programmeName": "Global Volunteer",
+    "programmeSlug": "global-volunteer",
+    "sourceUrl": "https://aiesec.org/opportunity/global-volunteer/1335284",
+    "coverPhoto": null,
+    "status": "open",
+    "duration": 12,
+    "durationBracket": "short",
+    "earliestStartDate": "2026-06-01",
+    "latestEndDate": "2026-12-01",
+    "slots": []
+  },
+  {
+    "id": 1293,
+    "gisId": "1293",
+    "title": "Montessori Preschool Educator",
+    "description": "Product: Global Teacher. MC: Egypt. LC: 6th October University. Openings: 1",
+    "skills": [
+      "montessori",
+      "montessori preschool",
+      "preschool",
+      "preschool educator",
+      "educator"
+    ],
+    "backgrounds": [
+      "Any Background"
+    ],
+    "languages": [
+      "English"
+    ],
+    "location": "6th October University, Egypt",
+    "country": "Egypt",
+    "city": "6th October University",
+    "organisation": "AIESEC Egypt",
+    "programme": {
+      "id": "8",
+      "short_name": "GTe"
+    },
+    "programmeName": "Global Teacher",
+    "programmeSlug": "global-teacher",
+    "sourceUrl": "https://aiesec.org/opportunity/global-teacher/1335276",
+    "coverPhoto": null,
+    "status": "open",
+    "duration": 12,
+    "durationBracket": "short",
+    "earliestStartDate": "2026-06-01",
+    "latestEndDate": "2026-12-01",
+    "slots": []
+  },
+  {
+    "id": 1294,
+    "gisId": "1294",
+    "title": "French Teacher",
+    "description": "Product: Global Teacher. MC: Egypt. LC: Ain Shams University. Openings: 2",
+    "skills": [
+      "french",
+      "french teacher"
+    ],
+    "backgrounds": [
+      "Any Background"
+    ],
+    "languages": [
+      "English"
+    ],
+    "location": "Ain Shams University, Egypt",
+    "country": "Egypt",
+    "city": "Ain Shams University",
+    "organisation": "AIESEC Egypt",
+    "programme": {
+      "id": "8",
+      "short_name": "GTe"
+    },
+    "programmeName": "Global Teacher",
+    "programmeSlug": "global-teacher",
+    "sourceUrl": "https://aiesec.org/opportunity/global-teacher/1335274",
+    "coverPhoto": null,
+    "status": "open",
+    "duration": 12,
+    "durationBracket": "short",
+    "earliestStartDate": "2026-06-01",
+    "latestEndDate": "2026-12-01",
+    "slots": []
+  },
+  {
+    "id": 1295,
+    "gisId": "1295",
+    "title": "Scale Up! [6 weeks]",
+    "description": "Product: Global Volunteer. MC: Egypt. LC: GUC. Openings: 7",
+    "skills": [
+      "scale",
+      "scale up",
+      "up",
+      "up 6",
+      "6",
+      "6 weeks"
+    ],
+    "backgrounds": [
+      "Any Background"
+    ],
+    "languages": [
+      "English"
+    ],
+    "location": "GUC, Egypt",
+    "country": "Egypt",
+    "city": "GUC",
+    "organisation": "AIESEC Egypt",
+    "programme": {
+      "id": "6",
+      "short_name": "GV"
+    },
+    "programmeName": "Global Volunteer",
+    "programmeSlug": "global-volunteer",
+    "sourceUrl": "https://aiesec.org/opportunity/global-volunteer/1335254",
+    "coverPhoto": null,
+    "status": "open",
+    "duration": 12,
+    "durationBracket": "short",
+    "earliestStartDate": "2026-06-01",
+    "latestEndDate": "2026-12-01",
+    "slots": []
+  },
+  {
+    "id": 1296,
+    "gisId": "1296",
+    "title": "Scale Up! [6 weeks]",
+    "description": "Product: Global Volunteer. MC: Egypt. LC: Ain Shams University. Openings: 1",
+    "skills": [
+      "scale",
+      "scale up",
+      "up",
+      "up 6",
+      "6",
+      "6 weeks"
+    ],
+    "backgrounds": [
+      "Any Background"
+    ],
+    "languages": [
+      "English"
+    ],
+    "location": "Ain Shams University, Egypt",
+    "country": "Egypt",
+    "city": "Ain Shams University",
+    "organisation": "AIESEC Egypt",
+    "programme": {
+      "id": "6",
+      "short_name": "GV"
+    },
+    "programmeName": "Global Volunteer",
+    "programmeSlug": "global-volunteer",
+    "sourceUrl": "https://aiesec.org/opportunity/global-volunteer/1335183",
+    "coverPhoto": null,
+    "status": "open",
+    "duration": 12,
+    "durationBracket": "short",
+    "earliestStartDate": "2026-06-01",
+    "latestEndDate": "2026-12-01",
+    "slots": []
+  },
+  {
+    "id": 1297,
+    "gisId": "1297",
+    "title": "Skill Up! [6 weeks]",
+    "description": "Product: Global Volunteer. MC: Egypt. LC: Ain Shams University. Openings: 1",
+    "skills": [
+      "skill",
+      "skill up",
+      "up",
+      "up 6",
+      "6",
+      "6 weeks"
+    ],
+    "backgrounds": [
+      "Any Background"
+    ],
+    "languages": [
+      "English"
+    ],
+    "location": "Ain Shams University, Egypt",
+    "country": "Egypt",
+    "city": "Ain Shams University",
+    "organisation": "AIESEC Egypt",
+    "programme": {
+      "id": "6",
+      "short_name": "GV"
+    },
+    "programmeName": "Global Volunteer",
+    "programmeSlug": "global-volunteer",
+    "sourceUrl": "https://aiesec.org/opportunity/global-volunteer/1335182",
+    "coverPhoto": null,
+    "status": "open",
+    "duration": 12,
+    "durationBracket": "short",
+    "earliestStartDate": "2026-06-01",
+    "latestEndDate": "2026-12-01",
+    "slots": []
+  },
+  {
+    "id": 1298,
+    "gisId": "1298",
+    "title": "Montessori Preschool Educator",
+    "description": "Product: Global Teacher. MC: Egypt. LC: 6th October University. Openings: 2",
+    "skills": [
+      "montessori",
+      "montessori preschool",
+      "preschool",
+      "preschool educator",
+      "educator"
+    ],
+    "backgrounds": [
+      "Any Background"
+    ],
+    "languages": [
+      "English"
+    ],
+    "location": "6th October University, Egypt",
+    "country": "Egypt",
+    "city": "6th October University",
+    "organisation": "AIESEC Egypt",
+    "programme": {
+      "id": "8",
+      "short_name": "GTe"
+    },
+    "programmeName": "Global Teacher",
+    "programmeSlug": "global-teacher",
+    "sourceUrl": "https://aiesec.org/opportunity/global-teacher/1335165",
+    "coverPhoto": null,
+    "status": "open",
+    "duration": 12,
+    "durationBracket": "short",
+    "earliestStartDate": "2026-06-01",
+    "latestEndDate": "2026-12-01",
+    "slots": []
+  },
+  {
+    "id": 1299,
+    "gisId": "1299",
+    "title": "Global Classroom [6 weeks]",
+    "description": "Product: Global Volunteer. MC: Egypt. LC: MIU. Openings: 1",
+    "skills": [
+      "classroom",
+      "classroom 6",
+      "6",
+      "6 weeks"
+    ],
+    "backgrounds": [
+      "Any Background"
+    ],
+    "languages": [
+      "English"
+    ],
+    "location": "MIU, Egypt",
+    "country": "Egypt",
+    "city": "MIU",
+    "organisation": "AIESEC Egypt",
+    "programme": {
+      "id": "6",
+      "short_name": "GV"
+    },
+    "programmeName": "Global Volunteer",
+    "programmeSlug": "global-volunteer",
+    "sourceUrl": "https://aiesec.org/opportunity/global-volunteer/1335143",
+    "coverPhoto": null,
+    "status": "open",
+    "duration": 12,
+    "durationBracket": "short",
+    "earliestStartDate": "2026-06-01",
+    "latestEndDate": "2026-12-01",
+    "slots": []
+  },
+  {
+    "id": 1300,
+    "gisId": "1300",
+    "title": "social media associate",
+    "description": "Product: Global Talent. MC: Egypt. LC: Helwan. Openings: 2",
+    "skills": [
+      "social",
+      "social media",
+      "media",
+      "media associate",
+      "associate",
+      "talent"
+    ],
+    "backgrounds": [
+      "Any Background"
+    ],
+    "languages": [
+      "English"
+    ],
+    "location": "Helwan, Egypt",
+    "country": "Egypt",
+    "city": "Helwan",
+    "organisation": "AIESEC Egypt",
+    "programme": {
+      "id": "7",
+      "short_name": "GTa"
+    },
+    "programmeName": "Global Talent",
+    "programmeSlug": "global-talent",
+    "sourceUrl": "https://aiesec.org/opportunity/global-talent/1335129",
+    "coverPhoto": null,
+    "status": "open",
+    "duration": 12,
+    "durationBracket": "short",
+    "earliestStartDate": "2026-06-01",
+    "latestEndDate": "2026-12-01",
+    "slots": []
+  },
+  {
+    "id": 1301,
+    "gisId": "1301",
+    "title": "Skill Up! [4 weeks]",
+    "description": "Product: Global Volunteer. MC: Egypt. LC: Cairo University. Openings: 1",
+    "skills": [
+      "skill",
+      "skill up",
+      "up",
+      "up 4",
+      "4",
+      "4 weeks"
+    ],
+    "backgrounds": [
+      "Any Background"
+    ],
+    "languages": [
+      "English"
+    ],
+    "location": "Cairo University, Egypt",
+    "country": "Egypt",
+    "city": "Cairo",
+    "organisation": "AIESEC Egypt",
+    "programme": {
+      "id": "6",
+      "short_name": "GV"
+    },
+    "programmeName": "Global Volunteer",
+    "programmeSlug": "global-volunteer",
+    "sourceUrl": "https://aiesec.org/opportunity/global-volunteer/1335126",
+    "coverPhoto": null,
+    "status": "open",
+    "duration": 12,
+    "durationBracket": "short",
+    "earliestStartDate": "2026-06-01",
+    "latestEndDate": "2026-12-01",
+    "slots": []
+  },
+  {
+    "id": 1302,
+    "gisId": "1302",
+    "title": "Business Development",
+    "description": "Product: Global Talent. MC: Egypt. LC: Helwan. Openings: 1",
+    "skills": [
+      "business",
+      "business development",
+      "development",
+      "talent"
+    ],
+    "backgrounds": [
+      "Any Background"
+    ],
+    "languages": [
+      "English"
+    ],
+    "location": "Helwan, Egypt",
+    "country": "Egypt",
+    "city": "Helwan",
+    "organisation": "AIESEC Egypt",
+    "programme": {
+      "id": "7",
+      "short_name": "GTa"
+    },
+    "programmeName": "Global Talent",
+    "programmeSlug": "global-talent",
+    "sourceUrl": "https://aiesec.org/opportunity/global-talent/1335125",
+    "coverPhoto": null,
+    "status": "open",
+    "duration": 12,
+    "durationBracket": "short",
+    "earliestStartDate": "2026-06-01",
+    "latestEndDate": "2026-12-01",
+    "slots": []
+  },
+  {
+    "id": 1303,
+    "gisId": "1303",
+    "title": "Skill Up! [4 weeks]",
+    "description": "Product: Global Volunteer. MC: Egypt. LC: Cairo University. Openings: 1",
+    "skills": [
+      "skill",
+      "skill up",
+      "up",
+      "up 4",
+      "4",
+      "4 weeks"
+    ],
+    "backgrounds": [
+      "Any Background"
+    ],
+    "languages": [
+      "English"
+    ],
+    "location": "Cairo University, Egypt",
+    "country": "Egypt",
+    "city": "Cairo",
+    "organisation": "AIESEC Egypt",
+    "programme": {
+      "id": "6",
+      "short_name": "GV"
+    },
+    "programmeName": "Global Volunteer",
+    "programmeSlug": "global-volunteer",
+    "sourceUrl": "https://aiesec.org/opportunity/global-volunteer/1335124",
+    "coverPhoto": null,
+    "status": "open",
+    "duration": 12,
+    "durationBracket": "short",
+    "earliestStartDate": "2026-06-01",
+    "latestEndDate": "2026-12-01",
+    "slots": []
+  },
+  {
+    "id": 1304,
+    "gisId": "1304",
+    "title": "Marketing Specialist",
+    "description": "Product: Global Talent. MC: Egypt. LC: Ain Shams University. Openings: 1",
+    "skills": [
+      "marketing",
+      "marketing specialist",
+      "specialist",
+      "talent"
+    ],
+    "backgrounds": [
+      "Any Background"
+    ],
+    "languages": [
+      "English"
+    ],
+    "location": "Ain Shams University, Egypt",
+    "country": "Egypt",
+    "city": "Ain Shams University",
+    "organisation": "AIESEC Egypt",
+    "programme": {
+      "id": "7",
+      "short_name": "GTa"
+    },
+    "programmeName": "Global Talent",
+    "programmeSlug": "global-talent",
+    "sourceUrl": "https://aiesec.org/opportunity/global-talent/1335084",
+    "coverPhoto": null,
+    "status": "open",
+    "duration": 12,
+    "durationBracket": "short",
+    "earliestStartDate": "2026-06-01",
+    "latestEndDate": "2026-12-01",
+    "slots": []
+  },
+  {
+    "id": 1305,
+    "gisId": "1305",
+    "title": "Heartbeat [6 weeks]",
+    "description": "Product: Global Volunteer. MC: Egypt. LC: Ain Shams University. Openings: 4",
+    "skills": [
+      "heartbeat",
+      "heartbeat 6",
+      "6",
+      "6 weeks"
+    ],
+    "backgrounds": [
+      "Any Background"
+    ],
+    "languages": [
+      "English"
+    ],
+    "location": "Ain Shams University, Egypt",
+    "country": "Egypt",
+    "city": "Ain Shams University",
+    "organisation": "AIESEC Egypt",
+    "programme": {
+      "id": "6",
+      "short_name": "GV"
+    },
+    "programmeName": "Global Volunteer",
+    "programmeSlug": "global-volunteer",
+    "sourceUrl": "https://aiesec.org/opportunity/global-volunteer/1335071",
+    "coverPhoto": null,
+    "status": "open",
+    "duration": 12,
+    "durationBracket": "short",
+    "earliestStartDate": "2026-06-01",
+    "latestEndDate": "2026-12-01",
+    "slots": []
+  },
+  {
+    "id": 1306,
+    "gisId": "1306",
+    "title": "Heartbeat [4 weeks]",
+    "description": "Product: Global Volunteer. MC: Egypt. LC: MUST. Openings: 1",
+    "skills": [
+      "heartbeat",
+      "heartbeat 4",
+      "4",
+      "4 weeks"
+    ],
+    "backgrounds": [
+      "Any Background"
+    ],
+    "languages": [
+      "English"
+    ],
+    "location": "MUST, Egypt",
+    "country": "Egypt",
+    "city": "MUST",
+    "organisation": "AIESEC Egypt",
+    "programme": {
+      "id": "6",
+      "short_name": "GV"
+    },
+    "programmeName": "Global Volunteer",
+    "programmeSlug": "global-volunteer",
+    "sourceUrl": "https://aiesec.org/opportunity/global-volunteer/1335067",
+    "coverPhoto": null,
+    "status": "open",
+    "duration": 12,
+    "durationBracket": "short",
+    "earliestStartDate": "2026-06-01",
+    "latestEndDate": "2026-12-01",
+    "slots": []
+  },
+  {
+    "id": 1307,
+    "gisId": "1307",
+    "title": "Heartbeat [6 weeks]",
+    "description": "Product: Global Volunteer. MC: Egypt. LC: Suez. Openings: 1",
+    "skills": [
+      "heartbeat",
+      "heartbeat 6",
+      "6",
+      "6 weeks"
+    ],
+    "backgrounds": [
+      "Any Background"
+    ],
+    "languages": [
+      "English"
+    ],
+    "location": "Suez, Egypt",
+    "country": "Egypt",
+    "city": "Suez",
+    "organisation": "AIESEC Egypt",
+    "programme": {
+      "id": "6",
+      "short_name": "GV"
+    },
+    "programmeName": "Global Volunteer",
+    "programmeSlug": "global-volunteer",
+    "sourceUrl": "https://aiesec.org/opportunity/global-volunteer/1334974",
+    "coverPhoto": null,
+    "status": "open",
+    "duration": 12,
+    "durationBracket": "short",
+    "earliestStartDate": "2026-06-01",
+    "latestEndDate": "2026-12-01",
+    "slots": []
+  },
+  {
+    "id": 1308,
+    "gisId": "1308",
+    "title": "Skill Up! [4 weeks]",
+    "description": "Product: Global Volunteer. MC: Egypt. LC: Cairo University. Openings: 1",
+    "skills": [
+      "skill",
+      "skill up",
+      "up",
+      "up 4",
+      "4",
+      "4 weeks"
+    ],
+    "backgrounds": [
+      "Any Background"
+    ],
+    "languages": [
+      "English"
+    ],
+    "location": "Cairo University, Egypt",
+    "country": "Egypt",
+    "city": "Cairo",
+    "organisation": "AIESEC Egypt",
+    "programme": {
+      "id": "6",
+      "short_name": "GV"
+    },
+    "programmeName": "Global Volunteer",
+    "programmeSlug": "global-volunteer",
+    "sourceUrl": "https://aiesec.org/opportunity/global-volunteer/1334970",
+    "coverPhoto": null,
+    "status": "open",
+    "duration": 12,
+    "durationBracket": "short",
+    "earliestStartDate": "2026-06-01",
+    "latestEndDate": "2026-12-01",
+    "slots": []
+  },
+  {
+    "id": 1309,
+    "gisId": "1309",
+    "title": "Skill Up! [4 weeks]",
+    "description": "Product: Global Volunteer. MC: Egypt. LC: Cairo University. Openings: 1",
+    "skills": [
+      "skill",
+      "skill up",
+      "up",
+      "up 4",
+      "4",
+      "4 weeks"
+    ],
+    "backgrounds": [
+      "Any Background"
+    ],
+    "languages": [
+      "English"
+    ],
+    "location": "Cairo University, Egypt",
+    "country": "Egypt",
+    "city": "Cairo",
+    "organisation": "AIESEC Egypt",
+    "programme": {
+      "id": "6",
+      "short_name": "GV"
+    },
+    "programmeName": "Global Volunteer",
+    "programmeSlug": "global-volunteer",
+    "sourceUrl": "https://aiesec.org/opportunity/global-volunteer/1334969",
+    "coverPhoto": null,
+    "status": "open",
+    "duration": 12,
+    "durationBracket": "short",
+    "earliestStartDate": "2026-06-01",
+    "latestEndDate": "2026-12-01",
+    "slots": []
+  },
+  {
+    "id": 1310,
+    "gisId": "1310",
+    "title": "Skill Up! [4 weeks]",
+    "description": "Product: Global Volunteer. MC: Egypt. LC: Cairo University. Openings: 1",
+    "skills": [
+      "skill",
+      "skill up",
+      "up",
+      "up 4",
+      "4",
+      "4 weeks"
+    ],
+    "backgrounds": [
+      "Any Background"
+    ],
+    "languages": [
+      "English"
+    ],
+    "location": "Cairo University, Egypt",
+    "country": "Egypt",
+    "city": "Cairo",
+    "organisation": "AIESEC Egypt",
+    "programme": {
+      "id": "6",
+      "short_name": "GV"
+    },
+    "programmeName": "Global Volunteer",
+    "programmeSlug": "global-volunteer",
+    "sourceUrl": "https://aiesec.org/opportunity/global-volunteer/1334968",
+    "coverPhoto": null,
+    "status": "open",
+    "duration": 12,
+    "durationBracket": "short",
+    "earliestStartDate": "2026-06-01",
+    "latestEndDate": "2026-12-01",
+    "slots": []
+  },
+  {
+    "id": 1311,
+    "gisId": "1311",
+    "title": "Skill Up! [4 weeks]",
+    "description": "Product: Global Volunteer. MC: Egypt. LC: Cairo University. Openings: 2",
+    "skills": [
+      "skill",
+      "skill up",
+      "up",
+      "up 4",
+      "4",
+      "4 weeks"
+    ],
+    "backgrounds": [
+      "Any Background"
+    ],
+    "languages": [
+      "English"
+    ],
+    "location": "Cairo University, Egypt",
+    "country": "Egypt",
+    "city": "Cairo",
+    "organisation": "AIESEC Egypt",
+    "programme": {
+      "id": "6",
+      "short_name": "GV"
+    },
+    "programmeName": "Global Volunteer",
+    "programmeSlug": "global-volunteer",
+    "sourceUrl": "https://aiesec.org/opportunity/global-volunteer/1334967",
+    "coverPhoto": null,
+    "status": "open",
+    "duration": 12,
+    "durationBracket": "short",
+    "earliestStartDate": "2026-06-01",
+    "latestEndDate": "2026-12-01",
+    "slots": []
+  },
+  {
+    "id": 1312,
+    "gisId": "1312",
+    "title": "Skill Up! [4 weeks]",
+    "description": "Product: Global Volunteer. MC: Egypt. LC: Cairo University. Openings: 1",
+    "skills": [
+      "skill",
+      "skill up",
+      "up",
+      "up 4",
+      "4",
+      "4 weeks"
+    ],
+    "backgrounds": [
+      "Any Background"
+    ],
+    "languages": [
+      "English"
+    ],
+    "location": "Cairo University, Egypt",
+    "country": "Egypt",
+    "city": "Cairo",
+    "organisation": "AIESEC Egypt",
+    "programme": {
+      "id": "6",
+      "short_name": "GV"
+    },
+    "programmeName": "Global Volunteer",
+    "programmeSlug": "global-volunteer",
+    "sourceUrl": "https://aiesec.org/opportunity/global-volunteer/1334966",
+    "coverPhoto": null,
+    "status": "open",
+    "duration": 12,
+    "durationBracket": "short",
+    "earliestStartDate": "2026-06-01",
+    "latestEndDate": "2026-12-01",
+    "slots": []
+  },
+  {
+    "id": 1313,
+    "gisId": "1313",
+    "title": "Content Creator",
+    "description": "Product: Global Talent. MC: Egypt. LC: Cairo University. Openings: 2",
+    "skills": [
+      "content creation",
+      "content creator",
+      "creator",
+      "talent"
+    ],
+    "backgrounds": [
+      "Any Background"
+    ],
+    "languages": [
+      "English"
+    ],
+    "location": "Cairo University, Egypt",
+    "country": "Egypt",
+    "city": "Cairo",
+    "organisation": "AIESEC Egypt",
+    "programme": {
+      "id": "7",
+      "short_name": "GTa"
+    },
+    "programmeName": "Global Talent",
+    "programmeSlug": "global-talent",
+    "sourceUrl": "https://aiesec.org/opportunity/global-talent/1334962",
+    "coverPhoto": null,
+    "status": "open",
+    "duration": 12,
+    "durationBracket": "short",
+    "earliestStartDate": "2026-06-01",
+    "latestEndDate": "2026-12-01",
+    "slots": []
+  },
+  {
+    "id": 1314,
+    "gisId": "1314",
+    "title": "Graphic Designer",
+    "description": "Product: Global Talent. MC: Egypt. LC: Cairo University. Openings: 2",
+    "skills": [
+      "graphic",
+      "graphic designer",
+      "designer",
+      "talent"
+    ],
+    "backgrounds": [
+      "Any Background"
+    ],
+    "languages": [
+      "English"
+    ],
+    "location": "Cairo University, Egypt",
+    "country": "Egypt",
+    "city": "Cairo",
+    "organisation": "AIESEC Egypt",
+    "programme": {
+      "id": "7",
+      "short_name": "GTa"
+    },
+    "programmeName": "Global Talent",
+    "programmeSlug": "global-talent",
+    "sourceUrl": "https://aiesec.org/opportunity/global-talent/1334961",
+    "coverPhoto": null,
+    "status": "open",
+    "duration": 12,
+    "durationBracket": "short",
+    "earliestStartDate": "2026-06-01",
+    "latestEndDate": "2026-12-01",
+    "slots": []
+  },
+  {
+    "id": 1315,
+    "gisId": "1315",
+    "title": "Graphic Designer",
+    "description": "Product: Global Talent. MC: Egypt. LC: Cairo University. Openings: 2",
+    "skills": [
+      "graphic",
+      "graphic designer",
+      "designer",
+      "talent"
+    ],
+    "backgrounds": [
+      "Any Background"
+    ],
+    "languages": [
+      "English"
+    ],
+    "location": "Cairo University, Egypt",
+    "country": "Egypt",
+    "city": "Cairo",
+    "organisation": "AIESEC Egypt",
+    "programme": {
+      "id": "7",
+      "short_name": "GTa"
+    },
+    "programmeName": "Global Talent",
+    "programmeSlug": "global-talent",
+    "sourceUrl": "https://aiesec.org/opportunity/global-talent/1334959",
+    "coverPhoto": null,
+    "status": "open",
+    "duration": 12,
+    "durationBracket": "short",
+    "earliestStartDate": "2026-06-01",
+    "latestEndDate": "2026-12-01",
+    "slots": []
+  },
+  {
+    "id": 1316,
+    "gisId": "1316",
+    "title": "Scale Up! [6 weeks]",
+    "description": "Product: Global Volunteer. MC: Egypt. LC: 6th October University. Openings: 1",
+    "skills": [
+      "scale",
+      "scale up",
+      "up",
+      "up 6",
+      "6",
+      "6 weeks"
+    ],
+    "backgrounds": [
+      "Any Background"
+    ],
+    "languages": [
+      "English"
+    ],
+    "location": "6th October University, Egypt",
+    "country": "Egypt",
+    "city": "6th October University",
+    "organisation": "AIESEC Egypt",
+    "programme": {
+      "id": "6",
+      "short_name": "GV"
+    },
+    "programmeName": "Global Volunteer",
+    "programmeSlug": "global-volunteer",
+    "sourceUrl": "https://aiesec.org/opportunity/global-volunteer/1334957",
+    "coverPhoto": null,
+    "status": "open",
+    "duration": 12,
+    "durationBracket": "short",
+    "earliestStartDate": "2026-06-01",
+    "latestEndDate": "2026-12-01",
+    "slots": []
+  },
+  {
+    "id": 1317,
+    "gisId": "1317",
+    "title": "Skill Up! [6 weeks]",
+    "description": "Product: Global Volunteer. MC: Egypt. LC: Cairo University. Openings: 1",
+    "skills": [
+      "skill",
+      "skill up",
+      "up",
+      "up 6",
+      "6",
+      "6 weeks"
+    ],
+    "backgrounds": [
+      "Any Background"
+    ],
+    "languages": [
+      "English"
+    ],
+    "location": "Cairo University, Egypt",
+    "country": "Egypt",
+    "city": "Cairo",
+    "organisation": "AIESEC Egypt",
+    "programme": {
+      "id": "6",
+      "short_name": "GV"
+    },
+    "programmeName": "Global Volunteer",
+    "programmeSlug": "global-volunteer",
+    "sourceUrl": "https://aiesec.org/opportunity/global-volunteer/1334940",
+    "coverPhoto": null,
+    "status": "open",
+    "duration": 12,
+    "durationBracket": "short",
+    "earliestStartDate": "2026-06-01",
+    "latestEndDate": "2026-12-01",
+    "slots": []
+  },
+  {
+    "id": 1318,
+    "gisId": "1318",
+    "title": "Scale Up! [4 weeks]",
+    "description": "Product: Global Volunteer. MC: Egypt. LC: MUST. Openings: 2",
+    "skills": [
+      "scale",
+      "scale up",
+      "up",
+      "up 4",
+      "4",
+      "4 weeks"
+    ],
+    "backgrounds": [
+      "Any Background"
+    ],
+    "languages": [
+      "English"
+    ],
+    "location": "MUST, Egypt",
+    "country": "Egypt",
+    "city": "MUST",
+    "organisation": "AIESEC Egypt",
+    "programme": {
+      "id": "6",
+      "short_name": "GV"
+    },
+    "programmeName": "Global Volunteer",
+    "programmeSlug": "global-volunteer",
+    "sourceUrl": "https://aiesec.org/opportunity/global-volunteer/1334922",
+    "coverPhoto": null,
+    "status": "open",
+    "duration": 12,
+    "durationBracket": "short",
+    "earliestStartDate": "2026-06-01",
+    "latestEndDate": "2026-12-01",
+    "slots": []
+  },
+  {
+    "id": 1319,
+    "gisId": "1319",
+    "title": "Skill Up! [4 weeks]",
+    "description": "Product: Global Volunteer. MC: Egypt. LC: MUST. Openings: 1",
+    "skills": [
+      "skill",
+      "skill up",
+      "up",
+      "up 4",
+      "4",
+      "4 weeks"
+    ],
+    "backgrounds": [
+      "Any Background"
+    ],
+    "languages": [
+      "English"
+    ],
+    "location": "MUST, Egypt",
+    "country": "Egypt",
+    "city": "MUST",
+    "organisation": "AIESEC Egypt",
+    "programme": {
+      "id": "6",
+      "short_name": "GV"
+    },
+    "programmeName": "Global Volunteer",
+    "programmeSlug": "global-volunteer",
+    "sourceUrl": "https://aiesec.org/opportunity/global-volunteer/1334917",
+    "coverPhoto": null,
+    "status": "open",
+    "duration": 12,
+    "durationBracket": "short",
+    "earliestStartDate": "2026-06-01",
+    "latestEndDate": "2026-12-01",
+    "slots": []
+  },
+  {
+    "id": 1320,
+    "gisId": "1320",
+    "title": "Heartbeat [6 weeks]",
+    "description": "Product: Global Volunteer. MC: Egypt. LC: Suez. Openings: 1",
+    "skills": [
+      "heartbeat",
+      "heartbeat 6",
+      "6",
+      "6 weeks"
+    ],
+    "backgrounds": [
+      "Any Background"
+    ],
+    "languages": [
+      "English"
+    ],
+    "location": "Suez, Egypt",
+    "country": "Egypt",
+    "city": "Suez",
+    "organisation": "AIESEC Egypt",
+    "programme": {
+      "id": "6",
+      "short_name": "GV"
+    },
+    "programmeName": "Global Volunteer",
+    "programmeSlug": "global-volunteer",
+    "sourceUrl": "https://aiesec.org/opportunity/global-volunteer/1334909",
+    "coverPhoto": null,
+    "status": "open",
+    "duration": 12,
+    "durationBracket": "short",
+    "earliestStartDate": "2026-06-01",
+    "latestEndDate": "2026-12-01",
+    "slots": []
+  },
+  {
+    "id": 1321,
+    "gisId": "1321",
+    "title": "English Teacher",
+    "description": "Product: Global Teacher. MC: Egypt. LC: Alexandria. Openings: 2",
+    "skills": [
+      "english",
+      "english teacher"
+    ],
+    "backgrounds": [
+      "Any Background"
+    ],
+    "languages": [
+      "English"
+    ],
+    "location": "Alexandria, Egypt",
+    "country": "Egypt",
+    "city": "Alexandria",
+    "organisation": "AIESEC Egypt",
+    "programme": {
+      "id": "8",
+      "short_name": "GTe"
+    },
+    "programmeName": "Global Teacher",
+    "programmeSlug": "global-teacher",
+    "sourceUrl": "https://aiesec.org/opportunity/global-teacher/1334908",
+    "coverPhoto": null,
+    "status": "open",
+    "duration": 12,
+    "durationBracket": "short",
+    "earliestStartDate": "2026-06-01",
+    "latestEndDate": "2026-12-01",
+    "slots": []
+  },
+  {
+    "id": 1322,
+    "gisId": "1322",
+    "title": "Global Classroom [4 weeks]",
+    "description": "Product: Global Volunteer. MC: Egypt. LC: Menofia. Openings: 1",
+    "skills": [
+      "classroom",
+      "classroom 4",
+      "4",
+      "4 weeks"
+    ],
+    "backgrounds": [
+      "Any Background"
+    ],
+    "languages": [
+      "English"
+    ],
+    "location": "Menofia, Egypt",
+    "country": "Egypt",
+    "city": "Menofia",
+    "organisation": "AIESEC Egypt",
+    "programme": {
+      "id": "6",
+      "short_name": "GV"
+    },
+    "programmeName": "Global Volunteer",
+    "programmeSlug": "global-volunteer",
+    "sourceUrl": "https://aiesec.org/opportunity/global-volunteer/1334907",
+    "coverPhoto": null,
+    "status": "open",
+    "duration": 12,
+    "durationBracket": "short",
+    "earliestStartDate": "2026-06-01",
+    "latestEndDate": "2026-12-01",
+    "slots": []
+  },
+  {
+    "id": 1323,
+    "gisId": "1323",
+    "title": "Global Classroom [6 weeks]",
+    "description": "Product: Global Volunteer. MC: Egypt. LC: GUC. Openings: 9",
+    "skills": [
+      "classroom",
+      "classroom 6",
+      "6",
+      "6 weeks"
+    ],
+    "backgrounds": [
+      "Any Background"
+    ],
+    "languages": [
+      "English"
+    ],
+    "location": "GUC, Egypt",
+    "country": "Egypt",
+    "city": "GUC",
+    "organisation": "AIESEC Egypt",
+    "programme": {
+      "id": "6",
+      "short_name": "GV"
+    },
+    "programmeName": "Global Volunteer",
+    "programmeSlug": "global-volunteer",
+    "sourceUrl": "https://aiesec.org/opportunity/global-volunteer/1334879",
+    "coverPhoto": null,
+    "status": "open",
+    "duration": 12,
+    "durationBracket": "short",
+    "earliestStartDate": "2026-06-01",
+    "latestEndDate": "2026-12-01",
+    "slots": []
+  },
+  {
+    "id": 1324,
+    "gisId": "1324",
+    "title": "English Teacher",
+    "description": "Product: Global Teacher. MC: Egypt. LC: Alexandria. Openings: 2",
+    "skills": [
+      "english",
+      "english teacher"
+    ],
+    "backgrounds": [
+      "Any Background"
+    ],
+    "languages": [
+      "English"
+    ],
+    "location": "Alexandria, Egypt",
+    "country": "Egypt",
+    "city": "Alexandria",
+    "organisation": "AIESEC Egypt",
+    "programme": {
+      "id": "8",
+      "short_name": "GTe"
+    },
+    "programmeName": "Global Teacher",
+    "programmeSlug": "global-teacher",
+    "sourceUrl": "https://aiesec.org/opportunity/global-teacher/1334845",
+    "coverPhoto": null,
+    "status": "open",
+    "duration": 12,
+    "durationBracket": "short",
+    "earliestStartDate": "2026-06-01",
+    "latestEndDate": "2026-12-01",
+    "slots": []
+  },
+  {
+    "id": 1325,
+    "gisId": "1325",
+    "title": "Fingerprint [4 weeks]",
+    "description": "Product: Global Volunteer. MC: Egypt. LC: Cairo University. Openings: 6",
+    "skills": [
+      "fingerprint",
+      "fingerprint 4",
+      "4",
+      "4 weeks"
+    ],
+    "backgrounds": [
+      "Any Background"
+    ],
+    "languages": [
+      "English"
+    ],
+    "location": "Cairo University, Egypt",
+    "country": "Egypt",
+    "city": "Cairo",
+    "organisation": "AIESEC Egypt",
+    "programme": {
+      "id": "6",
+      "short_name": "GV"
+    },
+    "programmeName": "Global Volunteer",
+    "programmeSlug": "global-volunteer",
+    "sourceUrl": "https://aiesec.org/opportunity/global-volunteer/1334835",
+    "coverPhoto": null,
+    "status": "open",
+    "duration": 12,
+    "durationBracket": "short",
+    "earliestStartDate": "2026-06-01",
+    "latestEndDate": "2026-12-01",
+    "slots": []
+  },
+  {
+    "id": 1326,
+    "gisId": "1326",
+    "title": "English Teacher",
+    "description": "Product: Global Teacher. MC: Egypt. LC: Alexandria. Openings: 1",
+    "skills": [
+      "english",
+      "english teacher"
+    ],
+    "backgrounds": [
+      "Any Background"
+    ],
+    "languages": [
+      "English"
+    ],
+    "location": "Alexandria, Egypt",
+    "country": "Egypt",
+    "city": "Alexandria",
+    "organisation": "AIESEC Egypt",
+    "programme": {
+      "id": "8",
+      "short_name": "GTe"
+    },
+    "programmeName": "Global Teacher",
+    "programmeSlug": "global-teacher",
+    "sourceUrl": "https://aiesec.org/opportunity/global-teacher/1334828",
+    "coverPhoto": null,
+    "status": "open",
+    "duration": 12,
+    "durationBracket": "short",
+    "earliestStartDate": "2026-06-01",
+    "latestEndDate": "2026-12-01",
+    "slots": []
+  },
+  {
+    "id": 1327,
+    "gisId": "1327",
+    "title": "English Teacher",
+    "description": "Product: Global Teacher. MC: Egypt. LC: Alexandria. Openings: 1",
+    "skills": [
+      "english",
+      "english teacher"
+    ],
+    "backgrounds": [
+      "Any Background"
+    ],
+    "languages": [
+      "English"
+    ],
+    "location": "Alexandria, Egypt",
+    "country": "Egypt",
+    "city": "Alexandria",
+    "organisation": "AIESEC Egypt",
+    "programme": {
+      "id": "8",
+      "short_name": "GTe"
+    },
+    "programmeName": "Global Teacher",
+    "programmeSlug": "global-teacher",
+    "sourceUrl": "https://aiesec.org/opportunity/global-teacher/1334827",
+    "coverPhoto": null,
+    "status": "open",
+    "duration": 12,
+    "durationBracket": "short",
+    "earliestStartDate": "2026-06-01",
+    "latestEndDate": "2026-12-01",
+    "slots": []
+  },
+  {
+    "id": 1328,
+    "gisId": "1328",
+    "title": "Global Classroom [4 weeks]",
+    "description": "Product: Global Volunteer. MC: Egypt. LC: Cairo University. Openings: 1",
+    "skills": [
+      "classroom",
+      "classroom 4",
+      "4",
+      "4 weeks"
+    ],
+    "backgrounds": [
+      "Any Background"
+    ],
+    "languages": [
+      "English"
+    ],
+    "location": "Cairo University, Egypt",
+    "country": "Egypt",
+    "city": "Cairo",
+    "organisation": "AIESEC Egypt",
+    "programme": {
+      "id": "6",
+      "short_name": "GV"
+    },
+    "programmeName": "Global Volunteer",
+    "programmeSlug": "global-volunteer",
+    "sourceUrl": "https://aiesec.org/opportunity/global-volunteer/1334819",
+    "coverPhoto": null,
+    "status": "open",
+    "duration": 12,
+    "durationBracket": "short",
+    "earliestStartDate": "2026-06-01",
+    "latestEndDate": "2026-12-01",
+    "slots": []
+  },
+  {
+    "id": 1329,
+    "gisId": "1329",
+    "title": "Business Developer",
+    "description": "Product: Global Talent. MC: Egypt. LC: MIU. Openings: 1",
+    "skills": [
+      "business",
+      "business developer",
+      "developer",
+      "talent"
+    ],
+    "backgrounds": [
+      "Any Background"
+    ],
+    "languages": [
+      "English"
+    ],
+    "location": "MIU, Egypt",
+    "country": "Egypt",
+    "city": "MIU",
+    "organisation": "AIESEC Egypt",
+    "programme": {
+      "id": "7",
+      "short_name": "GTa"
+    },
+    "programmeName": "Global Talent",
+    "programmeSlug": "global-talent",
+    "sourceUrl": "https://aiesec.org/opportunity/global-talent/1334815",
+    "coverPhoto": null,
+    "status": "open",
+    "duration": 12,
+    "durationBracket": "short",
+    "earliestStartDate": "2026-06-01",
+    "latestEndDate": "2026-12-01",
+    "slots": []
+  },
+  {
+    "id": 1330,
+    "gisId": "1330",
+    "title": "Sales",
+    "description": "Product: Global Talent. MC: Egypt. LC: Tanta. Openings: 1",
+    "skills": [
+      "sales",
+      "talent"
+    ],
+    "backgrounds": [
+      "Any Background"
+    ],
+    "languages": [
+      "English"
+    ],
+    "location": "Tanta, Egypt",
+    "country": "Egypt",
+    "city": "Tanta",
+    "organisation": "AIESEC Egypt",
+    "programme": {
+      "id": "7",
+      "short_name": "GTa"
+    },
+    "programmeName": "Global Talent",
+    "programmeSlug": "global-talent",
+    "sourceUrl": "https://aiesec.org/opportunity/global-talent/1334786",
+    "coverPhoto": null,
+    "status": "open",
+    "duration": 12,
+    "durationBracket": "short",
+    "earliestStartDate": "2026-06-01",
+    "latestEndDate": "2026-12-01",
+    "slots": []
+  },
+  {
+    "id": 1331,
+    "gisId": "1331",
+    "title": "Marketing",
+    "description": "Product: Global Talent. MC: Egypt. LC: Tanta. Openings: 1",
+    "skills": [
+      "marketing",
+      "talent"
+    ],
+    "backgrounds": [
+      "Any Background"
+    ],
+    "languages": [
+      "English"
+    ],
+    "location": "Tanta, Egypt",
+    "country": "Egypt",
+    "city": "Tanta",
+    "organisation": "AIESEC Egypt",
+    "programme": {
+      "id": "7",
+      "short_name": "GTa"
+    },
+    "programmeName": "Global Talent",
+    "programmeSlug": "global-talent",
+    "sourceUrl": "https://aiesec.org/opportunity/global-talent/1334785",
+    "coverPhoto": null,
+    "status": "open",
+    "duration": 12,
+    "durationBracket": "short",
+    "earliestStartDate": "2026-06-01",
+    "latestEndDate": "2026-12-01",
+    "slots": []
+  },
+  {
+    "id": 1332,
+    "gisId": "1332",
+    "title": "Skill Up! [4 weeks]",
+    "description": "Product: Global Volunteer. MC: Egypt. LC: MUST. Openings: 1",
+    "skills": [
+      "skill",
+      "skill up",
+      "up",
+      "up 4",
+      "4",
+      "4 weeks"
+    ],
+    "backgrounds": [
+      "Any Background"
+    ],
+    "languages": [
+      "English"
+    ],
+    "location": "MUST, Egypt",
+    "country": "Egypt",
+    "city": "MUST",
+    "organisation": "AIESEC Egypt",
+    "programme": {
+      "id": "6",
+      "short_name": "GV"
+    },
+    "programmeName": "Global Volunteer",
+    "programmeSlug": "global-volunteer",
+    "sourceUrl": "https://aiesec.org/opportunity/global-volunteer/1334759",
+    "coverPhoto": null,
+    "status": "open",
+    "duration": 12,
+    "durationBracket": "short",
+    "earliestStartDate": "2026-06-01",
+    "latestEndDate": "2026-12-01",
+    "slots": []
+  },
+  {
+    "id": 1333,
+    "gisId": "1333",
+    "title": "On the Map [4 week]",
+    "description": "Product: Global Volunteer. MC: Egypt. LC: GUC. Openings: 15",
+    "skills": [
+      "map",
+      "map 4",
+      "4",
+      "4 week"
+    ],
+    "backgrounds": [
+      "Any Background"
+    ],
+    "languages": [
+      "English"
+    ],
+    "location": "GUC, Egypt",
+    "country": "Egypt",
+    "city": "GUC",
+    "organisation": "AIESEC Egypt",
+    "programme": {
+      "id": "6",
+      "short_name": "GV"
+    },
+    "programmeName": "Global Volunteer",
+    "programmeSlug": "global-volunteer",
+    "sourceUrl": "https://aiesec.org/opportunity/global-volunteer/1334685",
+    "coverPhoto": null,
+    "status": "open",
+    "duration": 12,
+    "durationBracket": "short",
+    "earliestStartDate": "2026-06-01",
+    "latestEndDate": "2026-12-01",
+    "slots": []
+  },
+  {
+    "id": 1334,
+    "gisId": "1334",
+    "title": "On the Map [6 weeks]",
+    "description": "Product: Global Volunteer. MC: Egypt. LC: GUC. Openings: 6",
+    "skills": [
+      "map",
+      "map 6",
+      "6",
+      "6 weeks"
+    ],
+    "backgrounds": [
+      "Any Background"
+    ],
+    "languages": [
+      "English"
+    ],
+    "location": "GUC, Egypt",
+    "country": "Egypt",
+    "city": "GUC",
+    "organisation": "AIESEC Egypt",
+    "programme": {
+      "id": "6",
+      "short_name": "GV"
+    },
+    "programmeName": "Global Volunteer",
+    "programmeSlug": "global-volunteer",
+    "sourceUrl": "https://aiesec.org/opportunity/global-volunteer/1334684",
+    "coverPhoto": null,
+    "status": "open",
+    "duration": 12,
+    "durationBracket": "short",
+    "earliestStartDate": "2026-06-01",
+    "latestEndDate": "2026-12-01",
+    "slots": []
+  },
+  {
+    "id": 1335,
+    "gisId": "1335",
+    "title": "Skill Up! [4 weeks]",
+    "description": "Product: Global Volunteer. MC: Egypt. LC: Alexandria. Openings: 3",
+    "skills": [
+      "skill",
+      "skill up",
+      "up",
+      "up 4",
+      "4",
+      "4 weeks"
+    ],
+    "backgrounds": [
+      "Any Background"
+    ],
+    "languages": [
+      "English"
+    ],
+    "location": "Alexandria, Egypt",
+    "country": "Egypt",
+    "city": "Alexandria",
+    "organisation": "AIESEC Egypt",
+    "programme": {
+      "id": "6",
+      "short_name": "GV"
+    },
+    "programmeName": "Global Volunteer",
+    "programmeSlug": "global-volunteer",
+    "sourceUrl": "https://aiesec.org/opportunity/global-volunteer/1334682",
+    "coverPhoto": null,
+    "status": "open",
+    "duration": 12,
+    "durationBracket": "short",
+    "earliestStartDate": "2026-06-01",
+    "latestEndDate": "2026-12-01",
+    "slots": []
+  },
+  {
+    "id": 1336,
+    "gisId": "1336",
+    "title": "Fingerprint [4 weeks]",
+    "description": "Product: Global Volunteer. MC: Egypt. LC: Ain Shams University. Openings: 1",
+    "skills": [
+      "fingerprint",
+      "fingerprint 4",
+      "4",
+      "4 weeks"
+    ],
+    "backgrounds": [
+      "Any Background"
+    ],
+    "languages": [
+      "English"
+    ],
+    "location": "Ain Shams University, Egypt",
+    "country": "Egypt",
+    "city": "Ain Shams University",
+    "organisation": "AIESEC Egypt",
+    "programme": {
+      "id": "6",
+      "short_name": "GV"
+    },
+    "programmeName": "Global Volunteer",
+    "programmeSlug": "global-volunteer",
+    "sourceUrl": "https://aiesec.org/opportunity/global-volunteer/1334593",
+    "coverPhoto": null,
+    "status": "open",
+    "duration": 12,
+    "durationBracket": "short",
+    "earliestStartDate": "2026-06-01",
+    "latestEndDate": "2026-12-01",
+    "slots": []
+  },
+  {
+    "id": 1337,
+    "gisId": "1337",
+    "title": "Green Leaders [6 weeks]",
+    "description": "Product: Global Volunteer. MC: Egypt. LC: Alexandria. Openings: 7",
+    "skills": [
+      "green",
+      "green leaders",
+      "leaders",
+      "leaders 6",
+      "6",
+      "6 weeks"
+    ],
+    "backgrounds": [
+      "Any Background"
+    ],
+    "languages": [
+      "English"
+    ],
+    "location": "Alexandria, Egypt",
+    "country": "Egypt",
+    "city": "Alexandria",
+    "organisation": "AIESEC Egypt",
+    "programme": {
+      "id": "6",
+      "short_name": "GV"
+    },
+    "programmeName": "Global Volunteer",
+    "programmeSlug": "global-volunteer",
+    "sourceUrl": "https://aiesec.org/opportunity/global-volunteer/1334592",
+    "coverPhoto": null,
+    "status": "open",
+    "duration": 12,
+    "durationBracket": "short",
+    "earliestStartDate": "2026-06-01",
+    "latestEndDate": "2026-12-01",
+    "slots": []
+  },
+  {
+    "id": 1338,
+    "gisId": "1338",
+    "title": "Skill Up! [6 weeks]",
+    "description": "Product: Global Volunteer. MC: Egypt. LC: 6th October University. Openings: 2",
+    "skills": [
+      "skill",
+      "skill up",
+      "up",
+      "up 6",
+      "6",
+      "6 weeks"
+    ],
+    "backgrounds": [
+      "Any Background"
+    ],
+    "languages": [
+      "English"
+    ],
+    "location": "6th October University, Egypt",
+    "country": "Egypt",
+    "city": "6th October University",
+    "organisation": "AIESEC Egypt",
+    "programme": {
+      "id": "6",
+      "short_name": "GV"
+    },
+    "programmeName": "Global Volunteer",
+    "programmeSlug": "global-volunteer",
+    "sourceUrl": "https://aiesec.org/opportunity/global-volunteer/1334571",
+    "coverPhoto": null,
+    "status": "open",
+    "duration": 12,
+    "durationBracket": "short",
+    "earliestStartDate": "2026-06-01",
+    "latestEndDate": "2026-12-01",
+    "slots": []
+  },
+  {
+    "id": 1339,
+    "gisId": "1339",
+    "title": "Marketing Intern",
+    "description": "Product: Global Talent. MC: Egypt. LC: Ain Shams University. Openings: 1",
+    "skills": [
+      "marketing",
+      "marketing intern",
+      "talent"
+    ],
+    "backgrounds": [
+      "Any Background"
+    ],
+    "languages": [
+      "English"
+    ],
+    "location": "Ain Shams University, Egypt",
+    "country": "Egypt",
+    "city": "Ain Shams University",
+    "organisation": "AIESEC Egypt",
+    "programme": {
+      "id": "7",
+      "short_name": "GTa"
+    },
+    "programmeName": "Global Talent",
+    "programmeSlug": "global-talent",
+    "sourceUrl": "https://aiesec.org/opportunity/global-talent/1334567",
+    "coverPhoto": null,
+    "status": "open",
+    "duration": 12,
+    "durationBracket": "short",
+    "earliestStartDate": "2026-06-01",
+    "latestEndDate": "2026-12-01",
+    "slots": []
+  },
+  {
+    "id": 1340,
+    "gisId": "1340",
+    "title": "Aquatica [4 week]",
+    "description": "Product: Global Volunteer. MC: Egypt. LC: 6th October University. Openings: 11",
+    "skills": [
+      "aquatica",
+      "aquatica 4",
+      "4",
+      "4 week"
+    ],
+    "backgrounds": [
+      "Any Background"
+    ],
+    "languages": [
+      "English"
+    ],
+    "location": "6th October University, Egypt",
+    "country": "Egypt",
+    "city": "6th October University",
+    "organisation": "AIESEC Egypt",
+    "programme": {
+      "id": "6",
+      "short_name": "GV"
+    },
+    "programmeName": "Global Volunteer",
+    "programmeSlug": "global-volunteer",
+    "sourceUrl": "https://aiesec.org/opportunity/global-volunteer/1334503",
+    "coverPhoto": null,
+    "status": "open",
+    "duration": 12,
+    "durationBracket": "short",
+    "earliestStartDate": "2026-06-01",
+    "latestEndDate": "2026-12-01",
+    "slots": []
+  },
+  {
+    "id": 1341,
+    "gisId": "1341",
+    "title": "Global Classroom [6 weeks]",
+    "description": "Product: Global Volunteer. MC: Egypt. LC: Cairo University. Openings: 1",
+    "skills": [
+      "classroom",
+      "classroom 6",
+      "6",
+      "6 weeks"
+    ],
+    "backgrounds": [
+      "Any Background"
+    ],
+    "languages": [
+      "English"
+    ],
+    "location": "Cairo University, Egypt",
+    "country": "Egypt",
+    "city": "Cairo",
+    "organisation": "AIESEC Egypt",
+    "programme": {
+      "id": "6",
+      "short_name": "GV"
+    },
+    "programmeName": "Global Volunteer",
+    "programmeSlug": "global-volunteer",
+    "sourceUrl": "https://aiesec.org/opportunity/global-volunteer/1334496",
+    "coverPhoto": null,
+    "status": "open",
+    "duration": 12,
+    "durationBracket": "short",
+    "earliestStartDate": "2026-06-01",
+    "latestEndDate": "2026-12-01",
+    "slots": []
+  },
+  {
+    "id": 1342,
+    "gisId": "1342",
+    "title": "Fingerprint [6 weeks]",
+    "description": "Product: Global Volunteer. MC: Egypt. LC: Cairo University. Openings: 1",
+    "skills": [
+      "fingerprint",
+      "fingerprint 6",
+      "6",
+      "6 weeks"
+    ],
+    "backgrounds": [
+      "Any Background"
+    ],
+    "languages": [
+      "English"
+    ],
+    "location": "Cairo University, Egypt",
+    "country": "Egypt",
+    "city": "Cairo",
+    "organisation": "AIESEC Egypt",
+    "programme": {
+      "id": "6",
+      "short_name": "GV"
+    },
+    "programmeName": "Global Volunteer",
+    "programmeSlug": "global-volunteer",
+    "sourceUrl": "https://aiesec.org/opportunity/global-volunteer/1334483",
+    "coverPhoto": null,
+    "status": "open",
+    "duration": 12,
+    "durationBracket": "short",
+    "earliestStartDate": "2026-06-01",
+    "latestEndDate": "2026-12-01",
+    "slots": []
+  },
+  {
+    "id": 1343,
+    "gisId": "1343",
+    "title": "Fingerprint [6 weeks]",
+    "description": "Product: Global Volunteer. MC: Egypt. LC: Menofia. Openings: 8",
+    "skills": [
+      "fingerprint",
+      "fingerprint 6",
+      "6",
+      "6 weeks"
+    ],
+    "backgrounds": [
+      "Any Background"
+    ],
+    "languages": [
+      "English"
+    ],
+    "location": "Menofia, Egypt",
+    "country": "Egypt",
+    "city": "Menofia",
+    "organisation": "AIESEC Egypt",
+    "programme": {
+      "id": "6",
+      "short_name": "GV"
+    },
+    "programmeName": "Global Volunteer",
+    "programmeSlug": "global-volunteer",
+    "sourceUrl": "https://aiesec.org/opportunity/global-volunteer/1334472",
+    "coverPhoto": null,
+    "status": "open",
+    "duration": 12,
+    "durationBracket": "short",
+    "earliestStartDate": "2026-06-01",
+    "latestEndDate": "2026-12-01",
+    "slots": []
+  },
+  {
+    "id": 1344,
+    "gisId": "1344",
+    "title": "Global Classroom [6 weeks]",
+    "description": "Product: Global Volunteer. MC: Egypt. LC: Menofia. Openings: 7",
+    "skills": [
+      "classroom",
+      "classroom 6",
+      "6",
+      "6 weeks"
+    ],
+    "backgrounds": [
+      "Any Background"
+    ],
+    "languages": [
+      "English"
+    ],
+    "location": "Menofia, Egypt",
+    "country": "Egypt",
+    "city": "Menofia",
+    "organisation": "AIESEC Egypt",
+    "programme": {
+      "id": "6",
+      "short_name": "GV"
+    },
+    "programmeName": "Global Volunteer",
+    "programmeSlug": "global-volunteer",
+    "sourceUrl": "https://aiesec.org/opportunity/global-volunteer/1334471",
+    "coverPhoto": null,
+    "status": "open",
+    "duration": 12,
+    "durationBracket": "short",
+    "earliestStartDate": "2026-06-01",
+    "latestEndDate": "2026-12-01",
+    "slots": []
+  },
+  {
+    "id": 1345,
+    "gisId": "1345",
+    "title": "On the Map [4 week]",
+    "description": "Product: Global Volunteer. MC: Egypt. LC: Zagazig. Openings: 10",
+    "skills": [
+      "map",
+      "map 4",
+      "4",
+      "4 week"
+    ],
+    "backgrounds": [
+      "Any Background"
+    ],
+    "languages": [
+      "English"
+    ],
+    "location": "Zagazig, Egypt",
+    "country": "Egypt",
+    "city": "Zagazig",
+    "organisation": "AIESEC Egypt",
+    "programme": {
+      "id": "6",
+      "short_name": "GV"
+    },
+    "programmeName": "Global Volunteer",
+    "programmeSlug": "global-volunteer",
+    "sourceUrl": "https://aiesec.org/opportunity/global-volunteer/1334462",
+    "coverPhoto": null,
+    "status": "open",
+    "duration": 12,
+    "durationBracket": "short",
+    "earliestStartDate": "2026-06-01",
+    "latestEndDate": "2026-12-01",
+    "slots": []
+  },
+  {
+    "id": 1346,
+    "gisId": "1346",
+    "title": "Electrical Design Engineer",
+    "description": "Product: Global Talent. MC: Egypt. LC: MIU. Openings: 1",
+    "skills": [
+      "electrical",
+      "electrical design",
+      "design",
+      "design engineer",
+      "engineer",
+      "talent"
+    ],
+    "backgrounds": [
+      "Any Background"
+    ],
+    "languages": [
+      "English"
+    ],
+    "location": "MIU, Egypt",
+    "country": "Egypt",
+    "city": "MIU",
+    "organisation": "AIESEC Egypt",
+    "programme": {
+      "id": "7",
+      "short_name": "GTa"
+    },
+    "programmeName": "Global Talent",
+    "programmeSlug": "global-talent",
+    "sourceUrl": "https://aiesec.org/opportunity/global-talent/1334376",
+    "coverPhoto": null,
+    "status": "open",
+    "duration": 12,
+    "durationBracket": "short",
+    "earliestStartDate": "2026-06-01",
+    "latestEndDate": "2026-12-01",
+    "slots": []
+  }
+]

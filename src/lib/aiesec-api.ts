@@ -1,4 +1,6 @@
 // AIESEC Global Information System (GIS) API Client
+import seedOpportunities from "./opportunities-seed.json";
+
 const AIESEC_GRAPHQL_ENDPOINT = "https://gis-api.aiesec.org/graphql";
 const DEFAULT_TOKEN = "e316ebe109dd84ed16734e5161a2d236d0a7e6daf499941f7c110078e3c75493";
 
@@ -52,17 +54,24 @@ export function getDurationBracket(weeks?: number | null): DurationBracket {
 
 function getProgrammeInfo(shortName?: string, title?: string, description?: string): { name: string; slug: string; code: string } {
   const code = (shortName || "").toUpperCase();
-  const text = `${title || ""} ${description || ""}`.toLowerCase();
+  const titleLower = (title || "").toLowerCase();
 
-  if (code === "GV") {
+  if (code === "GT" || code === "GTA" || code === "TALENT") {
+    return { name: "Global Talent", slug: "global-talent", code: "GTa" };
+  }
+  if (code === "GTE" || code === "TE" || code === "TEACHER") {
+    return { name: "Global Teacher", slug: "global-teacher", code: "GTe" };
+  }
+  if (code === "GV" || code === "VOLUNTEER") {
     return { name: "Global Volunteer", slug: "global-volunteer", code: "GV" };
   }
-  if (
-    code === "GTE" ||
-    code === "TE" ||
-    /\b(?:teach|teacher|teaching|instructor|tutor|education|kindergarten|school)\b/i.test(text)
-  ) {
+
+  // Only if code is not provided or ambiguous, look at the title
+  if (/\b(?:teacher|teaching|instructor|tutor|kindergarten|school)\b/i.test(titleLower)) {
     return { name: "Global Teacher", slug: "global-teacher", code: "GTe" };
+  }
+  if (/\b(?:volunteer|impact|community|sdg)\b/i.test(titleLower)) {
+    return { name: "Global Volunteer", slug: "global-volunteer", code: "GV" };
   }
   return { name: "Global Talent", slug: "global-talent", code: "GTa" };
 }
@@ -268,6 +277,11 @@ export async function fetchRealAiesecOpportunities(options?: {
 
   const collectedMap = new Map<number, RealOpportunity>();
 
+  // Pre-seed with all 173 opportunities from local database (37 GTa, 36 GTe, 100 GV)
+  for (const s of (seedOpportunities as unknown as RealOpportunity[])) {
+    collectedMap.set(s.id, s);
+  }
+
   // Targeted search terms from CV skills or default tech terms
   const searchTerms = (options?.keywords || [])
     .map(k => k.trim())
@@ -377,13 +391,13 @@ export async function fetchRealAiesecOpportunities(options?: {
   if (finalOpportunities.length > 0) {
     cachedOpportunities = finalOpportunities;
     lastFetchTime = now;
-    return finalOpportunities.slice(0, options?.limit || 80);
+    return finalOpportunities.slice(0, options?.limit || 300);
   } else if (cachedOpportunities.length > 0) {
-    return cachedOpportunities.slice(0, options?.limit || 60);
+    return cachedOpportunities.slice(0, options?.limit || 300);
   }
 
   // Resilient fallback covering all programmes (Teacher, Volunteer, Talent)
-  return FALLBACK_OPPORTUNITIES.slice(0, options?.limit || 60);
+  return (seedOpportunities as unknown as RealOpportunity[]).slice(0, options?.limit || 300);
 }
 
 const FALLBACK_OPPORTUNITIES: RealOpportunity[] = [

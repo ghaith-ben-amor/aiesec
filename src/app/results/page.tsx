@@ -179,28 +179,30 @@ export default function ResultsPage() {
     // 2. Programme filter
     if (selectedProgramme !== "ALL") {
       const progCode = (opp.programme?.short_name || "").toUpperCase();
+      const slug = (opp.programmeSlug || "").toLowerCase();
+      const name = (opp.programmeName || "").toLowerCase();
+
       const isTeacher =
         progCode === "GTE" ||
         progCode === "TE" ||
-        opp.programmeSlug === "global-teacher" ||
-        opp.programmeName === "Global Teacher" ||
-        /\b(?:teach|teacher|teaching|instructor|tutor|education|trainer|coach)\b/i.test(opp.title + " " + opp.description);
+        slug === "global-teacher" ||
+        name.includes("teacher");
 
       const isVolunteer =
         progCode === "GV" ||
-        opp.programmeSlug === "global-volunteer" ||
-        opp.programmeName === "Global Volunteer";
+        slug === "global-volunteer" ||
+        name.includes("volunteer");
 
       const isTalent =
         progCode === "GT" ||
         progCode === "GTA" ||
-        opp.programmeSlug === "global-talent" ||
-        opp.programmeName === "Global Talent" ||
+        slug === "global-talent" ||
+        name.includes("talent") ||
         (!isTeacher && !isVolunteer);
 
       if (selectedProgramme === "GTE" && !isTeacher) return false;
       if (selectedProgramme === "GV" && !isVolunteer) return false;
-      if (selectedProgramme === "GT" && (!isTalent || isTeacher)) return false;
+      if (selectedProgramme === "GT" && !isTalent) return false;
     }
 
     // 3. Duration filter (mirroring AIESEC.org: Short 6-12w, Medium 13-26w, Long 27-78w)
@@ -393,22 +395,42 @@ export default function ResultsPage() {
           <div className="flex items-center gap-1 bg-[#0b0d12] border border-[#242a3a] p-1 rounded-xl shrink-0 overflow-x-auto">
             {[
               { id: "ALL", label: "Tous programmes" },
-              { id: "GT", label: "Global Talent" },
-              { id: "GV", label: "Global Volunteer" },
-              { id: "GTE", label: "Global Teacher" },
-            ].map(tab => (
-              <button
-                key={tab.id}
-                onClick={() => setSelectedProgramme(tab.id)}
-                className={`px-3 py-1.5 rounded-lg text-xs font-semibold whitespace-nowrap transition-all ${
-                  selectedProgramme === tab.id
-                    ? "bg-[#00d4aa] text-black shadow-md font-bold"
-                    : "text-gray-400 hover:text-white hover:bg-[#242a3a]"
-                }`}
-              >
-                {tab.label}
-              </button>
-            ))}
+              { id: "GT", label: "💼 Global Talent" },
+              { id: "GTE", label: "🎓 Global Teacher" },
+              { id: "GV", label: "🌍 Global Volunteer" },
+            ].map(tab => {
+              const count = tab.id === "ALL"
+                ? matches.length
+                : matches.filter(m => {
+                    const c = (m.opportunity.programme?.short_name || "").toUpperCase();
+                    const s = (m.opportunity.programmeSlug || "").toLowerCase();
+                    const n = (m.opportunity.programmeName || "").toLowerCase();
+                    if (tab.id === "GT") return c === "GT" || c === "GTA" || s === "global-talent" || n.includes("talent");
+                    if (tab.id === "GTE") return c === "GTE" || c === "TE" || s === "global-teacher" || n.includes("teacher");
+                    if (tab.id === "GV") return c === "GV" || s === "global-volunteer" || n.includes("volunteer");
+                    return true;
+                  }).length;
+              return (
+                <button
+                  key={tab.id}
+                  onClick={() => setSelectedProgramme(tab.id)}
+                  className={`px-3 py-1.5 rounded-lg text-xs font-semibold whitespace-nowrap transition-all flex items-center gap-1.5 ${
+                    selectedProgramme === tab.id
+                      ? "bg-[#00d4aa] text-black shadow-md font-bold"
+                      : "text-gray-400 hover:text-white hover:bg-[#242a3a]"
+                  }`}
+                >
+                  <span>{tab.label}</span>
+                  {count > 0 && (
+                    <span className={`text-[10px] px-1.5 py-0.5 rounded-full ${
+                      selectedProgramme === tab.id ? "bg-black/20 text-black font-bold" : "bg-white/10 text-gray-300"
+                    }`}>
+                      {count}
+                    </span>
+                  )}
+                </button>
+              );
+            })}
           </div>
         </div>
 

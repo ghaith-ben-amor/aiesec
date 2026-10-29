@@ -157,9 +157,10 @@ final class OpportunityController extends BaseController
         }
 
         // 2. Country / Location Filter
+        $countryMismatch = false;
         if ($countryFilter !== '' && $countryFilter !== 'ALL') {
             $cLower = strtolower($countryFilter);
-            $filteredMatches = array_values(array_filter($filteredMatches, function($m) use ($cLower) {
+            $countryFiltered = array_values(array_filter($filteredMatches, function($m) use ($cLower) {
                 $locLower   = strtolower($m['location'] ?? '');
                 $descLower  = strtolower($m['description'] ?? '');
                 $titleLower = strtolower($m['title'] ?? '');
@@ -168,6 +169,11 @@ final class OpportunityController extends BaseController
                     || str_contains($descLower, 'mc: ' . $cLower)
                     || str_contains($titleLower, $cLower);
             }));
+            if (!empty($countryFiltered)) {
+                $filteredMatches = $countryFiltered;
+            } else {
+                $countryMismatch = true;
+            }
         }
 
         // 3. Duration Filter
@@ -220,6 +226,7 @@ final class OpportunityController extends BaseController
             'searchQuery'        => $searchQuery,
             'availableLocations' => $availableLocations,
             'availableDurations' => $availableDurations,
+            'countryMismatch'    => $countryMismatch,
             'opportunitySource'  => $_SESSION['last_opportunity_source'] ?? null,
             'flashSuccess'       => $_SESSION['flash_success'] ?? null,
         ]);
